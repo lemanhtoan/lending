@@ -1,0 +1,6 @@
+Administrator : email = admin@la.fr, password = admin
+Redactor : email = redac@la.fr, password = redac
+User : email = walker@la.fr, password = walker
+User : email = slacker@la.fr, password = slacker
+
+https://github.com/bestmomo/laravel5-example

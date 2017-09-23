@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'moi@free.fr', 'name' => 'Administrateur'],
+	'from' => ['address' => 'adcskt@gmail.com', 'name' => 'Website Coin Cash Loan'],
 
 	/*
 	|--------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'title' => 'Laravel 5',
+	'title' => 'Coin Cash Loan',
 	'sub-title' => 'Um fantástico framework PHP',
 	'home' => 'Home',
 	'contact' => 'Contato',

@@ -78,7 +78,7 @@ return [
 	! and at least, add the ISO code in languages array.
 	*/
 
-	'languages' => ['en', 'fr', 'pt-BR'],	
+	'languages' => ['vi', 'en', 'fr', 'pt-BR'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
 	|
 	*/
 
-	'fallback_locale' => 'en',
+	'fallback_locale' => 'vi',
 
 	/*
 	|--------------------------------------------------------------------------
