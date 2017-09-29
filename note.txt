@@ -4,3 +4,74 @@ User : email = walker@la.fr, password = walker
 User : email = slacker@la.fr, password = slacker
 
 https://github.com/bestmomo/laravel5-example
+
+1. Register + verified email
+Email(*) + Phone + Password(*) + Info TYPE (borrower, investee)
+
+Address, CMND, BankAccount: Update profile
+
+OR Google login OR Facebook login (Relation account (need check same account email))
+
+=> IF facebook by phone OR email not use => NEED or NOT need verified email.
+
+2. Borrower tạo khoản vay.
+Ngày khởi tạo
+Số lượng cần thế chấp (decimal)
+Loại tài sản (BTC, ETH, LTC,..) (id, name, display_name, time_clone, url_clone, status, created_at, updated_at)
+Thời hạn khoản vay
+Lãi suất khoản vay (admin config backend),
+Số tiền vay tối đa (tính theo role tài khoản thế chấp): Ví dụ: khách hàng thế chấp 1 BTC, giá của BTC được lấy trên API https://coinmarketcap.com/ * 70% * Tỷ giá USD/VND(config)
+Số tiền cần vay,
+Ngày giải ngân,
+Ngày đáo hạn,
+
+=> Trạng thái là: Khởi tạo
+
+3. Borrower chuyển thế chấp
+Người dùng thế chấp trên https://jaxx.io/ => Hệ thống phải xử lý và kết nối với tài khoản trên hệ thống website
+https://btcsaigon.blogspot.com/2017/01/tao-vi-tien-ao-voi-google-chrome-cuc-ky.html
+- Mỗi thế chấp là 1 bản ghi tài sản đảm bảo của người vay.
+- Có thể + và - với tài khoản thế chấp cho các khoản vay khác nhau
+
+=> Trạng thái là: Đã thế chấp tài sản, chờ nhà đâu tư (***)
+
+4. Investee vào website và tìm khoản vay để đầu tư
+a. Tìm khoản vay và đầu tư
+Danh sách người vay hiển thị thi thỏa mãn (***).
+Tìm theo:
+Ngày kết thúc khoản vay
+Ngày khởi tạo
+Số tiền cần vay
+Lãi suất
+Số tiền lãi khi đáo hạn vay
+=> Lựa chọn 1 người cần vay => cho vay và Invest
+=> Trạng thái là: Chờ nhà đầu tư chuyển tiền
+
+b. Nhà đầu tư sẽ chuyển tiền vào tài khoản của hệ thống.
+Hệ thống tự động nhận biết và chuyển sang cho người đi vay (đối tác khác sẽ thực hiện nhận biết việc chuyển tiền
+của nhà đầu tư và chuyển sang cho người đi vay).
+=> Dựa vào đối tác nào => còn xử lý logic database và nhận biết nó.
+
+i.	Ban đầu người đi vay sẽ nhận tiền VND qua ngân hàng tại Việt Nam hoặc nhận USDT (https://tether.to/)
+=> Ai xử lý và còn xư lý DB
+
+ii.	Để đầu tư thì chủ đầu tư phải có tiền VND, USDT (https://tether.to/)  hoặc tiền ảo khác
+sẽ chuyển đổi thành USDT thông qua https://shapeshift.io
+=> Cái này nhận tiền nhứ thế nào => lưu vào đâu, thủ công hay tự động.
+
+5. Trường hợp chưa có nhà đầu tư: Thủ thuật cho website có nhiều người vào vay
+Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt,
+người này chọn các khoản vay để cung cấp cho người đi vay.
+
+N: settings
+Lãi suất khoản vay (vd: 3%)
+Tỷ giá USD/VND
+Số ngày vượt quá bị mất tài sản thế chấp (15)
+Số ngày trước khi hết hạn nhắc nhở email (7)
+Số lượng vay hiệu lực tối đa (3)
+Hotline
+Email support
+Logo
+Background main
+Color text main
+Số tiền tối đa vay cần xác thực cmnd hoặc passport (40.000.000)

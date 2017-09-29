@@ -1,0 +1,49 @@
+Người vay:
+- Đăng ký + Xác thực email
++ Đăng ký: Email, Address, CMND, Phone, BankAccount,
++ Khoản vay: Ngày khởi tạo, Số lượng cần thế chấp, Loại tài sản, Thời hạn khoản vay, Lãi
+suất khoản vay (admin config backend), Số tiền vay tối đa (tính theo role tài khoản thế chấp),
+Số tiền cần vay, Ngày giải ngân, Ngày đáo hạn,
+*: một khoản vay quá hạn không thanh toán thì có thể kéo dài 15days, nếu không thanh toánh sẽ mất tài khoản thế chấp.
+
+Người đầu tư:
+Người tìm các người cần vay, quản lý các khoản vay của mình, thống kê về mình.
+
+Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt,
+người này chọn các khoản vay để cung cấp cho người đi vay.
+
+Admin:
+- Quản lý, cập nhật các khoản vay,
+- Quản lý tài sản đảm bảo
+- Quản lý người đi vay
+- Quản lý nhà đầu tư, nhà đầu tư đặc biệt
+- Cấu hình các thông số hệ thống
+- Thống kê: Số tiền cho vay, số tiền lãi, các khoản quá hạn, đén hạn, tài sản thế chấp....
+
+FOLLOW:
+1. Đăng ký làm người vay
+2. Khởi tạo khoản vay (trạng thái là Khởi tạo)
+3. Chuyển tài khoản thế chấp vào hệ thống (trạng thái là Đã thế chấp ts, chờ nhà đt)
+khi  thay đổi trạng thái có email cho nhà đầu tư, admin, người đi vay.
+4. Nhà đầu tư đặc biệt: thực hiện chấp nhận khoản vay và hệ thống sẽ chuyển tiền,
+chuyển tiền k care, và trạng thái là Hiệu lực
+5. Nếu gần đến hạn trước 7 ngày, có email thông báo cho người đi vay và cho nhà đầu tư.
+Khi quá hạn 15 ngày, người đi vay mất thế chấp và trang thái là quá hạn xxx ngày.
+6. Người đi vay có thể thanh toán  bất kỳ thời điểm bào trong thời gian khoan vay có hiệu lực.
+lãi suất theo công thức.
+7. Số 15 ngày quá hạn sẽ được cấu hình admin, admin đóng tài khoản vay và chuyển tài khoản thế chấp cho nhà đầu tư.
+8. Người đi vay không thể thực hiện quá 3 khoản vay còn hiệu lực (số 3 được config)
+9. Lưu và nhận tài khoản thế chấp qua jaxx.io.
+10 - 15: rõ thêm, hơi chung
+16: Lịch sử chát giữa 3 bên: ??? và email cho họ khi có comment mới.
+17. Tránh rửa tiền: xác thực CMND, Pasport khi > 40 triệu (Làm thủ công???)
+
+LAYOUT: PC + MB
+Có support, FAQ: tham khảo tima.vn
+Đa ngôn ngữ: En, Vn
+App ios và android later
+
+SERCU:
+Admin login thì check username, pass + ip thuộc list cấu hình.
+Người đi vay, người vay: xác thực qua google authenticator.
+Lưu ip khi user login, check nếu khách ip thì cần code email xác thực.
