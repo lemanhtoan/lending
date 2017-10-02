@@ -171,6 +171,8 @@ return [
 		App\Services\Html\HtmlServiceProvider::class,
 		Bestmomo\Filemanager\FilemanagerServiceProvider::class,
 
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
 	],
 
 	/*
@@ -220,6 +222,8 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 		'Form'		=> Collective\Html\FormFacade::class,
 		'HTML'		=> Collective\Html\HtmlFacade::class,
+
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
 	],
 

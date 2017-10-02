@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2017 at 03:24 AM
+-- Generation Time: Oct 02, 2017 at 12:19 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -94,7 +94,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2014_10_26_172107_create_posts_table', 1),
 ('2014_10_26_172631_create_tags_table', 1),
 ('2014_10_26_172904_create_post_tag_table', 1),
-('2014_10_26_222018_create_comments_table', 1);
+('2014_10_26_222018_create_comments_table', 1),
+('2017_10_02_094432_create_social_accounts_table', 2);
 
 -- --------------------------------------------------------
 
@@ -189,6 +190,27 @@ INSERT INTO `roles` (`id`, `title`, `slug`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `social_accounts`
+--
+
+CREATE TABLE `social_accounts` (
+  `user_id` int(11) NOT NULL,
+  `provider_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `provider` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `social_accounts`
+--
+
+INSERT INTO `social_accounts` (`user_id`, `provider_user_id`, `provider`, `created_at`, `updated_at`) VALUES
+(9, '1421237081319149', 'facebook', '2017-10-02 03:12:14', '2017-10-02 03:12:14');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tags`
 --
 
@@ -238,7 +260,8 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `seen`, `
 (1, 'GreatAdmin', 'admin@la.fr', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-09-22 18:15:23', NULL),
 (2, 'GreatRedactor', 'redac@la.fr', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL),
 (3, 'Walker', 'walker@la.fr', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL),
-(4, 'Slacker', 'slacker@la.fr', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL);
+(4, 'Slacker', 'slacker@la.fr', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL),
+(9, 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-02 03:11:18', '2017-10-02 03:11:18', NULL);
 
 --
 -- Indexes for dumped tables
@@ -341,7 +364,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- Constraints for dumped tables
 --

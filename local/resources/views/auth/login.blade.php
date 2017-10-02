@@ -30,6 +30,9 @@
 				{!! Form::close() !!}
 
 				<div class="text-center">
+
+					{!! link_to('redirect', 'FB Login') !!}
+
 					<hr>
 						<h2 class="intro-text text-center">{{ trans('front/login.register') }}</h2>
 					<hr>	

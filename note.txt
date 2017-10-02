@@ -75,3 +75,16 @@ Logo
 Background main
 Color text main
 Số tiền tối đa vay cần xác thực cmnd hoặc passport (40.000.000)
+
+
+FB:
+606771139713362
+b0b4b266b1bb1aa8a42db046002da34b
+
+GG:
+oH0dL8ZvoPOXZsqJV0_TvUzK
+974603231392-q9akc2e6j6liuiv7j33np56ls31t6phh.apps.googleusercontent.com
+
+https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-facebook-login.html#.WdIAnmjyiUk
+https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#.WdIAnmjyiUk
+

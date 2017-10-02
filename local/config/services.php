@@ -34,4 +34,9 @@ return [
 		'secret' => '',
 	],
 
+    'facebook' => [
+        'client_id' => '606771139713362',
+        'client_secret' => 'b0b4b266b1bb1aa8a42db046002da34b',
+        'redirect' => 'http://localhost/lending/callback',
+    ],
 ];
