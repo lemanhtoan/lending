@@ -9,7 +9,7 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
         "bestmomo/filemanager": "1.1.*",
-        "laravel/socialite": "~2.0"
+        "laravel/socialite": "2.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

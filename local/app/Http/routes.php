@@ -9,8 +9,10 @@ Route::group(['middleware' => ['web']], function () {
 	]);
 	Route::get('language/{lang}', 'HomeController@language')->where('lang', '[A-Za-z_-]+');
 
-    Route::get('/redirect', 'SocialAuthController@redirect');
-    Route::get('/callback', 'SocialAuthController@callback');
+    Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
+    Route::get( '/callback/{service}', 'SocialAuthController@callback' );
+
+    Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')->name('user.activate');
 
 	// Admin
 	Route::get('admin', [

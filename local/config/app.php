@@ -172,7 +172,6 @@ return [
 		Bestmomo\Filemanager\FilemanagerServiceProvider::class,
 
         Laravel\Socialite\SocialiteServiceProvider::class,
-
 	],
 
 	/*
@@ -224,7 +223,6 @@ return [
 		'HTML'		=> Collective\Html\HtmlFacade::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
 	],
 
 ];

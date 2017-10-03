@@ -12,7 +12,7 @@ Address, CMND, BankAccount: Update profile
 
 OR Google login OR Facebook login (Relation account (need check same account email))
 
-=> IF facebook by phone OR email not use => NEED or NOT need verified email.
+=> Nếu google và fb: sau khi login thì sẽ điền email để verified accout và update thông tin + password
 
 2. Borrower tạo khoản vay.
 Ngày khởi tạo
@@ -29,7 +29,10 @@ Ngày đáo hạn,
 
 3. Borrower chuyển thế chấp
 Người dùng thế chấp trên https://jaxx.io/ => Hệ thống phải xử lý và kết nối với tài khoản trên hệ thống website
+
 https://btcsaigon.blogspot.com/2017/01/tao-vi-tien-ao-voi-google-chrome-cuc-ky.html
+https://nexus-coding.blogspot.com/2017/06/how-to-have-ethereum-wallet-without.html
+
 - Mỗi thế chấp là 1 bản ghi tài sản đảm bảo của người vay.
 - Có thể + và - với tài khoản thế chấp cho các khoản vay khác nhau
 
@@ -88,3 +91,5 @@ oH0dL8ZvoPOXZsqJV0_TvUzK
 https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-facebook-login.html#.WdIAnmjyiUk
 https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#.WdIAnmjyiUk
 
+=> cacert.pem to php ini
+=> Error google login: This means you have not configured Google APIs correctly.(Library > Google+ API > Enable) + Other config active google +.
