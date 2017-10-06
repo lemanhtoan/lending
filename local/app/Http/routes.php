@@ -85,4 +85,10 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 	Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+	// setting router
+    Route::post('/settings', 'HomeController@settingSet');
+    Route::get('getsettings', 'HomeController@getsettings');
+    Route::group(['prefix' => 'getsettings'], function() {
+        Route::get('/',['as'       =>'getsettings','uses' => 'HomeController@getsettings']);
+    });
 });

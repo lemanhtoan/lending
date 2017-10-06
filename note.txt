@@ -67,16 +67,17 @@ Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất l�
 người này chọn các khoản vay để cung cấp cho người đi vay.
 
 N: settings
+Logo
+Hotline
+Email support
+Background main
+Color text main
+
 Lãi suất khoản vay (vd: 3%)
 Tỷ giá USD/VND
 Số ngày vượt quá bị mất tài sản thế chấp (15)
 Số ngày trước khi hết hạn nhắc nhở email (7)
 Số lượng vay hiệu lực tối đa (3)
-Hotline
-Email support
-Logo
-Background main
-Color text main
 Số tiền tối đa vay cần xác thực cmnd hoặc passport (40.000.000)
 
 

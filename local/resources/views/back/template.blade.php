@@ -27,6 +27,7 @@
 
         @yield('head')
 
+        <script type="text/javascript" src="{!! url('plugin/ckeditor/ckeditor.js') !!}"></script>
 	</head>
 
   <body>
@@ -95,6 +96,10 @@
                             <li><a href="{!! url('blog') !!}">{{ trans('back/admin.see-all') }}</a></li>
                             <li><a href="{!! url('blog/create') !!}">{{ trans('back/admin.add') }}</a></li>
                         </ul>
+                    </li>
+
+                    <li {!! classActiveSegment(1, 'getsettings') !!}>
+                        <a href="{!! url('getsettings') !!}"><span class="fa fa-fw fa-dashboard"></span> Cài đặt</a>
                     </li>
                 </ul>
             </div>
