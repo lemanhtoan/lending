@@ -50,104 +50,95 @@
 	<header role="banner">
 		<div class="top-header">
 			<div class="container">
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<div class="brand">{!! link_to('/', trans('front/site.title')) !!}</div>
 				</div>
-				<div class="col-md-7">
-					<div class="box-inline">
-						<div class="box-left">
-							<span>email: abcdef@gmail.com</span>
-						</div>
-						<div class="box-left">
-							<span>hotline: 9999.9999</span>
-						</div>
-						<div class="box-left">
-							@if(Request::is('auth/register'))
-								<li class="active">
-									{!! link_to('auth/register', trans('front/site.register')) !!}
-								</li>
-							@elseif(Request::is('password/email'))
-								<li class="active">
-									{!! link_to('password/email', trans('front/site.forget-password')) !!}
-								</li>
-							@else
-								@if(session('statut') == 'visitor')
-									<li {!! classActivePath('auth/login') !!}>
-										{!! link_to('auth/login', trans('front/site.connection')) !!}
-									</li>
-								@else
-									@if(session('statut') == 'admin')
-										<li>
-											{!! link_to_route('admin', trans('front/site.administration')) !!}
+				<div class="col-md-10">
+					<div class="bottom-header">
+						<nav class="navbar navbar-default" role="navigation">
+							<div class="container">
+								<div class="navbar-header">
+									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+									{!! link_to('/', trans('front/site.title')) !!}
+								</div>
+								<div class="collapse navbar-collapse">
+									<ul class="nav navbar-nav">
+										<li {!! classActivePath('/') !!}>
+											{!! link_to('/', trans('front/site.home')) !!}
 										</li>
-									@elseif(session('statut') == 'redac')
 										<li>
-											{!! link_to('blog', trans('front/site.redaction')) !!}
+											{!! link_to('/', trans('front/site.about-us')) !!}
 										</li>
-									@endif
-									<li>
-										{!! link_to('auth/logout', trans('front/site.logout')) !!}
-									</li>
-								@endif
-							@endif
-						</div>
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="collapse navbar-collapse">
-						<ul class="nav navbar-nav">
-							<li class="dropdown">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img width="32" height="32" alt="{{ session('locale') }}"  src="{!! asset('img/' . session('locale') . '-flag.png') !!}" />&nbsp; <b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									@foreach ( config('app.languages') as $user)
-										@if($user !== config('app.locale'))
-											<li><a href="{!! url('language') !!}/{{ $user }}"><img width="32" height="32" alt="{{ $user }}" src="{!! asset('img/' . $user . '-flag.png') !!}"></a></li>
-										@endif
-									@endforeach
-								</ul>
-							</li>
-						</ul>
+										<li>
+											{!! link_to('/', trans('front/site.loan-payment')) !!}
+										</li>
+										<li {!! classActiveSegment(1, ['articles', 'blog']) !!}>
+											{!! link_to('articles', trans('front/site.QA')) !!}
+										</li>
+										<li {!! classActivePath('contact/create') !!}>
+											{!! link_to('contact/create', trans('front/site.contact')) !!}
+										</li>
+									</ul>
+								</div>
+							</div>
+						</nav>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
 
 		<div class="bottom-header">
-			<nav class="navbar navbar-default" role="navigation">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						{!! link_to('/', trans('front/site.title')) !!}
-					</div>
-					<div class="collapse navbar-collapse">
-						<ul class="nav navbar-nav">
-							<li {!! classActivePath('/') !!}>
-								{!! link_to('/', trans('front/site.home')) !!}
-							</li>
-							<li>
-								{!! link_to('/', trans('front/site.about-us')) !!}
-							</li>
-							<li>
-								{!! link_to('/', trans('front/site.loan-payment')) !!}
-							</li>
-							<li {!! classActiveSegment(1, ['articles', 'blog']) !!}>
-								{!! link_to('articles', trans('front/site.QA')) !!}
-							</li>
-							<li {!! classActivePath('contact/create') !!}>
-								{!! link_to('contact/create', trans('front/site.contact')) !!}
-							</li>
+			<div class="box-left">
+				<ul>
+					<?php if(!Auth::check())  {?>
+						<li class="">
+							{!! link_to('auth/register', trans('front/site.register')) !!}
+						</li>
+				
+						<li class="">
+							{!! link_to('password/email', trans('front/site.forget-password')) !!}
+						</li>
+					
+						<li {!! classActivePath('auth/login') !!}>
+							{!! link_to('auth/login', trans('front/site.connection')) !!}
+						</li>
+					<?php } else {  //echo "<pre>"; var_dump(Auth::user()->usertype); ?>
+						<!-- 1: ndt dacbiet, 2: ndt, 3: nguoivay-->
+						<li>
+							{!! link_to_route('admin', trans('front/site.administration')) !!}
+						</li>
+					
+						<li>
+							{!! link_to('blog', trans('front/site.redaction')) !!}
+						</li>
+						
+						<li>
+							{!! link_to('auth/logout', trans('front/site.logout')) !!}
+						</li>
+					<?php } ?>
+				</ul>
+			</div>
+		
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img width="32" height="32" alt="{{ session('locale') }}"  src="{!! asset('img/' . session('locale') . '-flag.png') !!}" />&nbsp; <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							@foreach ( config('app.languages') as $user)
+								@if($user !== config('app.locale'))
+									<li><a href="{!! url('language') !!}/{{ $user }}"><img width="32" height="32" alt="{{ $user }}" src="{!! asset('img/' . $user . '-flag.png') !!}"></a></li>
+								@endif
+							@endforeach
 						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
-
-		{{--@yield('header')	--}}
+					</li>
+				</ul>
+			</div>
+		</div>		
 	</header>
 
 	<main role="main" class="container">
@@ -160,76 +151,194 @@
 		@yield('main')
 	</main>
 
-	<div id="knowladge">
-		<div class="container">
-			<h3>Kiến thức tài chính</h3>
-			<ul id="owl-knowladge" class="owl-carousel owl-theme">
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAACgCAMAAADgvoMSAAAAgVBMVEX///8AAADo6Oj8/Pz39/fs7Oz6+vrm5uZ3d3fNzc3v7++kpKTQ0NDZ2dkcHBw0NDQ6Ojq9vb2RkZG3t7eBgYETExO/v7/Y2NhZWVkrKytoaGggICBtbW1eXl6Li4uvr69ERERLS0uZmZlQUFCfn5+EhIQLCwslJSU+Pj57e3sQEBAACWA3AAALRElEQVR4nO1c6ZqiOhAlEojsCIIsyube7/+AN1UVXMae0fnuTOvYOX9cmgg5qdSeNgwNDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDY23ghWYj17qBtbffJInYhJMbr7zjvyxwemyj7rK+z/3t2cP3usrwZ2CAcrpTLhnIXFZ+tBwK2KE/cyWo+xHxpjXb2yfLV+PGPfIzlgN6cKCZ3SdaPvQcKc8j5476eDeH2LPcnVrT8BLMGds+nLEuFN2jbg6NkNTfXTcsO7PclGWw1Dt1NgwXty/o9iygcZOmbxcJAf2isR4jEWHiN0gEobfOfdG864SpsmtlRr1AC+5vBnqoybC6z0c+HLE5OUctILteMdDmZ1o2R25mbBdcG94z3x6k+KOmt29n7+G6zzDpAFwg/YVieHHLek/07csJ52yMmK7LFq19kIKQXaPGId9jFw4MWPJXftubzIixt2ykRjxisRYU1px61hJPegsszbdtY5vmRtY0HvEcGnO1kJ98NnqAcXL50SM4a5PxNQvSIyJJkiq0D4w7HnNYrFg4KvZDfsZMRczyPegjMaLvPxn111a8TQkYgxkCFi9JeZhx/JvI2W1VLMg3PHEZ+jqoTpFYniTXjxosGRnudiQQkpuJcX2i/D8iQ9sjWrZmrgtEDO4ExepdyzBRXhNjDiyu0r/a5DWLJEv7JIYe07E8FyKfDM+tRjk6lZq9a3AU6p6/aPSDcA3SsZPOZC89zhISfiBur3OQjTxWcha94oY4ck/FH93wg/Cl+oEts8VMSYSI8QRlSX5Ha7Xo7OiaJjM/JNzl1zGSmJA81+S+uJNrdw/IfdejEPqLjqEeE25mkwuiOF0C9Z+2ex/Aelf9fB6S8yu6tb4/AweOz2wcgEfCoqr+NwfRUb+wln6NxGr0pOlkfbZy4maIpAuI20lbvEtbSXXuNhKTs96HHoQPz7l16NVyvATYtjBVS5/btiwH2pSmcos+6XwwhM1KuScgB+7NCpad1DitVTK5BuDHMxG5ZucrNJIDIcNuDbxD4/FI38TvMd5G58SI5/bLIgYAdsjMwRcHpJ4mF648KsTMxWaJwcsVYX7U9o4NyZiTAw8ICpNf06MAAu+di24RT17tmlCMUeT0d8QE8JzV0QMSkImBWx31qtmylqRnrcT/AxKWGXQuuduJ38F+XiEGFiD3jVS0GvJsx2bgY3ELG+IyS6IEYoYY3ppn53oEFinMLRzT8SAA5e1NhIDSjj/eJwYQ+6/7QPO4l+FiToQ7cf2IWImxVVoKV2Uyg3G/dSdiVnEUtcaVhQWAkKx6DckZlLtn+/IcFxuNMDJfWL2RhpNf1jLxbIeJl5MzDhEzFSapgZ/PoGfFsdu+qjEFPasqF7AJhExG3gLT3pwf0oMTH3fdO1Nis7Oi9gJKAtYETHFvFfxAahQL96Kx7dSw9pnqxcAmkjyNI+04tee7zUxbPXpWvJUeiaYkultMu/zs1gFXSljinT3IDGsfwFxAeDzgQPHWbgE5Yle8C+UL2IUGxEIpIAXS/uAGgLt9Er92TSElMi5FJtrYjbGT4mJFKXms8WGnFfPcLoKpd/5lblmqpbgkHLkXsTqIgUmeTOAV9xzJKYkJ8Ty0EuCSZ+IQQdvbihi4HcwuoY1saqThZS3mH8hCZ8hQHvRLxq1sy+3ElorRQzH/Ak5MAFZDXsgjYuM8q2oQFRQsshjNIYDh0lDymYGOmZjqlRFbCg/ATT0BKg8yDWwUd8RIaLPjCeD0rXDKLlqK6HxxvlVamVRGZXAiF/Tw+djKjQ8yk9BvkXzhoqiA1lL9oGL+a5cCWbBIfXDUHbQv2WRb+QWjpgaZo6LgTf1s+a20PXFEDS5sYhEEjMEuKBrQxEjlO8qv9qWKrXLz9EAi30TFhyUOCkt1q9AUlykfZcsKZheb3xT5c13jRo6N5TgsRbDCbhFzP5X+e4PgZ4wa0kvADHcqwX65RAuwvQj+MtBPf9K5b8X7ALZIMQhBjmxRjmCNTfHXJZY0qtrzPBNNCPGd1vb8KlI0Z6p7p/v4Em4SzURVHv+joujjBKtAwk4bjVULWo9mzH1MrBVMsz7kZqiiGg6JFo1rXnQAWueaTg1vMJXoElgSwYwFHJgJgT4Owi9BeUnti9iscdgp1xuHCkpyxqceZzfkqPSVdkRR04yyk8O3sbhtsldMS7zblzmXKqRtT9+2JNiklqmJpUMJT4MxCUzRxLTdExNAVlZ+uzA+oxZfC4phWvltCYZuBtBzPbjJM30U6eUQqXwnDnn7UWuk7dKxGbnn1GXTjbjRc6YSDdz79kOzBWs9lhEdVh3VZOP62U78IjS7/DuraCbKHv1jrCF7zjOTZ+L2bDhgQaG42tkab8QQf1QknHSvIi+/CqIvnn2I7wkrH77UqrwZbAYNC+fwnwdj+Jfg/vspPULgE+EdSNB3ncz0zcINtNVUW2H9Ko1xFrnPxvwTbAZ2/TCeN04J5VcLp/5UC+AJbtGv/VmTpqwtTX7Zp7dNTwpKIfog/2IWARl5Hxfkx7sj85i4efD9HDFS7GALFf8fQ1Tsh6tkeV401O3UDOBvGj5fXkJeoq5+bB3oUSXeUk2TTA107HpN/YB3ZRaO1fxwuBeydaThdo+AUseOlQB4BcMWo4PP/AenPpxmBv2sGNsZTmR6jZzRKt20kTl9f0xeRdcZyid5SmTZebVPlrmRnu38fxfgBOzrUlncM7EGIs15MsN7J5DZrwyo0RFfviYnrNeltRMK0WUScdd6r56eunoD8AvGRRHxO6CGFNgFj0wzAn2KXBzgZX/rSQMi2jFKE1Ua6LeT172CSrw+B0EBnoZQDTExwUx1EIiJYU6HWov6dA/3rdeTP0yGC8IL2IJlmGhPjMpavkCrXv3T2T8A4C6GYSL2JN72kqTtRIEgSY8TAKHHJ1j4Ku6q9xkcJGJJdqtDWcJdtBe5x5Xv77jP4KQUS3IKq90DBa4oRo3VW+oFwCarrAE2RmqxOsShzOsd+9AC/G3cH+wuAgzwfrkmZhmJAb06c4bS7JQLsI+mM5QYZZFdcwDHU56H6cQ28TBqLj958RMSdkoYsC5mdXXxECxv09V5fqyoPlPoxolhi8fIsZU/cOdcSamZdMAdC8xEz69j/dPgJqGIL+A57CKR4i5lhjXGJiHQhKModY7KF86jQYdNEjMyv1tYhZFNOZteKHq5NVT5vJHcW4zg62UpcZvE1Ne1GHMtqfd9AZZUdQx0CgmzXXvmHeJsX/UMdccCOpVeoWuqf8J9E5K37A75kEAdIeY4UZiVAA59gyY6ZsQQ01SR7FWleyfEkNNiM2luU7O+sSMZzzpVjMXGxvfonGEzumdSicjMcM4aWSoAUGBKLPiqm0VWlKR1Bo0t6gKOp0r/Rn7yN6iXYB6DE/d7EiM6bs5Trp1AnwTOy5HBzeb2RaZ5Za7E/LoGhliLl1H2eqED+FbeL9Wh/OJVUoFiUnXAZ6KY7vMt9TRz4BiorBLSWFnpWcolw4bEcf/AcG6t9hIBhw/wvnUOR3qjC2+gXAbQx9IOOEbbAEHiqKF6nY9SHMkqFaHPZ1svayoDPM2pV2nU25Z6gdiVno9Hryxt3C6XL5xIZ2Am2PDdpS6azNW4N6DFEQ2xU5QaFsL2mPJ5u8QERCCsRpZ9kXM9gOpXzdR5yOtrephNJsNTdpsE5W7nGym1O5pqdPV/vyB/6fyz4A7px75sD0VZvkYJp+qAPb4jXmKoG/O2PD3KBCc4bfD4H3jmqyGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhsaD+A/IQ6rd28bSdAAAAABJRU5ErkJggg==" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-				<li class="item">
-					<div class="box-blog">
-						<img src="data:image/png;base64,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" alt="">
-						<h4><a href="">Postremo ad id indignitatis est ventum</a></h4>
-					</div>
-				</li>
-			</ul>
-			<script>
-                jQuery(document).ready(function(){
-                    var owlSlider = jQuery("#owl-knowladge");
-                    owlSlider.owlCarousel({
-                        items : 5,
-                        rtl:true,
-                        stopOnHover: true,
-                        pagination: true,
-                        navigation: true,
-                        lazyLoad: true,
-                        slideSpeed: 500,
-                        autoPlay: true,
-                        autoPlaySpeed: 3000,
-                        autoHeight: true,
-                        navigationText: [
-                            "<i class='fa fa-chevron-left'></i>",
-                            "<i class='fa fa-chevron-right'></i>"
-                        ],
-                    });
-                });
-			</script>
-		</div>
-	</div>
+	<!-- How it works -->
+	<section class="info-section how-it-works text-center">
+	    <div class="container">
+	        <h2 class="highlight">How it works?</h2>
+	        <div class="row text-center">
+	            <div class="col-sm-4">
+	                <div class="step step-1">
+	                    <h3>Choose a country</h3>
+						<p>We are growing constantly. At this time we are present in over  104 000 locations worldwide in 69 countries.</p>
+	                </div>
+	            </div>
+	            <div class="col-sm-4">
+	                <div class="step step-2">
+	                    <h3>Sign in</h3>
+						<p>We are always open to new ideas when it concerns your money. One time registration to profit from long term benefits.</p>
+	                </div>
+	            </div>
+	            <div class="col-sm-4">
+	                <div class="step step-3 last">
+	                    <h3>Transfer money</h3>
+						<p>Easy money transfer via your credit card to a bank or to a pay out station.</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</section>
+
+	<section class="video">
+	    <div class="youtube-video-container">
+	        <iframe src="https://www.youtube.com/embed/ezR7xa3LAH4?rel=0&amp;controls=0&amp;modestbranding=1&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe>
+	    </div>
+	</section>
+
+	<!-- TAB REALTIME COST -->
+	<h4>TAB REALTIME COST</h4>
+	<!-- TAB REALTIME COST -->
+	
+	<!-- Resume -->
+	<section id="page-59" class="front-sections section-padding ">
+	   <div class="skt-page-overlay"></div>
+	   <div class="skt-page-content">
+	      <div class="container">
+	         <div class="row">
+	            <h2 id="title-page-59" class="section-title wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">Resume</h2>
+	         </div>
+	      </div>
+	      <div class="container">
+	         <div class="row">
+	            <div class="resume-section">
+	               <div class="row no-margin">
+	                  <div class="col-md-12">
+	                     <div class="resume-title">
+	                        <h3>experience</h3>
+	                     </div>
+	                     <div class="resume">
+	                        <ul class="timeline">
+	                           <li>
+	                              <div class="posted-date">
+	                                 <span class="month">2015 - 2016</span>
+	                              </div>
+	                              <!-- /posted-date -->
+	                              <div class="timeline-panel wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                                 <div class="timeline-content">
+	                                    <div class="timeline-heading">
+	                                       <h3>LEAD UX CONSULTANT</h3>
+	                                       <span>Lucky8 Designing Firm, California
+	                                       </span>
+	                                    </div>
+	                                    <!-- /timeline-heading -->
+	                                    <div class="timeline-body">
+	                                       <p>Completely provide access to seamless manufactured products before functionalized synergy. Progressively redefine competitive.</p>
+	                                    </div>
+	                                    <!-- /timeline-body -->
+	                                 </div>
+	                                 <!-- /timeline-content -->
+	                              </div>
+	                              <!-- /timeline-panel -->
+	                           </li>
+	                           <li class="timeline-inverted">
+	                              <div class="posted-date">
+	                                 <span class="month">2013 - 2015</span>
+	                              </div>
+	                              <!-- /posted-date -->
+	                              <div class="timeline-panel wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                                 <div class="timeline-content">
+	                                    <div class="timeline-heading">
+	                                       <h3>JUNIOR UI DESIGNER</h3>
+	                                       <span>XYZ Design Home, One Street, Boston</span>
+	                                    </div>
+	                                    <!-- /timeline-heading -->
+	                                    <div class="timeline-body">
+	                                       <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend.</p>
+	                                    </div>
+	                                    <!-- /timeline-body -->
+	                                 </div>
+	                                 <!-- /timeline-content -->
+	                              </div>
+	                              <!-- /timeline-panel -->
+	                           </li>
+	                        </ul>
+	                     </div>
+	                  </div>
+	               </div>
+	               <div class="row no-margin">
+	                  <div class="col-md-12">
+	                     <div class="resume-title">
+	                        <h3>education</h3>
+	                     </div>
+	                     <div class="resume">
+	                        <ul class="timeline">
+	                           <li>
+	                              <div class="posted-date">
+	                                 <span class="month">2009 - 13</span>
+	                              </div>
+	                              <!-- /posted-date -->
+	                              <div class="timeline-panel wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                                 <div class="timeline-content">
+	                                    <div class="timeline-heading">
+	                                       <h3>BACHELOR DEGREE CERTIFICATE</h3>
+	                                       <span>BA(Hons) in UI Engineering, Arts University, Pabna, USA
+	                                       </span>
+	                                    </div>
+	                                    <!-- /timeline-heading -->
+	                                    <div class="timeline-body">
+	                                       <p>I have completed UI Engineering degree from ABC University, Boston, USA at feel the charm of existence in this spot, which was creat.</p>
+	                                    </div>
+	                                    <!-- /timeline-body -->
+	                                 </div>
+	                                 <!-- /timeline-content -->
+	                              </div>
+	                              <!-- /timeline-panel -->
+	                           </li>
+	                           <li class="timeline-inverted">
+	                              <div class="posted-date">
+	                                 <span class="month">2008 - 2009</span>
+	                              </div>
+	                              <!-- /posted-date -->
+	                              <div class="timeline-panel wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                                 <div class="timeline-content">
+	                                    <div class="timeline-heading">
+	                                       <h3>HIGHER SECONDARY CERTIFICATE</h3>
+	                                       <span>Typography Arts, FA College, New York, USA</span>
+	                                    </div>
+	                                    <!-- /timeline-heading -->
+	                                    <div class="timeline-body">
+	                                       <p>From this college of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend.</p>
+	                                    </div>
+	                                    <!-- /timeline-body -->
+	                                 </div>
+	                                 <!-- /timeline-content -->
+	                              </div>
+	                              <!-- /timeline-panel -->
+	                           </li>
+	                           <li>
+	                              <div class="posted-date">
+	                                 <span class="month">2006 - 2007</span>
+	                              </div>
+	                              <!-- /posted-date -->
+	                              <div class="timeline-panel wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+	                                 <div class="timeline-content">
+	                                    <div class="timeline-heading">
+	                                       <h3>SECONDARY SCHOOL CERTIFICATE</h3>
+	                                       <span>Creative Arts, Julius Jr. school, USA</span>
+	                                    </div>
+	                                    <!-- /timeline-heading -->
+	                                    <div class="timeline-body">
+	                                       <p>I was awesome at arts, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy.</p>
+	                                    </div>
+	                                    <!-- /timeline-body -->
+	                                 </div>
+	                                 <!-- /timeline-content -->
+	                              </div>
+	                              <!-- /timeline-panel -->
+	                           </li>
+	                        </ul>
+	                     </div>
+	                  </div>
+	               </div>
+	            </div>
+	         </div>
+	      </div>
+	   </div>
+	</section>
+
+	<!-- OUR CUSTOMERS LOVE US -->
+	<h4>OUR CUSTOMERS LOVE US</h4>
+	<!-- OUR CUSTOMERS LOVE US -->
+
 
 	<div id="homeStatics">
 		<div class="container">

@@ -9,6 +9,13 @@
 				<hr>
 				<p>{{ trans('front/register.infos') }}</p>		
 
+				<div class="text-center">
+
+					{!! link_to('redirect/facebook', 'FB Register') !!}
+					{!! link_to('redirect/google', 'Google Register') !!}
+
+				</div>
+
 				{!! Form::open(['url' => 'auth/register', 'method' => 'post', 'role' => 'form']) !!}	
 
 					<div class="row">
@@ -20,6 +27,19 @@
 						{!! Form::control('password', 6, 'password_confirmation', $errors, trans('front/register.confirm-password')) !!}
 					</div>
 					{!! Form::text('address', '', ['class' => 'hpet']) !!}	
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+							  <label for="sel1">User type:</label>
+							  <select class="form-control" id="usertype" name="usertype" required="">
+							  	<option value="">Chọn kiểu người dùng</option>
+							    <option value="2">Nhà đầu tư</option>
+							    <option value="3">Người vay tiền</option>
+							  </select>
+							</div>
+						</div>
+					</div>
 
 					<div class="row">	
 						{!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}

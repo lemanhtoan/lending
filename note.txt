@@ -80,6 +80,17 @@ Số ngày trước khi hết hạn nhắc nhở email (7)
 Số lượng vay hiệu lực tối đa (3)
 Số tiền tối đa vay cần xác thực cmnd hoặc passport (40.000.000)
 
+emailsupport
+mainbg
+maincolor
+laisuat
+tygiaUV
+daylost
+dayredm
+maxqty
+maxverified
+footer
+
 
 FB:
 606771139713362
@@ -94,3 +105,5 @@ https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#
 
 => cacert.pem to php ini
 => Error google login: This means you have not configured Google APIs correctly.(Library > Google+ API > Enable) + Other config active google +.
+
+A. Add user type : ALTER TABLE `users` ADD `usertype` INT(1) NOT NULL COMMENT 'User type' AFTER `activated`;
