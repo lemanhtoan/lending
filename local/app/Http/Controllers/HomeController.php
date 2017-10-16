@@ -7,6 +7,7 @@ use App\Jobs\ChangeLocale;
 use App\Settings;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,32 @@ class HomeController extends Controller
         }
 		return view('front.index', compact('userType'));
 	}
+
+	public function coinmarketcap(Request $request) {
+	    $sothechap = $request->input('sothechap');
+        $methodPay = $request->input('methodPay');
+        $dataPriceGet = 1.55; // get from website later
+        $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
+        $tygia = isset($dataTygia) ? $dataTygia->content : 1;
+        $maxValue = number_format(($sothechap * $dataPriceGet * 70 * $tygia)/ 100, 2);
+        return \Response::json($maxValue);
+    }
+
+    public function borrowcalc(Request $request) {
+        $sothechap = $request->input('sothechap');
+        $methodPay = $request->input('methodPay');
+        $cost = $request->input('cost');
+        $month = $request->input('month');
+        $dataLaisuat = DB::table('settings')->where('name', 'laisuat')->select('content')->get()[0];
+        $laisuat = isset($dataLaisuat) ? $dataLaisuat->content : 1;
+        $laithang = number_format(($cost * $laisuat)/ 100, 2);
+        $tong = number_format( ( (($cost * $laisuat)/ 100) * $month) +  $cost, 2);
+        $data = array(
+            'permonth' => $laithang,
+            'total' => $tong
+        );
+        return \Response::json($data);
+    }
 
 	/**
 	 * Change language.

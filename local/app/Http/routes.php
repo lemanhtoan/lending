@@ -91,4 +91,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::group(['prefix' => 'getsettings'], function() {
         Route::get('/',['as'       =>'getsettings','uses' => 'HomeController@getsettings']);
     });
+
+    Route::resource('/compare-coinmarketcap', 'HomeController@coinmarketcap');
+    Route::resource('/borrow-calc', 'HomeController@borrowcalc');
 });

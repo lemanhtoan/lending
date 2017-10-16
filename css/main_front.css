@@ -8623,3 +8623,7 @@ li.imgflag a {
     font-size: 80%;
     z-index: 2;
 }
+
+#borrow-tab .has-feedback .form-control {
+    padding-right: 5px;
+}

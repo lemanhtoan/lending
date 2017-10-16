@@ -148,14 +148,14 @@
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Bạn thế chấp:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="sothechap" name="sothechap">
+									<input type="text" class="form-control change-inp" id="sothechap" name="sothechap">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Bạn muốn thế chấp bằng:</label>
 								<div class="col-sm-6">
-									<select class="form-control" id="methodPay" name="methodPay">
+									<select class="form-control  change-inp" id="methodPay" name="methodPay">
 										<option value="">Chọn loại thế chấp</option>
 										<option value="BTC">BTC</option>
 										<option value="ETH">ETH</option>
@@ -165,17 +165,21 @@
 								</div>
 							</div>
 
+							<div class="form-group max-money" style="display: none;">
+								<label class="control-label col-sm-12" for="email">Số tiền vay tối đa là <b class="max-value"></b> USD</label>
+							</div>
+
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Bạn cần vay:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" id="cost" name="cost">
+									<input type="number" step="0.01" min="0" max="" class="form-control  change-inp" id="cost" name="cost">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Thời hạn vay:</label>
 								<div class="col-sm-6">
-									<select class="form-control" id="month" name="month">
+									<select class="form-control  change-inp" id="month" name="month">
 										<option value="">Số tháng vay</option>
 										<?php for($i=1; $i<36; $i++) { ?>
 										<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
@@ -193,11 +197,13 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-12" for="email">Số lãi hàng tháng là 100 USD</label>
+								<label class="control-label col-sm-12" for="email">Số lãi hàng tháng là <b class="permonth"></b> USD</label>
+								<input type="hidden" name="permonth" class="permonthValue"/>
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là 500 USD</label>
+								<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là <b class="pertotal"></b> USD</label>
+								<input type="hidden" name="pertotal" class="pertotalValue"/>
 							</div>
 
 							<input type="hidden" name="post_type" value="borrow">
@@ -273,6 +279,56 @@
 			<?php } ?>
 		</div>
 	</div>
+
+	<script>
+		jQuery(document).ready(function(){
+		    jQuery('.change-inp').change(function(){
+		        var sothechap = jQuery('#sothechap').val();
+		        var methodPay = jQuery('#methodPay').val();
+		        var cost = jQuery('#cost').val();
+		        var month = jQuery('#month').val();
+		        console.log('sothechap: '+ sothechap + ' methodPay: '+ methodPay + ' cost: '+ cost + ' month: '+ month);
+		        if (sothechap!="" && methodPay!="") {
+                    var dataString = 'sothechap='+ sothechap+'&methodPay='+ methodPay;
+                    jQuery.ajax({
+                        type: "GET",
+                        url: "{!! url('compare-coinmarketcap') !!}",
+                        data: dataString,
+                        cache: false,
+                        beforeSend: function(html)
+                        {
+                        },
+                        success: function(html)
+                        {
+                            jQuery('.max-value').html(html);
+                            jQuery('#cost').attr('max', html);
+                            jQuery('.max-money').show();
+                        }
+                    });
+				}
+
+                if (sothechap!="" && methodPay!="" && cost!="" && month!="") {
+                    var dataString = 'sothechap='+ sothechap+'&methodPay='+ methodPay+'&cost='+ cost+'&month='+month;
+                    jQuery.ajax({
+                        type: "GET",
+                        url: "{!! url('borrow-calc') !!}",
+                        data: dataString,
+                        cache: false,
+                        beforeSend: function(html)
+                        {
+                        },
+                        success: function(html)
+                        {
+                            jQuery('.permonth').html(html.permonth);
+                            jQuery('.permonthValue').val(html.permonth);
+                            jQuery('.pertotal').html(html.total);
+                            jQuery('.pertotalValue').val(html.total);
+                        }
+                    });
+                }
+			});
+		});
+	</script>
 
 	<div class="row">
 		<div class="box filter-box">
