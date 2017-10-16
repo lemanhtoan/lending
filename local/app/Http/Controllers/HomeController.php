@@ -6,6 +6,7 @@ use App\Jobs\ChangeLocale;
 
 use App\Settings;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,12 @@ class HomeController extends Controller
 	 */
 	public function index()
 	{
-		return view('front.index');
+        if (Auth::user()) {
+            $userType =  Auth::user()->usertype;
+        }else {
+            $userType = 'NON';
+        }
+		return view('front.index', compact('userType'));
 	}
 
 	/**

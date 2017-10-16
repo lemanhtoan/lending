@@ -50,42 +50,43 @@
 	<header role="banner">
 		<div class="top-header">
 			<div class="container">
-				<div class="col-md-2">
-					<div class="brand">{!! link_to('/', trans('front/site.title')) !!}</div>
+				<div class="col-md-3">
+					<div class="brand-logo">
+						<?php $dataLogo = DB::table('settings')->where('name', 'dataLogo')->select('content')->get()[0]; ?>
+						<h1><a href="{!! url('/') !!}"><img class="logo" src="{!!url('/uploads/commons/'.$dataLogo->content )!!}" alt="{!! trans('front/site.title') !!}"/></a></h1>
+                    </div>
 				</div>
-				<div class="col-md-10">
+				<div class="col-md-9">
 					<div class="bottom-header">
 						<nav class="navbar navbar-default" role="navigation">
-							<div class="container">
-								<div class="navbar-header">
-									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-									</button>
-									{!! link_to('/', trans('front/site.title')) !!}
-								</div>
-								<div class="collapse navbar-collapse">
-									<ul class="nav navbar-nav">
-										<li {!! classActivePath('/') !!}>
-											{!! link_to('/', trans('front/site.home')) !!}
-										</li>
-										<li>
-											{!! link_to('/', trans('front/site.about-us')) !!}
-										</li>
-										<li>
-											{!! link_to('/', trans('front/site.loan-payment')) !!}
-										</li>
-										<li {!! classActiveSegment(1, ['articles', 'blog']) !!}>
-											{!! link_to('articles', trans('front/site.QA')) !!}
-										</li>
-										<li {!! classActivePath('contact/create') !!}>
-											{!! link_to('contact/create', trans('front/site.contact')) !!}
-										</li>
-									</ul>
-								</div>
-							</div>
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                {!! link_to('/', trans('front/site.title')) !!}
+                            </div>
+                            <div class="collapse navbar-collapse">
+                                <ul class="nav navbar-nav">
+                                    <li {!! classActivePath('/') !!}>
+                                        {!! link_to('/', trans('front/site.home')) !!}
+                                    </li>
+                                    <li>
+                                        {!! link_to('/', trans('front/site.about-us')) !!}
+                                    </li>
+                                    <li>
+                                        {!! link_to('/', trans('front/site.loan-payment')) !!}
+                                    </li>
+                                    <li {!! classActiveSegment(1, ['articles', 'blog']) !!}>
+                                        {!! link_to('articles', trans('front/site.QA')) !!}
+                                    </li>
+                                    <li {!! classActivePath('contact/create') !!}>
+                                        {!! link_to('contact/create', trans('front/site.contact')) !!}
+                                    </li>
+                                </ul>
+                            </div>
 						</nav>
 					</div>
 				</div>
@@ -93,52 +94,59 @@
 		</div>		
 
 		<div class="bottom-header">
-			<div class="box-left">
-				<ul>
-					<?php if(!Auth::check())  {?>
-						<li class="">
-							{!! link_to('auth/register', trans('front/site.register')) !!}
-						</li>
-				
-						<li class="">
-							{!! link_to('password/email', trans('front/site.forget-password')) !!}
-						</li>
-					
-						<li {!! classActivePath('auth/login') !!}>
-							{!! link_to('auth/login', trans('front/site.connection')) !!}
-						</li>
-					<?php } else {  //echo "<pre>"; var_dump(Auth::user()->usertype); ?>
-						<!-- 1: ndt dacbiet, 2: ndt, 3: nguoivay-->
-						<li>
-							{!! link_to_route('admin', trans('front/site.administration')) !!}
-						</li>
-					
-						<li>
-							{!! link_to('blog', trans('front/site.redaction')) !!}
-						</li>
-						
-						<li>
-							{!! link_to('auth/logout', trans('front/site.logout')) !!}
-						</li>
-					<?php } ?>
-				</ul>
-			</div>
-		
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a data-toggle="dropdown" class="dropdown-toggle" href="#"><img width="32" height="32" alt="{{ session('locale') }}"  src="{!! asset('img/' . session('locale') . '-flag.png') !!}" />&nbsp; <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							@foreach ( config('app.languages') as $user)
-								@if($user !== config('app.locale'))
-									<li><a href="{!! url('language') !!}/{{ $user }}"><img width="32" height="32" alt="{{ $user }}" src="{!! asset('img/' . $user . '-flag.png') !!}"></a></li>
-								@endif
-							@endforeach
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</div>		
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">&nbsp;</div>
+                    <div class="col-md-6">
+                        <div class="box-left">
+                            <ul>
+                                <?php if(!Auth::check())  {?>
+                                <li>
+                                    {!! link_to('auth/register', trans('front/site.register')) !!}
+                                </li>
+
+                                <li>
+                                    {!! link_to('password/email', trans('front/site.forget-password')) !!}
+                                </li>
+
+                                <li>
+                                    {!! link_to('auth/login', trans('front/site.connection')) !!}
+                                </li>
+                                <?php } else {?>
+                                <li>
+                                    {!! link_to_route('admin', trans('front/site.administration')) !!}
+                                </li>
+
+                                <li>
+                                    {!! link_to('blog', trans('front/site.redaction')) !!}
+                                </li>
+
+                                <li>
+                                    {!! link_to('auth/logout', trans('front/site.logout')) !!}
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+
+                        <div class="collapse navbar-collapse language-box">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#"><img width="32" height="32" alt="{{ session('locale') }}"  src="{!! asset('img/' . session('locale') . '-flag.png') !!}" /></a>
+                                    <ul class="dropdown-menu">
+                                        @foreach ( config('app.languages') as $user)
+                                            @if($user !== config('app.locale'))
+                                                <li><a href="{!! url('language') !!}/{{ $user }}"><img width="32" height="32" alt="{{ $user }}" src="{!! asset('img/' . $user . '-flag.png') !!}"></a></li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+		</div>
 	</header>
 
 	<main role="main" class="container">
@@ -185,7 +193,13 @@
 	</section>
 
 	<!-- TAB REALTIME COST -->
-	<h4>TAB REALTIME COST</h4>
+    <div class="box-realtime  box-center">
+        <div class="container">
+            <div class="row">
+                <h4>TAB REALTIME COST</h4>
+            </div>
+        </div>
+    </div>
 	<!-- TAB REALTIME COST -->
 	
 	<!-- Resume -->
@@ -336,42 +350,211 @@
 	</section>
 
 	<!-- OUR CUSTOMERS LOVE US -->
-	<h4>OUR CUSTOMERS LOVE US</h4>
+    <div class="box-customer box-center">
+        <div class="container">
+            <div class="row">
+	            <h4>OUR CUSTOMERS LOVE US</h4>
+                <div class="col-md-2">
+                    <div class="tp-widget-review">
+                        <h4>Great</h4>
+                        <div class="tp-widget-stars clearfix">
+                            <div class="star-rating small star-5">
+                                <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                            </div>
+                        </div>
+                        <div class="text"> Based on 3,151 reviews
+                            See some of the reviews here.</div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div id="review_customer"  class="owl-carousel owl-theme">
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                        <div class="tp-widget-review item">
+                            <div class="tp-widget-stars clearfix">
+                                <div class="star-rating small star-5">
+                                    <div class="star-1"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-2"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-3"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-4"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                    <div class="star-5"><img src="{!!url('/uploads/commons/sprite_star.png')!!}" width="9" height="9"></div>
+                                </div>
+                            </div>
+                            <div class="date">42 hours ago</div>
+                            <div class="header">Highly recommend!</div>
+                            <div class="text"> Prompt, cost effective and trustworthy!</div>
+                            <div class="name">P Mcdonnell</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	<!-- OUR CUSTOMERS LOVE US -->
 
 
-	<div id="homeStatics">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="item-statics">
-						<h4>999.999 +</h4>
-						<p>Borrower</p>
-					</div>
-
-					<div class="item-statics">
-						<h4>999.999 +</h4>
-						<p>Investor</p>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="item-statics">
-						<h4><img src="https://remitano.com/playstore.png" alt=""></h4>
-						<p>Download Android App</p>
-					</div>
-
-					<div class="item-statics">
-						<h4><img src="https://remitano.com/appstore.png" alt=""></h4>
-						<p>Download IOS App</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<footer role="contentinfo">
-		 @yield('footer')
-		<p class="text-center"><small>Copyright &copy;2017 - Coin Cash Loan</small></p>
+	<footer id="footer">
+        <div class="container">
+            <div id="footer-links">
+                <div class="row">
+                    <section  class="col-md-3">
+                        <h3 class="blue-text">Company</h3>
+                        <div class="content">
+                            <ul class="menu">
+                                <li class="first leaf"><a href="" title="How Xendpay Works">How Xendpay Works</a></li>
+                                <li class="leaf"><a href="" title="About Us">About Us</a></li>
+                                <li class="leaf"><a href="" title="Customer Reviews">Customer Reviews</a></li>
+                                <li class="leaf"><a href="" title="Security">Security</a></li>
+                                <li class="last leaf"><a href="" title="Compare Our Rates">Compare Our Rates</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.content -->
+                    </section>
+                    <!-- /.block -->
+                    <section  class="col-md-3">
+                        <h3 class="blue-text">Transfers</h3>
+                        <div class="content">
+                            <ul class="menu">
+                                <li class="first leaf"><a href="" title="Destinations">Destinations</a></li>
+                                <li class="leaf"><a href="" title="Delivery Times">Delivery Times</a></li>
+                                <li class="leaf"><a href="" title="Payment methods">Payment methods</a></li>
+                                <li class="leaf"><a href="" title="Required Bank Details">Required Bank Details</a></li>
+                                <li class="last leaf"><a href="" title="">Refer a Friend</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.content -->
+                    </section>
+                    <!-- /.block -->
+                    <section  class="col-md-3">
+                        <h3 class="blue-text">Contact Us</h3>
+                        <div class="content">
+                            <ul class="menu">
+                                <li class="first leaf"><a href="" title="General Enquiries">General Enquiries</a></li>
+                                <li class="leaf"><a href="" title="Your Feedback">Your Feedback</a></li>
+                                <li class="last leaf"><a href="" title="affiliates">Affiliates</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.content -->
+                    </section>
+                    <!-- /.block -->
+                    <section  class="col-md-3">
+                        <h3 class="blue-text">Legal</h3>
+                        <div class="content">
+                            <ul class="menu">
+                                <li class="first leaf"><a href="" title="Regulatory Information">Regulatory Information</a></li>
+                                <li class="leaf"><a href="" title="Privacy Policy">Privacy Policy</a></li>
+                                <li class="last leaf"><a href="" title="Terms of Use">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.content -->
+                    </section>
+                </div>
+            </div>
+            <div id="footer-copyright-social">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div id="footer-copyright-text" class="white-text">©<?php echo date('Y') ?> Copyright Rational Foreign Exchange.</div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div id="footer-text-1" class="white-text">Xendpay is an agent of Rational Foreign Exchange Limited, authorised and regulated by the Financial Conduct Authority (FCA) under the Payment Services Regulations 2008 - FRN No. 507958</div>
+                                <div id="footer-text-2" class="white-text">Rational Foreign Exchange is a registered money services business with HM Revenue and Customs - No. 12206957</div>
+                                <div id="footer-text-2" class="white-text">Xendpay, Level 32, One Canada Square, Canary Wharf, London, E14 5AB, U.K</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="social-box">
+                            <ul class="social-icons pull-right">
+                                <li class="facebook"><a href="" target="_blank" class="white-text" title="Facebook">facebook</a></li>
+                                <li class="youtube"><a href="" target="_blank" class="white-text" title="Youtube">Youtube</a></li>
+                                <li class="google"><a href="" target="_blank" class="white-text" title="Google">Google</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</footer>
 
 

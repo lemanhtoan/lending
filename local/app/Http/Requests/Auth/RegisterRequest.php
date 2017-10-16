@@ -12,9 +12,9 @@ class RegisterRequest extends Request {
 	public function rules()
 	{
 		return [
-			'username' => 'required|max:30|alpha|unique:users',
+			'username' => 'required|max:30|unique:users',
 			'email' => 'required|email|max:255|unique:users',
-			'password' => 'required|min:8|confirmed',
+			'password' => 'required|min:6|confirmed',
 		];
 	}
 
