@@ -2,60 +2,48 @@
 
 namespace App\Repositories;
 
-use App\Models\Post,
-    App\Models\Tag,
-    App\Models\Comment;
+use App\Models\Borrow;
+use Carbon\Carbon;
 
 class BorrowRepository extends BaseRepository {
 
-    /**
-     * The Tag instance.
-     *
-     * @var App\Models\Tag
-     */
-    protected $tag;
-
-    /**
-     * The Comment instance.
-     *
-     * @var App\Models\Comment
-     */
-    protected $comment;
-
-    /**
-     * Create a new BorrowRepository instance.
-     *
-     * @param  App\Models\Post $post
-     * @param  App\Models\Tag $tag
-     * @param  App\Models\Comment $comment
-     * @return void
-     */
     public function __construct(
-    Post $post, Tag $tag, Comment $comment) 
+    Borrow $post) 
     {
         $this->model = $post;
-        $this->tag = $tag;
-        $this->comment = $comment;
     }
 
-    /**
-     * Create or update a post.
-     *
-     * @param  App\Models\Post $post
-     * @param  array  $inputs
-     * @param  bool   $user_id
-     * @return App\Models\Post
-     */
-    private function savePost($post, $inputs, $user_id = null)
+
+    private function savePost($post, $inputs)
     {
-        $post->title = $inputs['title'];
-        $post->summary = $inputs['summary'];
-        $post->content = $inputs['content'];
-        $post->slug = $inputs['slug'];
-        $post->active = isset($inputs['active']);
-        if ($user_id) {
-            $post->user_id = $user_id;
-        }
+        $uid = $inputs['uid'];
+        if ($uid == 0) return;
+        $soluongthechap = (float)$inputs['sothechap'];
+        $kieuthechap = $inputs['methodPay'];
+        $thoigianthechap = $inputs['month'];
+        $phantramlai = $inputs['percentCost'];
+        $sotientoida = (float)$inputs['maxMoney'];
+        $dutinhlai = (float)($inputs['pertotal'] - $inputs['cost']);
+        $sotiencanvay = (float)$inputs['cost'];
+
+        if ($sotiencanvay > $sotientoida) return;
+
+        $ngaygiaingan = Carbon::now()->addMonths($thoigianthechap);
+        $ngaydaohan = $ngaygiaingan;
+        $status = '0'; // khoi tao
+        //'uid', 'soluongthechap', 'kieuthechap', 'thoigianthechap', 'phantramlai', 'sotientoida', 'dutinhlai', 'sotiencanvay', 'ngaygiaingan', 'ngaydaohan', 'status'
+        $post->uid = $inputs['uid'];
+        $post->soluongthechap = $soluongthechap;
+        $post->kieuthechap = $kieuthechap;
+        $post->thoigianthechap = $thoigianthechap;
+        $post->phantramlai = $phantramlai;
+        $post->sotientoida = $sotientoida;
+        $post->dutinhlai = $dutinhlai;
+        $post->sotiencanvay = $sotiencanvay;
+        $post->ngaygiaingan = $ngaygiaingan;
+        $post->ngaydaohan = $ngaydaohan;
+        $post->status = $status;
+
         $post->save();
 
         return $post;
@@ -265,9 +253,9 @@ class BorrowRepository extends BaseRepository {
      * @param  int    $user_id
      * @return void
      */
-    public function store($inputs, $user_id)
+    public function store($inputs)
     {
-        $post = $this->savePost(new $this->model, $inputs, $user_id);
+        $post = $this->savePost(new $this->model, $inputs);
 
         // Tags gestion
         if (array_key_exists('tags', $inputs) && $inputs['tags'] != '') {

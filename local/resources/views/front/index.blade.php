@@ -142,7 +142,11 @@
 					<li class="active"><a href="#borrow-tab" data-toggle="tab">Create a loan <i class="fa"></i></a></li>
 				</ul>
 
-				<form id="accountForm" class="form-horizontal" method="post">
+				<form action="{!! url('createALoan') !!}" id="accountForm" class="form-horizontal" method="post">
+					<?php $datalaisuat = DB::table('settings')->where('name', 'laisuat')->select('content')->get()[0]; ?>
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<input type="hidden" name="uid" value="<?php echo $uid ?>">
+					<input type="hidden" name="percentCost" value="<?php echo $datalaisuat->content ?>">
 					<div class="tab-content">
 						<div class="tab-pane active" id="borrow-tab">
 							<div class="form-group">
@@ -167,6 +171,7 @@
 
 							<div class="form-group max-money" style="display: none;">
 								<label class="control-label col-sm-12" for="email">Số tiền vay tối đa là <b class="max-value"></b> USD</label>
+								<input type="hidden" name="maxMoney" class="maxMoney" value="0">
 							</div>
 
 							<div class="form-group">
@@ -190,8 +195,7 @@
 
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-								<div class="col-sm-6">
-									<?php $datalaisuat = DB::table('settings')->where('name', 'laisuat')->select('content')->get()[0]; ?>
+								<div class="col-sm-6">									
 									<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
 								</div>
 							</div>
@@ -303,6 +307,7 @@
                             jQuery('.max-value').html(html);
                             jQuery('#cost').attr('max', html);
                             jQuery('.max-money').show();
+                            jQuery('.maxMoney').val(html);
                         }
                     });
 				}

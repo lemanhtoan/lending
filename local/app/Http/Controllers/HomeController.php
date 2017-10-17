@@ -21,10 +21,12 @@ class HomeController extends Controller
 	{
         if (Auth::user()) {
             $userType =  Auth::user()->usertype;
+            $uid = Auth::user()->id;
         }else {
             $userType = 'NON';
+            $uid = 0;
         }
-		return view('front.index', compact('userType'));
+		return view('front.index', compact('userType', 'uid'));
 	}
 
 	public function coinmarketcap(Request $request) {
@@ -33,7 +35,7 @@ class HomeController extends Controller
         $dataPriceGet = 1.55; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
-        $maxValue = number_format(($sothechap * $dataPriceGet * 70 * $tygia)/ 100, 2);
+        $maxValue = ($sothechap * $dataPriceGet * 70 * $tygia)/ 100;
         return \Response::json($maxValue);
     }
 
@@ -44,8 +46,8 @@ class HomeController extends Controller
         $month = $request->input('month');
         $dataLaisuat = DB::table('settings')->where('name', 'laisuat')->select('content')->get()[0];
         $laisuat = isset($dataLaisuat) ? $dataLaisuat->content : 1;
-        $laithang = number_format(($cost * $laisuat)/ 100, 2);
-        $tong = number_format( ( (($cost * $laisuat)/ 100) * $month) +  $cost, 2);
+        $laithang = ($cost * $laisuat)/ 100;
+        $tong = ( (($cost * $laisuat)/ 100) * $month) +  $cost;
         $data = array(
             'permonth' => $laithang,
             'total' => $tong

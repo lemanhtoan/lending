@@ -94,4 +94,5 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::resource('/compare-coinmarketcap', 'HomeController@coinmarketcap');
     Route::resource('/borrow-calc', 'HomeController@borrowcalc');
+    Route::resource('/createALoan', 'BorrowController@createNew');
 });

@@ -38,16 +38,10 @@ class BorrowController extends Controller {
 	 * @return void
 	*/
 	public function __construct(
-		BorrowRepository $borrow_gestion,
-		UserRepository $user_gestion)
+		BorrowRepository $borrow_gestion)
 	{
-		$this->user_gestion = $user_gestion;
 		$this->borrow_gestion = $borrow_gestion;
 		$this->nbrPages = 2;
-
-		$this->middleware('redac', ['except' => ['indexFront', 'show', 'tag', 'search']]);
-		$this->middleware('admin', ['only' => 'updateSeen']);
-		$this->middleware('ajax', ['only' => ['updateSeen', 'updateActive']]);
 	}	
 
 	/**
@@ -278,6 +272,13 @@ class BorrowController extends Controller {
 		$info = trans('front/borrow.info-search') . '<strong>' . $search . '</strong>';
 		
 		return view('front.borrow.index', compact('posts', 'links', 'info'));
+	}
+
+	public function createNew(Request $request)
+	{
+		$this->borrow_gestion->store($request->all());
+
+		return redirect()->back();
 	}
 
 }
