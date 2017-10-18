@@ -15,6 +15,8 @@ use App\Jobs\SendMail;
 
 use App\ActivationService;
 
+use App\Models\Invest;
+use App\Models\Borrow;
 
 class AuthController extends Controller
 {
@@ -47,6 +49,7 @@ class AuthController extends Controller
         LoginRequest $request,
         Guard $auth)
     {
+
         $logValue = $request->input('log');
 
         $logAccess = filter_var($logValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
@@ -78,6 +81,8 @@ class AuthController extends Controller
 
         $user = $auth->getLastAttempted();
 
+        $request->session()->put('user_id', $user->id);
+
         if($user->confirmed) {
             if ($throttles) {
                 $this->clearLoginAttempts($request);
@@ -89,11 +94,55 @@ class AuthController extends Controller
                 $request->session()->forget('user_id');
             }
 
+            // check if exist session invest => create new invest for uid
+            if ($user->usertype == '2') {
+                // nha dau tu
+                if($request->session()->has('invest'))
+                {
+                    $dataInvest = $request->session()->get('invest.data');
+                    $invest = new Invest();
+                    $invest->uid = $user->id;
+                    $invest->borrowId = $dataInvest['borrowId'];
+                    $invest->status = $dataInvest['status'];
+                    $invest->save();
+
+                    // remove session
+                    $request->session()->forget('invest');
+
+                    return redirect('/')->with('ok', 'Your invest was created');
+                }
+            }
+
+            // check if exist session borrow => create new borrow for uid
+            if ($user->usertype == '3') {
+                // nha dau tu
+                if($request->session()->has('borrow'))
+                {
+                    $dataBorrow = $request->session()->get('borrow.data');
+                    $post = new Borrow();
+                    $post->uid = $user->id;
+                    $post->soluongthechap = $dataBorrow['soluongthechap'];
+                    $post->kieuthechap = $dataBorrow['kieuthechap'];
+                    $post->thoigianthechap = $dataBorrow['thoigianthechap'];
+                    $post->phantramlai = $dataBorrow['phantramlai'];
+                    $post->sotientoida = $dataBorrow['sotientoida'];
+                    $post->dutinhlai = $dataBorrow['dutinhlai'];
+                    $post->sotiencanvay = $dataBorrow['sotiencanvay'];
+                    $post->ngaygiaingan = $dataBorrow['ngaygiaingan'];
+                    $post->ngaydaohan = $dataBorrow['ngaydaohan'];
+                    $post->status = $dataBorrow['status'];
+                    $post->save();
+
+                    // remove session
+                    $request->session()->forget('borrow');
+
+                    return redirect('/')->with('ok', 'Your borrow was created');
+                }
+            }
+
+
             return redirect('/');
         }
-
-        $request->session()->put('user_id', $user->id);
-
         return redirect('/auth/login')->with('error', trans('front/verify.again'));
     }
 

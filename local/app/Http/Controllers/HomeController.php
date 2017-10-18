@@ -8,6 +8,8 @@ use App\Settings;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Models\Borrow;
+use App\Models\Invest;
 
 class HomeController extends Controller
 {
@@ -22,11 +24,29 @@ class HomeController extends Controller
         if (Auth::user()) {
             $userType =  Auth::user()->usertype;
             $uid = Auth::user()->id;
+            $borrowsExist = Invest::where('uid', $uid)->get();
+            if (count($borrowsExist)) {
+                $arrBorrow = [];
+                foreach ($borrowsExist as $exist) {
+                    $arrBorrow[] = $exist->borrowId;
+                }
+                $borrows = Borrow::where('status', 1)->whereNotIn('id', $arrBorrow)->orderBy('created_at', 'desc')->get();
+            }else {
+                $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
+            }
         }else {
             $userType = 'NON';
             $uid = 0;
+
+            $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
         }
-		return view('front.index', compact('userType', 'uid'));
+       
+        $borrowsOfUser = Borrow::where('status', 1)->where('uid', $uid)->orderBy('created_at', 'desc')->get();
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+		return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser'));
 	}
 
 	public function coinmarketcap(Request $request) {

@@ -25,6 +25,10 @@ Số tiền cần vay,
 Ngày giải ngân,
 Ngày đáo hạn,
 
+status: 0 khởi tạo
+1: đã thế chấp tài sản => có thể cho nhà đầu tư nhìn thấy
+
+
 => Trạng thái là: Khởi tạo
 
 3. Borrower chuyển thế chấp

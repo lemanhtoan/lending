@@ -2,55 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Models\Borrow;
-use Carbon\Carbon;
+use App\Models\Invest;
+use Auth;
 
-class BorrowRepository extends BaseRepository {
+class InvestRepository extends BaseRepository {
 
     public function __construct(
-    Borrow $post) 
+    Invest $post) 
     {
         $this->model = $post;
     }
 
 
-    private function savePost($post, $inputs)
+    private function savePost($post, $inputs, $uid)
     {
-        $uid = $inputs['uid'];
-        $status = '0'; // khoi tao
-        $soluongthechap = (float)$inputs['sothechap'];
-        $kieuthechap = $inputs['methodPay'];
-        $thoigianthechap = $inputs['month'];
-        $phantramlai = $inputs['percentCost'];
-        $sotientoida = (float)$inputs['maxMoney'];
-        $dutinhlai = (float)($inputs['pertotal'] - $inputs['cost']);
-        $sotiencanvay = (float)$inputs['cost'];
-        $ngaygiaingan = Carbon::now()->addMonths($thoigianthechap);
-        $ngaydaohan = $ngaygiaingan;
-
-        if ($sotiencanvay > $sotientoida) return;
-
-        if ($uid == 0)  {
+        $status = '0'; // Chờ nhà đầu tư chuyển tiền
+        if ($uid == 0) {
             // save to session and after login - register => save
-            $currentData = array(
-                'uid' => (int) $uid, 'soluongthechap' => $soluongthechap, 'status' => $status,
-                'kieuthechap' => $kieuthechap, 'thoigianthechap' => $thoigianthechap, 'phantramlai' => $phantramlai,
-                'sotientoida' => $sotientoida, 'dutinhlai' => $dutinhlai, 'sotiencanvay' => $sotiencanvay,
-                'ngaygiaingan' => $ngaygiaingan, 'ngaydaohan' => $ngaydaohan
-            );
-            \Session::put('borrow.data', $currentData);
+            $currentData = array('uid' => (int) $uid, 'borrowId' => (int) $inputs, 'status' => $status);
+            \Session::put('invest.data', $currentData);
             return 0;
         } else {
-            $post->uid = $inputs['uid'];
-            $post->soluongthechap = $soluongthechap;
-            $post->kieuthechap = $kieuthechap;
-            $post->thoigianthechap = $thoigianthechap;
-            $post->phantramlai = $phantramlai;
-            $post->sotientoida = $sotientoida;
-            $post->dutinhlai = $dutinhlai;
-            $post->sotiencanvay = $sotiencanvay;
-            $post->ngaygiaingan = $ngaygiaingan;
-            $post->ngaydaohan = $ngaydaohan;
+            $post->uid = (int) $uid;
+            $post->borrowId = (int) $inputs;
             $post->status = $status;
             $post->save();
             return $post;
@@ -201,25 +175,6 @@ class BorrowRepository extends BaseRepository {
     public function update($inputs, $post)
     {
         $post = $this->savePost($post, $inputs);
-
-        // Tag gestion
-        $tags_id = [];
-        if (array_key_exists('tags', $inputs) && $inputs['tags'] != '') {
-
-            $tags = explode(',', $inputs['tags']);
-
-            foreach ($tags as $tag) {
-                $tag_ref = $this->tag->whereTag($tag)->first();
-                if (is_null($tag_ref)) {
-                    $tag_ref = new $this->tag();
-                    $tag_ref->tag = $tag;
-                    $tag_ref->save();
-                }
-                array_push($tags_id, $tag_ref->id);
-            }
-        }
-
-        $post->tags()->sync($tags_id);
     }
 
     /**
@@ -263,7 +218,13 @@ class BorrowRepository extends BaseRepository {
      */
     public function store($inputs)
     {
-        return $this->savePost(new $this->model, $inputs);
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        $data = $this->savePost(new $this->model, $inputs, $uid);
+        return $data;
     }
 
     /**

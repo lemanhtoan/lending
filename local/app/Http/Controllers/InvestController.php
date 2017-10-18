@@ -4,15 +4,15 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\SearchRequest;
-use App\Repositories\BorrowRepository;
+use App\Repositories\InvestRepository;
 use App\Repositories\UserRepository;
 
-class BorrowController extends Controller {
+class InvestController extends Controller {
 
 	/**
-	 * The BorrowRepository instance.
+	 * The InvestRepository instance.
 	 *
-	 * @var App\Repositories\BorrowRepository
+	 * @var App\Repositories\InvestRepository
 	 */
 	protected $borrow_gestion;
 
@@ -31,14 +31,14 @@ class BorrowController extends Controller {
 	protected $nbrPages;
 
 	/**
-	 * Create a new BorrowController instance.
+	 * Create a new InvestController instance.
 	 *
-	 * @param  App\Repositories\BorrowRepository $borrow_gestion
+	 * @param  App\Repositories\InvestRepository $borrow_gestion
 	 * @param  App\Repositories\UserRepository $user_gestion
 	 * @return void
 	*/
 	public function __construct(
-		BorrowRepository $borrow_gestion)
+		InvestRepository $borrow_gestion)
 	{
 		$this->borrow_gestion = $borrow_gestion;
 		$this->nbrPages = 2;
@@ -274,12 +274,12 @@ class BorrowController extends Controller {
 		return view('front.borrow.index', compact('posts', 'links', 'info'));
 	}
 
-	public function createNew(Request $request)
+	public function createNew($idBorrow)
 	{
-        $data = $this->borrow_gestion->store($request->all());
-        if($data == 0) {
-            return redirect('auth/login')->with('ok', 'Please login before borrow');
+		$data = $this->borrow_gestion->store($idBorrow);
+		if($data == 0) {
+            return redirect('auth/login')->with('ok', 'Please login before invest');
         }
-	}
+    }
 
 }

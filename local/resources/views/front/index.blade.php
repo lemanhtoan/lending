@@ -28,114 +28,139 @@
 				<li><a href="#invest-tab" data-toggle="tab">Get a loan <i class="fa"></i></a></li>
 			</ul>
 
-			<form id="accountForm" class="form-horizontal" method="post">
-				<div class="tab-content">
-					<div class="tab-pane active" id="borrow-tab">
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Bạn cần:</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="cost" name="cost">
+			<div class="tab-content">
+				<div class="tab-pane active" id="borrow-tab">
+					<form action="{!! url('createALoan') !!}" id="accountForm" class="form-horizontal" method="post">
+						<?php $datalaisuat = DB::table('settings')->where('name', 'laisuat')->select('content')->get()[0]; ?>
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="uid" value="<?php echo $uid ?>">
+						<input type="hidden" name="percentCost" value="<?php echo $datalaisuat->content ?>">
+						<div class="tab-content">
+							<div class="tab-pane active" id="borrow-tab">
+								<div class="form-group">
+									<label class="control-label col-sm-6" for="email">Bạn thế chấp:</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control change-inp" id="sothechap" name="sothechap">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-6" for="email">Bạn muốn thế chấp bằng:</label>
+									<div class="col-sm-6">
+										<select class="form-control  change-inp" id="methodPay" name="methodPay">
+											<option value="">Chọn loại thế chấp</option>
+											<option value="BTC">BTC</option>
+											<option value="ETH">ETH</option>
+											<option value="LTC">LTC</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group max-money" style="display: none;">
+									<label class="control-label col-sm-12" for="email">Số tiền vay tối đa là <b class="max-value"></b> USD</label>
+									<input type="hidden" name="maxMoney" class="maxMoney" value="0">
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-6" for="email">Bạn cần vay:</label>
+									<div class="col-sm-6">
+										<input type="number" step="0.01" min="0" max="" class="form-control  change-inp" id="cost" name="cost">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-6" for="email">Thời hạn vay:</label>
+									<div class="col-sm-6">
+										<select class="form-control  change-inp" id="month" name="month">
+											<option value="">Số tháng vay</option>
+											<?php for($i=1; $i<36; $i++) { ?>
+											<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-6" for="email">Lãi suất:</label>
+									<div class="col-sm-6">
+										<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="email">Số lãi hàng tháng là <b class="permonth"></b> USD</label>
+									<input type="hidden" name="permonth" class="permonthValue"/>
+								</div>
+
+								<div class="form-group">
+									<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là <b class="pertotal"></b> USD</label>
+									<input type="hidden" name="pertotal" class="pertotalValue"/>
+								</div>
+
+								<input type="hidden" name="post_type" value="borrow">
+
+								<div class="borrow-button pull-right"><input type="submit" value="Borrow now"/></div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Bạn muốn thế chấp bằng:</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="methodPay" name="methodPay">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Thời hạn vay:</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="month" name="month">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="costMinus" name="costMinus">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-12" for="email">Số bitcoin bạn cần thế chấp là 1 bitcoin</label>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là 100 USD</label>
-						</div>
-
-						<input type="hidden" name="post_type" value="borrow">
-
-						<div class="borrow-button pull-right"><input type="submit" value="Borrow now"/></div>
-					</div>
-
-					<div class="tab-pane" id="invest-tab">
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Số tiền vay:</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="invest_cost" name="invest_cost">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Thời gian vay:</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="invest_month" name="invest_month">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Loại tiền thế chấp:</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="invest_money_type" name="invest_money_type">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="invest_laisuat" name="invest_laisuat">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="control-label col-sm-6" for="email">Loại tiền nhận:</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="invest_money_received" name="invest_money_received">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-								</select>
-							</div>
-						</div>
-
-						<input type="hidden" name="post_type" value="invest">
-						<div class="invest-button pull-right"><input type="submit" value="Search"/></div>
-					</div>
+					</form>
 				</div>
-			</form>
+
+				<div class="tab-pane" id="invest-tab">
+					<div class="form-group">
+						<label class="control-label col-sm-6" for="email">Số tiền vay:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="invest_cost" name="invest_cost">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-6" for="email">Thời gian vay:</label>
+						<div class="col-sm-6">
+							<select class="form-control" id="invest_month" name="invest_month">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-6" for="email">Loại tiền thế chấp:</label>
+						<div class="col-sm-6">
+							<select class="form-control" id="invest_money_type" name="invest_money_type">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-6" for="email">Lãi suất:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="invest_laisuat" name="invest_laisuat">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-6" for="email">Loại tiền nhận:</label>
+						<div class="col-sm-6">
+							<select class="form-control" id="invest_money_received" name="invest_money_received">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+							</select>
+						</div>
+					</div>
+
+					<input type="hidden" name="post_type" value="invest">
+					<div class="invest-button pull-right"><input type="submit" value="Search"/></div>
+				</div>
+			</div>
 
 			<?php } elseif($userType == '3') { // borrow ?>
 				<ul class="nav nav-tabs">
@@ -221,7 +246,9 @@
 					<li  class="active"><a href="#invest-tab" data-toggle="tab">Get a loan <i class="fa"></i></a></li>
 				</ul>
 
-				<form id="accountForm" class="form-horizontal" method="post">
+				<form action="{!! url('getALoan') !!}" id="accountForm" class="form-horizontal" method="post">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<input type="hidden" name="uid" value="<?php echo $uid ?>">
 					<div class="tab-content ">
 
 						<div class="tab-pane active" id="invest-tab">
@@ -236,10 +263,10 @@
 								<label class="control-label col-sm-6" for="email">Thời gian vay:</label>
 								<div class="col-sm-6">
 									<select class="form-control" id="invest_month" name="invest_month">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
+										<option value="">Số tháng vay</option>
+                                        <?php for($i=1; $i<36; $i++) { ?>
+										<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                        <?php } ?>
 									</select>
 								</div>
 							</div>
@@ -248,18 +275,12 @@
 								<label class="control-label col-sm-6" for="email">Loại tiền thế chấp:</label>
 								<div class="col-sm-6">
 									<select class="form-control" id="invest_money_type" name="invest_money_type">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
+										<option value="">Chọn loại thế chấp</option>
+										<option value="BTC">BTC</option>
+										<option value="ETH">ETH</option>
+										<option value="LTC">LTC</option>
+										<option value="Other">Other</option>
 									</select>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-								<div class="col-sm-6">
-									<input type="text" class="form-control" id="invest_laisuat" name="invest_laisuat">
 								</div>
 							</div>
 
@@ -267,10 +288,11 @@
 								<label class="control-label col-sm-6" for="email">Loại tiền nhận:</label>
 								<div class="col-sm-6">
 									<select class="form-control" id="invest_money_received" name="invest_money_received">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
+										<option value="">Chọn loại tiền nhận</option>
+										<option value="BTC">BTC</option>
+										<option value="ETH">ETH</option>
+										<option value="LTC">LTC</option>
+										<option value="Other">Other</option>
 									</select>
 								</div>
 							</div>
@@ -335,6 +357,7 @@
 		});
 	</script>
 
+    <?php if($userType == 'NON' || $userType == '2') { // not login OR invest ?>
 	<div class="row">
 		<div class="box filter-box">
 			<div class="col-lg-12">
@@ -402,85 +425,161 @@
 			</div>
 		</div>
 	</div>
-	
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
 				<h3>Các khoản vay đã thế chấp</h3>
+				<?php if (count($borrows)) { ?>
 				<div class="table-responsive">
-				<table class="table invest-table">
-					<thead>
-					<tr>
-						<th style="width: 5%">#</th>
-						<th style="width: 20%">Ngày kết thúc khoản vay</th>
-						<th style="width: 15%">Ngày khởi tạo</th>
-						<th style="width: 15%">Số tiền cần vay</th>
-						<th style="width: 15%">Lãi suất</th>
-						<th style="width: 20%">Số tiền lãi khi đáo hạn khoản vay</th>
-						<th style="width: 5%">&nbsp;</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					<tr>
-						<td style="width: 5%">1</td>
-						<td style="width: 20%">10/10/2017</td>
-						<td style="width: 15%">10/04/2017</td>
-						<td style="width: 15%">10.000.000 vnđ</td>
-						<td style="width: 15%">2%</td>
-						<td style="width: 20%">450.000 vnđ</td>
-						<td style="width: 5%"><button>Invest</button></td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
+					<table class="table invest-table">
+						<thead>
+						<tr>
+							<th style="width: 5%">#</th>
+							<th style="width: 20%">Ngày kết thúc khoản vay</th>
+							<th style="width: 15%">Ngày khởi tạo</th>
+							<th style="width: 15%">Số tiền cần vay</th>
+							<th style="width: 15%">Lãi suất</th>
+							<th style="width: 20%">Số tiền lãi khi đáo hạn khoản vay</th>
+							<th style="width: 5%">&nbsp;</th>
+						</tr>
+						</thead>
+						<tbody>
+						<?php $i = 0; foreach ($borrows as $borrow) : $i++?>
+						<tr>
+							<td style="width: 5%"><?php echo $i;?></td>
+							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
+							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
+							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
+							<td style="width: 15%"><?php echo $borrow->phantramlai ?>%</td>
+							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
+							<td style="width: 5%"><a href="{!! url('createInvest',[$borrow->id]) !!}">Invest</a></td>
+						</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+				<?php } else { ?>
+					<h6>No item.</h6>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
+    <?php } else { // borrow ?>
+	<div class="row">
+		<div class="box result-box">
+			<div class="col-lg-12">
+				<h3>Các khoản vay đã thực hiện</h3>
+                <?php if (count($borrowsOfUser)) { ?>
+				<div class="table-responsive">
+					<table class="table invest-table">
+						<thead>
+						<tr>
+							<th style="width: 5%">#</th>
+							<th style="width: 20%">Ngày kết thúc khoản vay</th>
+							<th style="width: 15%">Ngày khởi tạo</th>
+							<th style="width: 15%">Số tiền cần vay</th>
+							<th style="width: 15%">Lãi suất</th>
+							<th style="width: 20%">Số tiền lãi khi đáo hạn khoản vay</th>
+							<th style="width: 5%">Trạng thái</th>
+						</tr>
+						</thead>
+						<tbody>
+                        <?php $i = 0; foreach ($borrows as $borrow) : $i++?>
+						<tr>
+							<td style="width: 5%"><?php echo $i;?></td>
+							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
+							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
+							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
+							<td style="width: 15%"><?php echo $borrow->phantramlai ?>%</td>
+							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
+							<td style="width: 5%">
+								<?php
+									switch ($borrow->status) {
+										case 0:
+										    $label = 'Khởi tạo';break;
+										case 1:
+										    $label = 'Đã thế chấp tài sản, chờ nhà đầu tư';break;
+										case 2:
+										    $label = 'Đang hoạt động';break;
+										case 3:
+										    $label = 'Giao dịch tạm khóa';break;
+										case 4:
+										    $label = 'Giao dịch hoàn thành';break;
+									}
+									echo $label;
+								?>
+							</td>
+						</tr>
+                        <?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+                <?php } else { ?>
+				<h6>No item.</h6>
+                <?php } ?>
+			</div>
+		</div>
+	</div>
+    <?php } ?>
+
+	<!-- invest list -->
+	<?php if ($userType == '2') { ?>
+	<div class="row">
+		<div class="box result-box">
+			<div class="col-lg-12">
+				<h3>Các khoản đầu tư đã thực hiện</h3>
+                <?php if (count($investsOfUser)) { ?>
+				<div class="table-responsive">
+					<table class="table invest-table">
+						<thead>
+						<tr>
+							<th style="width: 5%">#</th>
+							<th style="width: 20%">Ngày kết thúc khoản vay</th>
+							<th style="width: 15%">Ngày thực hiện đầu tư</th>
+							<th style="width: 15%">Số tiền cần vay</th>
+							<th style="width: 15%">Lãi suất</th>
+							<th style="width: 20%">Số tiền lãi khi đáo hạn khoản vay</th>
+							<th style="width: 5%">Trạng thái</th>
+						</tr>
+						</thead>
+						<tbody>
+                        <?php $i = 0; foreach ($investsOfUser as $invest) : $i++?>
+						<tr>
+							<td style="width: 5%"><?php echo $i;?></td>
+							<td style="width: 20%"><?php echo $invest->ngaygiaingan ?></td>
+							<td style="width: 15%"><?php echo $invest->created_at ?></td>
+							<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
+							<td style="width: 15%"><?php echo $invest->phantramlai ?>%</td>
+							<td style="width: 20%"><?php echo $invest->dutinhlai ?></td>
+							<td style="width: 5%">
+                                <?php
+                                switch ($invest->status) {
+                                    case 0:
+                                        $label = 'Chờ nhà đầu tư chuyển tiền';break;
+                                    case 1:
+                                        $label = 'Đã chuyển tiền';break;
+                                    case 2:
+                                        $label = 'Đang hoạt động';break;
+                                    case 3:
+                                        $label = 'Giao dịch tạm khóa';break;
+                                    case 4:
+                                        $label = 'Giao dịch hoàn thành';break;
+                                }
+                                echo $label;
+                                ?>
+							</td>
+						</tr>
+                        <?php endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+                <?php } else { ?>
+				<h6>No item.</h6>
+                <?php } ?>
+			</div>
+		</div>
+	</div>
+	<?php } ?>
 @stop
 
 

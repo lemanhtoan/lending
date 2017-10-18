@@ -10,10 +10,40 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-10-03 17:05:52
+Date: 2017-10-18 16:54:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for borrow
+-- ----------------------------
+DROP TABLE IF EXISTS `borrow`;
+CREATE TABLE `borrow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `soluongthechap` decimal(10,2) NOT NULL,
+  `kieuthechap` varchar(20) NOT NULL,
+  `thoigianthechap` int(11) NOT NULL,
+  `phantramlai` decimal(10,2) NOT NULL,
+  `sotientoida` decimal(10,2) NOT NULL,
+  `dutinhlai` decimal(10,2) NOT NULL,
+  `sotiencanvay` decimal(10,2) NOT NULL,
+  `ngaygiaingan` timestamp NULL DEFAULT NULL,
+  `ngaydaohan` timestamp NULL DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of borrow
+-- ----------------------------
+INSERT INTO `borrow` VALUES ('1', '28', '11.00', 'BTC', '12', '3.00', '270.00', '61.00', '170.00', '2018-10-17 15:35:06', '2018-10-17 15:35:06', '0', '2017-10-17 15:35:06', '2017-10-17 15:35:06');
+INSERT INTO `borrow` VALUES ('2', '28', '88.89', 'ETH', '4', '3.00', '2205.71', '238.91', '1990.92', '2018-02-17 15:42:34', '2018-02-17 15:42:34', '1', '2017-10-17 15:42:34', '2017-10-17 15:42:34');
+INSERT INTO `borrow` VALUES ('3', '30', '1.25', 'BTC', '6', '3.00', '31.02', '5.14', '28.56', '2018-04-18 03:23:07', '2018-04-18 03:23:07', '1', '2017-10-18 03:23:07', '2017-10-18 03:23:07');
+INSERT INTO `borrow` VALUES ('4', '31', '78.90', 'ETH', '12', '3.00', '1957.82', '4.76', '13.23', '2018-10-18 08:37:13', '2018-10-18 08:37:13', '0', '2017-10-18 08:37:35', '2017-10-18 08:37:35');
 
 -- ----------------------------
 -- Table structure for comments
@@ -62,6 +92,25 @@ CREATE TABLE `contacts` (
 INSERT INTO `contacts` VALUES ('1', 'Dupont', 'dupont@la.fr', 'Lorem ipsum inceptos malesuada leo fusce tortor sociosqu semper, facilisis semper class tempus faucibus tristique duis eros, cubilia quisque habitasse aliquam fringilla orci non. Vel laoreet dolor enim justo facilisis neque accumsan, in ad venenatis hac per dictumst nulla ligula, donec mollis massa porttitor ullamcorper risus. Eu platea fringilla, habitasse.', '0', '2017-09-23 01:15:24', '2017-09-23 01:15:24');
 INSERT INTO `contacts` VALUES ('2', 'Durand', 'durand@la.fr', ' Lorem ipsum erat non elit ultrices placerat, netus metus feugiat non conubia fusce porttitor, sociosqu diam commodo metus in. Himenaeos vitae aptent consequat luctus purus eleifend enim, sollicitudin eleifend porta malesuada ac class conubia, condimentum mauris facilisis conubia quis scelerisque. Lacinia tempus nullam felis fusce ac potenti netus ornare semper molestie, iaculis fermentum ornare curabitur tincidunt imperdiet scelerisque imperdiet euismod.', '0', '2017-09-23 01:15:25', '2017-09-23 01:15:25');
 INSERT INTO `contacts` VALUES ('3', 'Martin', 'martin@la.fr', 'Lorem ipsum tempor netus aenean ligula habitant vehicula tempor ultrices, placerat sociosqu ultrices consectetur ullamcorper tincidunt quisque tellus, ante nostra euismod nec suspendisse sem curabitur elit. Malesuada lacus viverra sagittis sit ornare orci, augue nullam adipiscing pulvinar libero aliquam vestibulum, platea cursus pellentesque leo dui. Lectus curabitur euismod ad, erat.', '1', '2017-09-23 01:15:25', '2017-09-23 01:15:25');
+
+-- ----------------------------
+-- Table structure for invest
+-- ----------------------------
+DROP TABLE IF EXISTS `invest`;
+CREATE TABLE `invest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `borrowId` int(11) NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of invest
+-- ----------------------------
+INSERT INTO `invest` VALUES ('1', '29', '3', '0', '2017-10-18 06:49:26', '2017-10-18 06:49:26');
 
 -- ----------------------------
 -- Table structure for migrations
@@ -180,6 +229,35 @@ INSERT INTO `roles` VALUES ('2', 'Redactor', 'redac', '2017-09-23 01:15:23', '20
 INSERT INTO `roles` VALUES ('3', 'User', 'user', '2017-09-23 01:15:23', '2017-09-23 01:15:23');
 
 -- ----------------------------
+-- Table structure for settings
+-- ----------------------------
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` text COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of settings
+-- ----------------------------
+INSERT INTO `settings` VALUES ('1', 'dataLogo', '1508030853_image.png', '2017-06-06 17:11:33', '2017-10-06 09:36:06');
+INSERT INTO `settings` VALUES ('10', 'dataHotline', '024.3237.3333', '2017-06-09 16:42:11', '2017-10-06 09:35:17');
+INSERT INTO `settings` VALUES ('13', 'emailsupport', 'toanktv.it@gmail.com', '2017-10-06 09:46:40', '2017-10-06 09:46:40');
+INSERT INTO `settings` VALUES ('14', 'mainbg', '#ff0000', '2017-10-06 09:54:24', '2017-10-06 10:03:07');
+INSERT INTO `settings` VALUES ('15', 'maincolor', '#0000ff', '2017-10-06 09:54:27', '2017-10-06 10:03:14');
+INSERT INTO `settings` VALUES ('16', 'laisuat', '3', '2017-10-06 09:54:33', '2017-10-06 10:06:06');
+INSERT INTO `settings` VALUES ('17', 'maxverified', '40000000', '2017-10-06 09:54:43', '2017-10-06 10:06:36');
+INSERT INTO `settings` VALUES ('18', 'footer', '<p>Footer content dynamic</p>\r\n', '2017-10-06 09:57:04', '2017-10-06 10:06:47');
+INSERT INTO `settings` VALUES ('19', 'maxqty', '3', '2017-10-06 09:57:28', '2017-10-06 09:57:28');
+INSERT INTO `settings` VALUES ('20', 'dayredm', '7', '2017-10-06 09:57:33', '2017-10-06 10:06:23');
+INSERT INTO `settings` VALUES ('21', 'tygiaUV', '22.87', '2017-10-06 09:57:37', '2017-10-06 10:06:12');
+INSERT INTO `settings` VALUES ('22', 'daylost', '15', '2017-10-06 09:58:34', '2017-10-06 10:06:18');
+
+-- ----------------------------
 -- Table structure for social_accounts
 -- ----------------------------
 DROP TABLE IF EXISTS `social_accounts`;
@@ -237,23 +315,28 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `activated` tinyint(1) DEFAULT '0',
+  `usertype` int(1) NOT NULL COMMENT 'User type',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_username_unique` (`username`),
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_role_id_foreign` (`role_id`),
   CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'GreatAdmin', 'admin@la.fr', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', '1', '1', '0', '1', null, '2017-09-23 01:15:23', '2017-09-23 01:15:23', null, '0');
-INSERT INTO `users` VALUES ('2', 'GreatRedactor', 'redac@la.fr', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', '2', '1', '1', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0');
-INSERT INTO `users` VALUES ('3', 'Walker', 'walker@la.fr', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', '3', '0', '0', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0');
-INSERT INTO `users` VALUES ('4', 'Slacker', 'slacker@la.fr', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', '3', '0', '0', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0');
-INSERT INTO `users` VALUES ('13', 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', '1', '0', '0', '0', null, '2017-10-03 07:50:52', '2017-10-03 07:51:31', 'MSbAVDmIoPOBP2D5oY3ELTh0PnSRD0F39d3eTBEFY5qXCXbTQTbjgHCwpuNs', '0');
-INSERT INTO `users` VALUES ('14', 'english class', 'gep2a76@gmail.com', '', '1', '0', '0', '0', null, '2017-10-03 07:51:37', '2017-10-03 08:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', '0');
-INSERT INTO `users` VALUES ('27', 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', '3', '0', '0', '1', null, '2017-10-03 09:11:59', '2017-10-03 09:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', '1');
+INSERT INTO `users` VALUES ('1', 'GreatAdmin', 'admin@la.fr', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', '1', '1', '0', '1', null, '2017-09-23 01:15:23', '2017-09-23 01:15:23', null, '0', '0');
+INSERT INTO `users` VALUES ('2', 'GreatRedactor', 'redac@la.fr', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', '2', '1', '1', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0', '0');
+INSERT INTO `users` VALUES ('3', 'Walker', 'walker@la.fr', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', '3', '0', '0', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0', '0');
+INSERT INTO `users` VALUES ('4', 'Slacker', 'slacker@la.fr', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', '3', '0', '0', '1', null, '2017-09-23 01:15:24', '2017-09-23 01:15:24', null, '0', '0');
+INSERT INTO `users` VALUES ('13', 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', '1', '0', '0', '0', null, '2017-10-03 07:50:52', '2017-10-12 10:27:53', 'AMvLrG2G6j2RSzbt607jqhPlWlSO2U1SkNg6J7mj3SfOLNkXTgR97Oi0cuX8', '0', '0');
+INSERT INTO `users` VALUES ('14', 'english class', 'gep2a76@gmail.com', '', '1', '0', '0', '0', null, '2017-10-03 07:51:37', '2017-10-03 08:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', '0', '0');
+INSERT INTO `users` VALUES ('27', 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', '3', '0', '0', '1', null, '2017-10-03 09:11:59', '2017-10-03 09:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', '1', '0');
+INSERT INTO `users` VALUES ('28', 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', '3', '0', '0', '1', null, '2017-10-12 09:50:09', '2017-10-12 09:50:09', null, '1', '2');
+INSERT INTO `users` VALUES ('29', 'ndt', 'ndt@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', '3', '0', '0', '1', null, '2017-10-12 10:02:36', '2017-10-18 09:53:57', '6MFwF3qJoR3pyWegSL0jzN4iHojOQhWJfIawYrGsqqzRQghrLWNVU0r7kYFV', '1', '2');
+INSERT INTO `users` VALUES ('30', 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', '3', '0', '0', '1', null, '2017-10-12 10:03:13', '2017-10-18 09:37:56', 'ac3T4YIvHYUsIJGmHPu8gxnEQw5J670Ta47QekW0lBJweCYN64uoshp5NtvW', '1', '3');
+INSERT INTO `users` VALUES ('31', 'newvay', 'vay2@gmail.com', '$2y$10$cyq.EPq2gF6Kq25Trp9Y2OK071MX4Pc3per0UABcITC8DZhgKTr1O', '3', '0', '0', '1', null, '2017-10-12 10:04:46', '2017-10-18 09:25:11', 'lsN74Js6ZLnQk4lGkVLGsFSzsE1sHLp4twuIy92O4lEnmjNquzbI0MjwbEf1', '1', '3');
 
 -- ----------------------------
 -- Table structure for user_activations
@@ -269,3 +352,7 @@ CREATE TABLE `user_activations` (
 -- ----------------------------
 -- Records of user_activations
 -- ----------------------------
+INSERT INTO `user_activations` VALUES ('28', 'bbd4fc4e976541dc5cfb4cb5993b0597e70736c51441559e645adc7096431cfe', '2017-10-12 09:50:09');
+INSERT INTO `user_activations` VALUES ('29', '6d80fda1862c55b9aba54038e7176937d9175c335519dfa92dcc0da2a0c9ef9e', '2017-10-12 10:02:36');
+INSERT INTO `user_activations` VALUES ('30', '3588532a5e37b493480683756fb0ba9df0acbe8f0564b0ec4d5f544f49baaf5b', '2017-10-12 10:03:14');
+INSERT INTO `user_activations` VALUES ('31', '5ad5cf7386b0a858866ce059e690d8f0d285adaeb679d9ad424b71de82bdf328', '2017-10-12 10:04:46');
