@@ -7,7 +7,6 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\RoleRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-
 class UserController extends Controller {
 
 	/**
@@ -185,4 +184,18 @@ class UserController extends Controller {
 		return redirect('user/roles')->with('ok', trans('back/roles.ok'));
 	}
 
+	public function getSpecial() {
+	    $invests = User::where('userType','2')->orWhere('userType','1')->where('activated', 1)->get();
+	    return view('back.users.special', compact('invests'));
+    }
+
+    public function setSpecial(Request $request) {
+	    $uid = $request->input('uid');
+        if ($uid) {
+            User::where('userType', 2)->orWhere('userType', 1)->where('id', '<>', $uid)->update(['userType' => 2]);
+            User::where('id', '=', $uid)->update(['userType' => 1]);
+        }
+        $invests = User::where('userType','2')->orWhere('userType','1')->where('activated', 1)->get();
+        return view('back.users.special', compact('invests'));
+    }
 }

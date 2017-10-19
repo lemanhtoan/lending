@@ -40,7 +40,7 @@ class HomeController extends Controller
 
             $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
         }
-       
+
         $borrowsOfUser = Borrow::where('status', 1)->where('uid', $uid)->orderBy('created_at', 'desc')->get();
         $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
             ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']

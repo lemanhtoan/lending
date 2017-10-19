@@ -78,6 +78,7 @@
                                 <li><a href="{!! url('user') !!}">{{ trans('back/admin.see-all') }}</a></li>
                                 <li><a href="{!! url('user/create') !!}">{{ trans('back/admin.add') }}</a></li>
                                 <li><a href="{!! url('user/roles') !!}">{{ trans('back/roles.roles') }}</a></li>
+                                <li><a href="{!! url('user/setSpecial') !!}">Thiết lập nhà đầu tư đặc biệt</a></li>
                             </ul>
                         </li>
                         <li {!! classActivePath('contact') !!}>
@@ -87,8 +88,8 @@
                             <a href="{!! url('comment') !!}"><span class="fa fa-fw fa-comments"></span> {{ trans('back/admin.comments') }}</a>
                         </li> 
                     @endif                  
-                    <li {!! classActivePath('medias') !!}>
-                        <a href="{!! route('medias') !!}"><span class="fa fa-fw fa-file-image-o"></span> {{ trans('back/admin.medias') }}</a>
+                    <li {!! classActivePath('IPAdmin') !!}>
+                        <a href="{!! route('IPAdmin.index') !!}"><span class="fa fa-fw fa-envelope"></span> Admin IP</a>
                     </li>
                     <li {!! classActiveSegment(1, 'blog') !!}>
                         <a href="#" data-toggle="collapse" data-target="#articlemenu"><span class="fa fa-fw fa-pencil"></span> {{ trans('back/admin.posts') }} <span class="fa fa-fw fa-caret-down"></a>

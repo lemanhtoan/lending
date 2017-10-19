@@ -60,6 +60,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('user/roles', 'UserController@getRoles');
 	Route::post('user/roles', 'UserController@postRoles');
 
+    Route::get('user/setSpecial', 'UserController@getSpecial');
+    Route::post('user/setSpecial', 'UserController@setSpecial');
+
 	Route::put('userseen/{user}', 'UserController@updateSeen');
 
 	Route::resource('user', 'UserController');
@@ -97,4 +100,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/createALoan', 'BorrowController@createNew');
     Route::resource('/getALoan', 'BorrowController@getNew');
     Route::get('createInvest/{id}','InvestController@createNew');
+
+    // Blog
+    Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);
+    Route::get('IPAdmin/search', 'IPAdminController@search');
+    Route::resource('IPAdmin', 'IPAdminController');
 });
