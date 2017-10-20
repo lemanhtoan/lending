@@ -60,7 +60,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span> {{ auth()->user()->username }}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="{!! url('auth/logout') !!}"><span class="fa fa-fw fa-power-off"></span> {{ trans('back/admin.logout') }}</a>
+                            <a href="{!! url('adminlogout') !!}"><span class="fa fa-fw fa-power-off"></span> {{ trans('back/admin.logout') }}</a>
                         </li>
                     </ul>
                 </li>

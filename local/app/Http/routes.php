@@ -21,12 +21,9 @@ Route::group(['middleware' => ['web']], function () {
 		'middleware' => 'admin'
 	]);
 
-	Route::get('medias', [
-		'uses' => 'AdminController@filemanager',
-		'as' => 'medias',
-		'middleware' => 'redac'
-	]);
-
+    Route::get('administrator', 'Auth\AuthController@getAdmin');
+    Route::post('administrator', 'Auth\AuthController@postAdmin');
+    Route::get('adminlogout', 'AdminController@getLogoutAdmin');
 
 	// Blog
 	Route::get('blog/order', ['uses' => 'BlogController@indexOrder', 'as' => 'blog.order']);

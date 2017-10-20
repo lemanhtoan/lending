@@ -17,6 +17,7 @@ use App\ActivationService;
 
 use App\Models\Invest;
 use App\Models\Borrow;
+use App\Models\IPAdmin;
 
 class AuthController extends Controller
 {
@@ -242,6 +243,83 @@ class AuthController extends Controller
             return redirect('/')->with('ok', 'Your account activated');
         }
         abort(404);
+    }
+
+    public function getAdmin()
+    {
+        return view('back.login');
+    }
+
+    public function postAdmin(
+        LoginRequest $request,
+        Guard $auth)
+    {
+
+        $logValue = $request->input('log');
+
+        $ipPost = $request->input('ipaddress');
+
+        $ipadmin = IPAdmin::all();
+        $iparr = [];
+        if (count ($ipadmin)) {
+            foreach ($ipadmin as $ip) {
+                $iparr[] = $ip['ip'];
+            }
+        }
+        if (!in_array($ipPost, $iparr)) {
+            return redirect('/administrator')
+                ->with('error', 'Your IP address not right');
+        }
+
+        $logAccess = filter_var($logValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $throttles = in_array(
+            ThrottlesLogins::class, class_uses_recursive(get_class($this))
+        );
+
+        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+            return redirect('/administrator')
+                ->with('error', trans('front/login.maxattempt'))
+                ->withInput($request->only('log'));
+        }
+
+        $credentials = [
+            $logAccess  => $logValue,
+            'password'  => $request->input('password')
+        ];
+
+        if(!$auth->validate($credentials)) {
+            if ($throttles) {
+                $this->incrementLoginAttempts($request);
+            }
+
+            return redirect('/administrator')
+                ->with('error', trans('front/login.credentials'))
+                ->withInput($request->only('log'));
+        }
+
+        $user = $auth->getLastAttempted();
+
+        if ($user->usertype != '0') {
+            return redirect('/administrator')
+                ->with('error', 'Wrong information login');
+        }
+
+        $request->session()->put('user_id', $user->id);
+
+        if($user->confirmed) {
+            if ($throttles) {
+                $this->clearLoginAttempts($request);
+            }
+
+            $auth->login($user, $request->has('memory'));
+
+            if($request->session()->has('user_id'))	{
+                $request->session()->forget('user_id');
+            }
+            return redirect('/admin');
+        }
+        return redirect('/administrator')->with('error', trans('front/verify.again'));
     }
 
 }
