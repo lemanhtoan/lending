@@ -107,58 +107,53 @@
 				</div>
 
 				<div class="tab-pane" id="invest-tab">
-					<div class="form-group">
-						<label class="control-label col-sm-6" for="email">Số tiền vay:</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" id="invest_cost" name="invest_cost">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-6" for="email">Thời gian vay:</label>
-						<div class="col-sm-6">
-							<select class="form-control" id="invest_month" name="invest_month">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+					<form action="{!! url('getAloan') !!}" method="get" id="home_search" name="home_search">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<div class="form-group">
+							<select class="form-control" id="search_sotienvay" name="search_sotienvay">
+								<option value="">Số tiền vay</option>
+								<?php
+								foreach ($khoanggia as $kgia => $gia) {?>
+								<option <?php if(isset($_GET['search_sotienvay']) && $_GET['search_sotienvay'] == $kgia){echo 'selected';}else{echo '';} ?> value="<?php echo $kgia ?>"><?php echo $gia ?></option>
+								<?php }
+								?>
 							</select>
 						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-6" for="email">Loại tiền thế chấp:</label>
-						<div class="col-sm-6">
-							<select class="form-control" id="invest_money_type" name="invest_money_type">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+						<div class="form-group">
+							<select class="form-control" id="search_thoigianvay" name="search_thoigianvay">
+								<option value="">Thời gian vay</option>
+								<?php for($i=1; $i<36; $i++) { ?>
+								<option <?php if(isset($_GET['search_thoigianvay']) && $_GET['search_thoigianvay'] == $i){echo 'selected';}else{echo '';} ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
+								<?php } ?>
 							</select>
 						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" id="invest_laisuat" name="invest_laisuat">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-6" for="email">Loại tiền nhận:</label>
-						<div class="col-sm-6">
-							<select class="form-control" id="invest_money_received" name="invest_money_received">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+						<div class="form-group">
+							<select class="form-control" id="search_tienthechap" name="search_tienthechap">
+								<option value="">Loại tiền thế chấp</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
-					</div>
-
-					<input type="hidden" name="post_type" value="invest">
-					<div class="invest-button pull-right"><input type="submit" value="Search"/></div>
+						<div class="form-group">
+							<select class="form-control" id="search_laisuat" name="search_laisuat">
+								<option value="">Lãi suất</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="search_tiennhan" name="search_tiennhan">
+								<option value="">Loại tiền nhận</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
+							</select>
+						</div>
+						<input type="submit" value="Tìm kiếm" name="search_submit" id="search_submit">
+					</form>
 				</div>
 			</div>
 
@@ -246,61 +241,52 @@
 					<li  class="active"><a href="#invest-tab" data-toggle="tab">Get a loan <i class="fa"></i></a></li>
 				</ul>
 
-				<form action="{!! url('getALoan') !!}" id="accountForm" class="form-horizontal" method="post">
+				<form action="{!! url('getAloan') !!}" method="get" id="home_search" name="home_search">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="uid" value="<?php echo $uid ?>">
-					<div class="tab-content ">
-
-						<div class="tab-pane active" id="invest-tab">
-							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Số tiền vay:</label>
-								<div class="col-sm-6">
-									<input type="text" class="form-control" id="invest_cost" name="invest_cost">
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Thời gian vay:</label>
-								<div class="col-sm-6">
-									<select class="form-control" id="invest_month" name="invest_month">
-										<option value="">Số tháng vay</option>
-                                        <?php for($i=1; $i<36; $i++) { ?>
-										<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                        <?php } ?>
-									</select>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Loại tiền thế chấp:</label>
-								<div class="col-sm-6">
-									<select class="form-control" id="invest_money_type" name="invest_money_type">
-										<option value="">Chọn loại thế chấp</option>
-										<option value="BTC">BTC</option>
-										<option value="ETH">ETH</option>
-										<option value="LTC">LTC</option>
-										<option value="Other">Other</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Loại tiền nhận:</label>
-								<div class="col-sm-6">
-									<select class="form-control" id="invest_money_received" name="invest_money_received">
-										<option value="">Chọn loại tiền nhận</option>
-										<option value="BTC">BTC</option>
-										<option value="ETH">ETH</option>
-										<option value="LTC">LTC</option>
-										<option value="Other">Other</option>
-									</select>
-								</div>
-							</div>
-
-							<input type="hidden" name="post_type" value="invest">
-							<div class="invest-button pull-right"><input type="submit" value="Search"/></div>
-						</div>
+					<div class="form-group">
+						<select class="form-control" id="search_sotienvay" name="search_sotienvay">
+							<option value="">Số tiền vay</option>
+                            <?php
+                            foreach ($khoanggia as $kgia => $gia) {?>
+							<option <?php if(isset($_GET['search_sotienvay']) && $_GET['search_sotienvay'] == $kgia){echo 'selected';}else{echo '';} ?> value="<?php echo $kgia ?>"><?php echo $gia ?></option>
+                            <?php }
+                            ?>
+						</select>
 					</div>
+					<div class="form-group">
+						<select class="form-control" id="search_thoigianvay" name="search_thoigianvay">
+							<option value="">Thời gian vay</option>
+                            <?php for($i=1; $i<36; $i++) { ?>
+							<option <?php if(isset($_GET['search_thoigianvay']) && $_GET['search_thoigianvay'] == $i){echo 'selected';}else{echo '';} ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php } ?>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="search_tienthechap" name="search_tienthechap">
+							<option value="">Loại tiền thế chấp</option>
+							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="search_laisuat" name="search_laisuat">
+							<option value="">Lãi suất</option>
+							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
+							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="search_tiennhan" name="search_tiennhan">
+							<option value="">Loại tiền nhận</option>
+							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
+						</select>
+					</div>
+					<input type="submit" value="Tìm kiếm" name="search_submit" id="search_submit">
 				</form>
 			<?php } ?>
 		</div>
@@ -361,15 +347,17 @@
 	<div class="row">
 		<div class="box filter-box">
 			<div class="col-lg-12">
-				<form action="" id="home_search" name="home_search">
+				<form action="{!! url('homeFilter') !!}" method="get" id="home_search" name="home_search">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-md-2">
 						<div class="form-group">
 							<select class="form-control" id="search_sotienvay" name="search_sotienvay">
 								<option value="">Số tiền vay</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+								<?php
+									foreach ($khoanggia as $kgia => $gia) {?>
+									<option <?php if(isset($_GET['search_sotienvay']) && $_GET['search_sotienvay'] == $kgia){echo 'selected';}else{echo '';} ?> value="<?php echo $kgia ?>"><?php echo $gia ?></option>
+								<?php }
+								?>
 							</select>
 						</div>
 					</div>
@@ -377,10 +365,9 @@
 						<div class="form-group">
 							<select class="form-control" id="search_thoigianvay" name="search_thoigianvay">
 								<option value="">Thời gian vay</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+                                <?php for($i=1; $i<36; $i++) { ?>
+								<option <?php if(isset($_GET['search_thoigianvay']) && $_GET['search_thoigianvay'] == $i){echo 'selected';}else{echo '';} ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php } ?>
 							</select>
 						</div>
 					</div>
@@ -388,10 +375,10 @@
 						<div class="form-group">
 							<select class="form-control" id="search_tienthechap" name="search_tienthechap">
 								<option value="">Loại tiền thế chấp</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 					</div>
@@ -399,10 +386,8 @@
 						<div class="form-group">
 							<select class="form-control" id="search_laisuat" name="search_laisuat">
 								<option value="">Lãi suất</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
 							</select>
 						</div>
 					</div>
@@ -410,16 +395,15 @@
 						<div class="form-group">
 							<select class="form-control" id="search_tiennhan" name="search_tiennhan">
 								<option value="">Loại tiền nhận</option>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
+								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<input type="submit" value="Tìm kiếm" name="search_submit" id="search_submit">
-						<input type="reset" value="Xóa lọc" name="search_reset" id="search_reset">
 					</div>
 				</form>
 			</div>
@@ -522,12 +506,11 @@
 	</div>
     <?php } ?>
 
-	<!-- invest list -->
-	<?php if ($userType == '2') { ?>
+	<<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
-				<h3>Các khoản đầu tư đã thực hiện</h3>
+				<h3>Các khoản đầu tư đã thực hiện <?php if ($userType == '1') {echo ' (Nhà đầu tư đặc biệt)';}?></h3>
                 <?php if (count($investsOfUser)) { ?>
 				<div class="table-responsive">
 					<table class="table invest-table">

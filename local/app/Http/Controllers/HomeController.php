@@ -46,7 +46,9 @@ class HomeController extends Controller
             ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
         );
 
-		return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser'));
+        $khoanggia = \Config::get('constants.khoanggia');
+
+		return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
 	}
 
 	public function coinmarketcap(Request $request) {
@@ -170,5 +172,159 @@ class HomeController extends Controller
         ];
     }
 
+    public function homeFilter(Request $request) {
+	    $sotienvay = $request->input('search_sotienvay');
+	    $thoigianvay = $request->input('search_thoigianvay');
+	    $tienthechap = $request->input('search_tienthechap');
+	    $laisuat = $request->input('search_laisuat');
+	    $tiennhan = $request->input('search_tiennhan');
+        $sqlData = "SELECT *  FROM borrow  WHERE status = '1' ";
+        if ($sotienvay != "") {
+            if ($sotienvay != '0') { // all
+                switch ($sotienvay) {
+                    case '1':
+                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '2000000'";
+                        break;
+                    case '2':
+                        $sqlData .= " AND sotiencanvay BETWEEN '2000000' AND '4000000'";
+                        break;
+                    case '4':
+                        $sqlData .= " AND sotiencanvay BETWEEN '4000000' AND '6000000'";
+                        break;
+                    case '6':
+                        $sqlData .= " AND sotiencanvay BETWEEN '6000000' AND '9000000'";
+                        break;
+                    case '15x':
+                        $sqlData .= " AND sotiencanvay >= '15000000'";
+                        break;
+                }
+
+            }
+        }
+        if ($thoigianvay != "") {
+            $sqlData .= " AND thoigianthechap ='".$thoigianvay."'";
+        }
+
+        if ($tienthechap != "") {
+            $sqlData .= " AND kieuthechap ='".$tienthechap."'";
+        }
+
+        if ($laisuat != "") {
+            $sqlData .= " AND phantramlai ='".$laisuat."'";
+        }
+
+        if ($tiennhan != "") {
+            $sqlData .= " AND kieuthechap ='".$tiennhan."'";
+        }
+
+        $sqlDataUser = $sqlData;
+
+        if (Auth::user()) {
+            $userType =  Auth::user()->usertype;
+            $uid = Auth::user()->id;
+            $borrowsExist = Invest::where('uid', $uid)->get();
+            if (count($borrowsExist)) {
+                $arrBorrow = [];
+                foreach ($borrowsExist as $exist) {
+                    $arrBorrow[] = $exist->borrowId;
+                }
+                $sqlData .= " AND id NOT IN ( '" . implode($arrBorrow, "', '") . "' )";
+            }
+            $sqlDataUser .= " AND uid = '".$uid."'";
+        }else {
+            $userType = 'NON';
+            $uid = 0;
+        }
+        $sqlData  .=' ORDER BY created_at desc';
+        $borrows = DB::select(DB::raw($sqlData));
+
+        $sqlDataUser  .=' ORDER BY created_at desc';
+        $borrowsOfUser = DB::select(DB::raw($sqlDataUser));
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $khoanggia = \Config::get('constants.khoanggia');
+
+        return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+    }
+
+    public function getNewLoan(Request $request) {
+        $sotienvay = $request->input('search_sotienvay');
+        $thoigianvay = $request->input('search_thoigianvay');
+        $tienthechap = $request->input('search_tienthechap');
+        $laisuat = $request->input('search_laisuat');
+        $tiennhan = $request->input('search_tiennhan');
+        $sqlData = "SELECT *  FROM borrow  WHERE status = '1' ";
+        if ($sotienvay != "") {
+            if ($sotienvay != '0') { // all
+                switch ($sotienvay) {
+                    case '1':
+                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '2000000'";
+                        break;
+                    case '2':
+                        $sqlData .= " AND sotiencanvay BETWEEN '2000000' AND '4000000'";
+                        break;
+                    case '4':
+                        $sqlData .= " AND sotiencanvay BETWEEN '4000000' AND '6000000'";
+                        break;
+                    case '6':
+                        $sqlData .= " AND sotiencanvay BETWEEN '6000000' AND '9000000'";
+                        break;
+                    case '15x':
+                        $sqlData .= " AND sotiencanvay >= '15000000'";
+                        break;
+                }
+
+            }
+        }
+        if ($thoigianvay != "") {
+            $sqlData .= " AND thoigianthechap ='".$thoigianvay."'";
+        }
+
+        if ($tienthechap != "") {
+            $sqlData .= " AND kieuthechap ='".$tienthechap."'";
+        }
+
+        if ($laisuat != "") {
+            $sqlData .= " AND phantramlai ='".$laisuat."'";
+        }
+
+        if ($tiennhan != "") {
+            $sqlData .= " AND kieuthechap ='".$tiennhan."'";
+        }
+
+        $sqlDataUser = $sqlData;
+
+        if (Auth::user()) {
+            $userType =  Auth::user()->usertype;
+            $uid = Auth::user()->id;
+            $borrowsExist = Invest::where('uid', $uid)->get();
+            if (count($borrowsExist)) {
+                $arrBorrow = [];
+                foreach ($borrowsExist as $exist) {
+                    $arrBorrow[] = $exist->borrowId;
+                }
+                $sqlData .= " AND id NOT IN ( '" . implode($arrBorrow, "', '") . "' )";
+            }
+            $sqlDataUser .= " AND uid = '".$uid."'";
+        }else {
+            $userType = 'NON';
+            $uid = 0;
+        }
+        $sqlData  .=' ORDER BY created_at desc';
+        $borrows = DB::select(DB::raw($sqlData));
+
+        $sqlDataUser  .=' ORDER BY created_at desc';
+        $borrowsOfUser = DB::select(DB::raw($sqlDataUser));
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $khoanggia = \Config::get('constants.khoanggia');
+        return view('front.newloan', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+    }
 }
 

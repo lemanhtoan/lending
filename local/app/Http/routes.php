@@ -95,11 +95,13 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/compare-coinmarketcap', 'HomeController@coinmarketcap');
     Route::resource('/borrow-calc', 'HomeController@borrowcalc');
     Route::resource('/createALoan', 'BorrowController@createNew');
-    Route::resource('/getALoan', 'BorrowController@getNew');
+    Route::resource('/getAloan', 'HomeController@getNewLoan');
     Route::get('createInvest/{id}','InvestController@createNew');
 
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);
     Route::get('IPAdmin/search', 'IPAdminController@search');
     Route::resource('IPAdmin', 'IPAdminController');
+
+    Route::resource('/homeFilter', 'HomeController@homeFilter');
 });

@@ -223,6 +223,8 @@ return [
 		'HTML'		=> Collective\Html\HtmlFacade::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+        'Carbon' => 'Carbon\Carbon',
 	],
 
 ];

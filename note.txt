@@ -111,3 +111,10 @@ https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#
 => Error google login: This means you have not configured Google APIs correctly.(Library > Google+ API > Enable) + Other config active google +.
 
 A. Add user type : ALTER TABLE `users` ADD `usertype` INT(1) NOT NULL COMMENT 'User type' AFTER `activated`;
+
+Filter invest or guest : ok
+crud invest, borrow
+some static backend: ok
+check max value borrow
+fix data test for user_summary
+style layout

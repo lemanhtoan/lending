@@ -1,21 +1,73 @@
 @extends('back.template')
 
 @section('main')
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-	@include('back.partials.entete', ['title' => trans('back/admin.dashboard'), 'icone' => 'dashboard', 'fil' => trans('back/admin.dashboard')])
+	<script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartTransction", {
+                title:{
+                    text: "Thống kê khoản đầu tư - " + <?php echo date('m')?> + '/' +  <?php echo date('Y')?>
+                },
+                data: [
+                    {
+                        type: "column",
+                        dataPoints: [
+                            { label: "Tuần 1",  y: <?php echo $dataTrans['w1'] ?>  },
+                            { label: "Tuần 2", y: <?php echo $dataTrans['w2'] ?> },
+                            { label: "Tuần 3", y: <?php echo $dataTrans['w3'] ?>  },
+                            { label: "Tuần 4",  y: <?php echo $dataTrans['w4'] ?>  }
+                        ]
+                    }
+                ]
+            });
+            chart.render();
+
+            var chart2 = new CanvasJS.Chart("chartUser", {
+                title:{
+                    text: "Thống kê khoản vay- " + <?php echo date('m')?> + '/' +  <?php echo date('Y')?>
+                },
+                data: [
+                    {
+                        type: "column",
+                        dataPoints: [
+                            { label: "Tuần 1",  y: <?php echo $dataUser['w1'] ?>  },
+                            { label: "Tuần 2", y: <?php echo $dataUser['w2'] ?>  },
+                            { label: "Tuần 3", y: <?php echo $dataUser['w3'] ?>  },
+                            { label: "Tuần 4",  y: <?php echo $dataUser['w4'] ?>  }
+                        ]
+                    }
+                ]
+            });
+            chart2.render();
+        }
+	</script>
+	@include('back.partials.entete', ['title' => 'Trang quản trị hệ thống', 'icone' => 'dashboard', 'fil' => 'Trang quản trị hệ thống'])
 
 	<div class="row">
 
-		@include('back/partials/pannel', ['color' => 'primary', 'icone' => 'envelope', 'nbr' => $nbrMessages, 'name' => trans('back/admin.new-messages'), 'url' => 'contact', 'total' => trans('back/admin.messages')])
+		@include('back/partials/pannel', ['color' => 'primary', 'icone' => 'envelope', 'nbr' => $nbrMessages, 'name' => 'Giao dịch', 'url' => 'transactions', 'total' => 'Giao dịch'])
 
-		@include('back/partials/pannel', ['color' => 'green', 'icone' => 'user', 'nbr' => $nbrUsers, 'name' => trans('back/admin.new-registers'), 'url' => 'user', 'total' => trans('back/admin.users')])
+		@include('back/partials/pannel', ['color' => 'green', 'icone' => 'user', 'nbr' => $nbrUsers, 'name' => 'Khách hàng', 'url' => 'customer', 'total' => 'Khách hàng'])
 
-		@include('back/partials/pannel', ['color' => 'yellow', 'icone' => 'pencil', 'nbr' => $nbrPosts, 'name' => trans('back/admin.new-posts'), 'url' => 'blog', 'total' => trans('back/admin.posts')])
-
-		@include('back/partials/pannel', ['color' => 'red', 'icone' => 'comment', 'nbr' => $nbrComments, 'name' => trans('back/admin.new-comments'), 'url' => 'comment', 'total' => trans('back/admin.comments')])
+		@include('back/partials/pannel', ['color' => 'red', 'icone' => 'envelope', 'nbr' => $nbrMind, 'name' => 'Số tương tác', 'url' => 'mind', 'total' => 'Số tương tác'])
 
 	</div>
 
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-6">
+			<div id="chartTransction" style="height: 300px; width: 100%;"></div>
+		</div>
+
+		<div class="col-md-6">
+			<div id="chartUser" style="height: 300px; width: 100%;"></div>
+		</div>
+	</div>
+	<style>
+		.canvasjs-chart-credit {
+			display: none;
+		}
+	</style>
 @stop
 
 
