@@ -241,8 +241,10 @@ class InvestController extends Controller {
 	public function createNew($idBorrow)
 	{
 		$data = $this->borrow_gestion->store($idBorrow);
-		if($data == 0) {
+		if($data == '0') {
             return redirect('auth/login')->with('ok', 'Please login before invest');
+        } else {
+            return redirect('/')->with('ok', 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền');
         }
     }
 
