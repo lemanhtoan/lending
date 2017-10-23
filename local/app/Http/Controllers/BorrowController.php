@@ -41,7 +41,7 @@ class BorrowController extends Controller {
 		BorrowRepository $borrow_gestion)
 	{
 		$this->borrow_gestion = $borrow_gestion;
-		$this->nbrPages = 2;
+		$this->nbrPages = 10;
 	}	
 
 	/**
@@ -65,7 +65,7 @@ class BorrowController extends Controller {
 	public function index()
 	{
 		return redirect(route('borrow.order', [
-			'name' => 'posts.created_at',
+			'name' => 'borrow.created_at',
 			'sens' => 'asc'
 		]));
 	}
@@ -78,10 +78,8 @@ class BorrowController extends Controller {
 	 */
 	public function indexOrder(Request $request)
 	{
-		$statut = $this->user_gestion->getStatut();
 		$posts = $this->borrow_gestion->index(
 			10, 
-			$statut == 'admin' ? null : $request->user()->id,
 			$request->name,
 			$request->sens
 		);
@@ -91,12 +89,6 @@ class BorrowController extends Controller {
 				'sens' => $request->sens
 			]);
 
-		if($request->ajax()) {
-			return response()->json([
-				'view' => view('back.borrow.table', compact('statut', 'posts'))->render(), 
-				'links' => e($links->setPath('order')->render())
-			]);		
-		}
 
 		$links->setPath('')->render();
 
@@ -141,12 +133,9 @@ class BorrowController extends Controller {
 	 * @return Response
 	 */
 	public function show(
-		Guard $auth, 
 		$slug)
 	{
-		$user = $auth->user();
-
-		return view('front.borrow.show',  array_merge($this->borrow_gestion->show($slug), compact('user')));
+		return view('back.borrow.show',  array_merge($this->borrow_gestion->show($slug)));
 	}
 
 	/**
@@ -235,8 +224,6 @@ class BorrowController extends Controller {
 	{
 		$post = $this->borrow_gestion->getById($id);
 
-		$this->authorize('change', $post);
-
 		$this->borrow_gestion->destroy($post);
 
 		return redirect('borrow')->with('ok', trans('back/borrow.destroyed'));		
@@ -277,9 +264,13 @@ class BorrowController extends Controller {
 	public function createNew(Request $request)
 	{
         $data = $this->borrow_gestion->store($request->all());
-        if($data == 0) {
+        if($data == '0') {
             return redirect('auth/login')->with('ok', 'Please login before borrow');
-        }
+        }elseif($data == '01') {
+			return redirect('/')->with('ok', 'Bạn vượt quá số lượng khoản vay cho phép');
+		}else {
+			return redirect('/')->with('ok', 'Khoản vay của bạn đã được tạo');
+		}
 	}
 
 }

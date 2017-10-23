@@ -64,8 +64,8 @@ class InvestController extends Controller {
 	 */
 	public function index()
 	{
-		return redirect(route('borrow.order', [
-			'name' => 'posts.created_at',
+		return redirect(route('invest.order', [
+			'name' => 'invest.created_at',
 			'sens' => 'asc'
 		]));
 	}
@@ -78,10 +78,8 @@ class InvestController extends Controller {
 	 */
 	public function indexOrder(Request $request)
 	{
-		$statut = $this->user_gestion->getStatut();
 		$posts = $this->borrow_gestion->index(
 			10, 
-			$statut == 'admin' ? null : $request->user()->id,
 			$request->name,
 			$request->sens
 		);
@@ -91,12 +89,6 @@ class InvestController extends Controller {
 				'sens' => $request->sens
 			]);
 
-		if($request->ajax()) {
-			return response()->json([
-				'view' => view('back.borrow.table', compact('statut', 'posts'))->render(), 
-				'links' => e($links->setPath('order')->render())
-			]);		
-		}
 
 		$links->setPath('')->render();
 
@@ -105,7 +97,7 @@ class InvestController extends Controller {
 			'sens' => 'sort-' . $request->sens			
 		];
 
-		return view('back.borrow.index', compact('posts', 'links', 'order'));
+		return view('back.invest.index', compact('posts', 'links', 'order'));
 	}
 
 	/**
@@ -117,7 +109,7 @@ class InvestController extends Controller {
 	{
 		$url = config('medias.url');
 		
-		return view('back.borrow.create')->with(compact('url'));
+		return view('back.invest.create')->with(compact('url'));
 	}
 
 	/**
@@ -130,7 +122,7 @@ class InvestController extends Controller {
 	{
 		$this->borrow_gestion->store($request->all(), $request->user()->id);
 
-		return redirect('borrow')->with('ok', trans('back/borrow.stored'));
+		return redirect('invest')->with('ok', trans('back/borrow.stored'));
 	}
 
 	/**
@@ -141,12 +133,9 @@ class InvestController extends Controller {
 	 * @return Response
 	 */
 	public function show(
-		Guard $auth, 
 		$slug)
 	{
-		$user = $auth->user();
-
-		return view('front.borrow.show',  array_merge($this->borrow_gestion->show($slug), compact('user')));
+		return view('back.invest.show',  array_merge($this->borrow_gestion->show($slug)));
 	}
 
 	/**
@@ -162,11 +151,8 @@ class InvestController extends Controller {
 	{
 		$post = $this->borrow_gestion->getByIdWithTags($id);
 
-		$this->authorize('change', $post);
 
-		$url = config('medias.url');
-
-		return view('back.borrow.edit',  array_merge($this->borrow_gestion->edit($post), compact('url')));
+		return view('back.invest.edit',  array_merge($this->borrow_gestion->edit($post)));
 	}
 
 	/**
@@ -182,11 +168,9 @@ class InvestController extends Controller {
 	{
 		$post = $this->borrow_gestion->getById($id);
 
-		$this->authorize('change', $post);
-
 		$this->borrow_gestion->update($request->all(), $post);
 
-		return redirect('borrow')->with('ok', trans('back/borrow.updated'));		
+		return redirect('invest')->with('ok', trans('back/borrow.updated'));
 	}
 
 	/**
@@ -218,8 +202,6 @@ class InvestController extends Controller {
 	{
 		$post = $this->borrow_gestion->getById($id);
 
-		$this->authorize('change', $post);
-		
 		$this->borrow_gestion->updateActive($request->all(), $id);
 
 		return response()->json();
@@ -235,27 +217,9 @@ class InvestController extends Controller {
 	{
 		$post = $this->borrow_gestion->getById($id);
 
-		$this->authorize('change', $post);
-
 		$this->borrow_gestion->destroy($post);
 
-		return redirect('borrow')->with('ok', trans('back/borrow.destroyed'));		
-	}
-
-	/**
-	 * Get tagged posts
-	 * 
-	 * @param  Illuminate\Http\Request $request
-	 * @return Response
-	 */
-	public function tag(Request $request)
-	{
-		$tag = $request->input('tag');
-		$posts = $this->borrow_gestion->indexTag($this->nbrPages, $tag);
-		$links = $posts->appends(compact('tag'))->render();
-		$info = trans('front/borrow.info-tag') . '<strong>' . $this->borrow_gestion->getTagById($tag) . '</strong>';
-		
-		return view('front.borrow.index', compact('posts', 'links', 'info'));
+		return redirect('invest')->with('ok', trans('back/borrow.destroyed'));
 	}
 
 	/**
@@ -271,7 +235,7 @@ class InvestController extends Controller {
 		$links = $posts->appends(compact('search'))->render();
 		$info = trans('front/borrow.info-search') . '<strong>' . $search . '</strong>';
 		
-		return view('front.borrow.index', compact('posts', 'links', 'info'));
+		return view('front.invest.index', compact('posts', 'links', 'info'));
 	}
 
 	public function createNew($idBorrow)

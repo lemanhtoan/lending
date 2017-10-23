@@ -88,12 +88,12 @@
 									</div>
 								</div>
 
-								<div class="form-group">
+								<div class="form-group box-per" style="display: none">
 									<label class="control-label col-sm-12" for="email">Số lãi hàng tháng là <b class="permonth"></b> USD</label>
 									<input type="hidden" name="permonth" class="permonthValue"/>
 								</div>
 
-								<div class="form-group">
+								<div class="form-group box-per" style="display: none">
 									<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là <b class="pertotal"></b> USD</label>
 									<input type="hidden" name="pertotal" class="pertotalValue"/>
 								</div>
@@ -215,17 +215,17 @@
 
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Lãi suất:</label>
-								<div class="col-sm-6">									
+								<div class="col-sm-6">
 									<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group box-per" style="display: none">
 								<label class="control-label col-sm-12" for="email">Số lãi hàng tháng là <b class="permonth"></b> USD</label>
 								<input type="hidden" name="permonth" class="permonthValue"/>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group box-per" style="display: none">
 								<label class="control-label col-sm-12" for="email">Số tiền cần trả cuối kỳ là <b class="pertotal"></b> USD</label>
 								<input type="hidden" name="pertotal" class="pertotalValue"/>
 							</div>
@@ -336,6 +336,7 @@
                             jQuery('.permonthValue').val(html.permonth);
                             jQuery('.pertotal').html(html.total);
                             jQuery('.pertotalValue').val(html.total);
+							jQuery('.box-per').show();
                         }
                     });
                 }
@@ -506,7 +507,7 @@
 	</div>
     <?php } ?>
 
-	<<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
+	<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">

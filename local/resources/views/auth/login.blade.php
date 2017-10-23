@@ -29,15 +29,10 @@
 				
 				{!! Form::close() !!}
 
-				<div class="text-center">
-
-					{!! link_to('redirect/facebook', 'FB Login') !!}
-					{!! link_to('redirect/google', 'Google Login') !!}
-					<hr>
-						<h2 class="intro-text text-center">{{ trans('front/login.register') }}</h2>
-					<hr>	
-					<p>{{ trans('front/login.register-info') }}</p>
-					{!! link_to('auth/register', trans('front/login.registering'), ['class' => 'btn btn-default']) !!}
+				<div class="text-center link-login">
+					{!! link_to('redirect/facebook', '', ['class' => 'fb-link fa fa-facebook']) !!}
+					{!! link_to('redirect/google', '', ['class' => 'gg-link fa fa-google']) !!}
+					{!! link_to('auth/register', trans('front/login.registering'), ['class' => 'register-link']) !!}
 				</div>
 
 			</div>

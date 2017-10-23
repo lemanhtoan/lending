@@ -102,16 +102,22 @@ class InvestRepository extends BaseRepository {
      * @param  string  $direction
      * @return Illuminate\Support\Collection
      */
-    public function index($n, $user_id = null, $orderby = 'created_at', $direction = 'desc')
+    public function index($n, $orderby = 'created_at', $direction = 'desc')
     {
         $query = $this->model
-                ->select('posts.id', 'posts.created_at', 'title', 'posts.seen', 'active', 'user_id', 'slug', 'username')
-                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->select('invest.*', 'username', 'borrow.soluongthechap',
+                    'borrow.soluongthechap',
+                    'borrow.kieuthechap',
+                    'borrow.thoigianthechap',
+                    'borrow.phantramlai',
+                    'borrow.dutinhlai',
+                    'borrow.sotiencanvay',
+                    'borrow.ngaydaohan',
+                    'borrow.status as bStatus'
+                    )
+                ->join('users', 'users.id', '=', 'invest.uid')
+                ->join('borrow', 'borrow.id', '=', 'invest.borrowId')
                 ->orderBy($orderby, $direction);
-
-        if ($user_id) {
-            $query->where('user_id', $user_id);
-        }
 
         return $query->paginate($n);
     }
@@ -124,17 +130,22 @@ class InvestRepository extends BaseRepository {
      */
     public function show($slug)
     {
-        $post = $this->model->with('user', 'tags')->whereSlug($slug)->firstOrFail();
+        $post = $this->model
+            ->select('invest.*', 'username', 'borrow.soluongthechap',
+                'borrow.soluongthechap',
+                'borrow.kieuthechap',
+                'borrow.thoigianthechap',
+                'borrow.phantramlai',
+                'borrow.dutinhlai',
+                'borrow.sotiencanvay',
+                'borrow.ngaydaohan',
+                'borrow.status as bStatus'
+            )
+            ->join('users', 'users.id', '=', 'invest.uid')
+            ->join('borrow', 'borrow.id', '=', 'invest.borrowId')
+            ->where('invest.id', $slug)->firstOrFail();
 
-        $comments = $this->comment
-                ->wherePost_id($post->id)
-                ->with('user')
-                ->whereHas('user', function($q) {
-                    $q->whereValid(true);
-                })
-                ->get();
-
-        return compact('post', 'comments');
+        return compact('post');
     }
 
     /**
@@ -234,7 +245,6 @@ class InvestRepository extends BaseRepository {
      * @return void
      */
     public function destroy($post) {
-        $post->tags()->detach();
 
         $post->delete();
     }

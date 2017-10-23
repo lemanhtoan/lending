@@ -10,6 +10,7 @@ use Auth;
 use DB;
 use App\Models\Borrow;
 use App\Models\Invest;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -47,8 +48,9 @@ class HomeController extends Controller
         );
 
         $khoanggia = \Config::get('constants.khoanggia');
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-		return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
 	}
 
 	public function coinmarketcap(Request $request) {
@@ -246,8 +248,9 @@ class HomeController extends Controller
         );
 
         $khoanggia = \Config::get('constants.khoanggia');
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.index', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+        return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
     }
 
     public function getNewLoan(Request $request) {
@@ -324,7 +327,8 @@ class HomeController extends Controller
         );
 
         $khoanggia = \Config::get('constants.khoanggia');
-        return view('front.newloan', compact('userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+        return view('front.newloan', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
     }
 }
 

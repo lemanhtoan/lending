@@ -147,12 +147,10 @@ class BlogController extends Controller {
 	 * @return Response
 	 */
 	public function show(
-		Guard $auth, 
 		$slug)
 	{
-		$user = $auth->user();
 
-		return view('front.blog.show',  array_merge($this->blog_gestion->show($slug), compact('user')));
+		return view('front.blog.show',  array_merge($this->blog_gestion->show($slug)));
 	}
 
 	/**

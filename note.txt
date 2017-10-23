@@ -113,8 +113,9 @@ https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#
 A. Add user type : ALTER TABLE `users` ADD `usertype` INT(1) NOT NULL COMMENT 'User type' AFTER `activated`;
 
 Filter invest or guest : ok
-crud invest, borrow
+crud invest, borrow: ok - delete + view
 some static backend: ok
-check max value borrow
+check max value borrow: ok
 fix data test for user_summary
 style layout
+

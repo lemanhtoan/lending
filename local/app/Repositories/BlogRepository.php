@@ -154,17 +154,9 @@ class BlogRepository extends BaseRepository {
      */
     public function show($slug)
     {
-        $post = $this->model->with('user', 'tags')->whereSlug($slug)->firstOrFail();
+        $post = $this->model->whereSlug($slug)->firstOrFail();
 
-        $comments = $this->comment
-                ->wherePost_id($post->id)
-                ->with('user')
-                ->whereHas('user', function($q) {
-                    $q->whereValid(true);
-                })
-                ->get();
-
-        return compact('post', 'comments');
+        return compact('post');
     }
 
     /**

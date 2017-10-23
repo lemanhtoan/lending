@@ -52,6 +52,24 @@ owlReview.owlCarousel({
     ],
 });
 
+var owlQA = jQuery("#sliderQA");
+owlQA.owlCarousel({
+    items : 4,
+    rtl:true,
+    stopOnHover: true,
+    pagination: false,
+    navigation: true,
+    lazyLoad: true,
+    slideSpeed: 800,
+    autoPlay: true,
+    autoPlaySpeed: 3000,
+    autoHeight: true,
+    navigationText: [
+        "<i class='fa fa-chevron-left'></i>",
+        "<i class='fa fa-chevron-right'></i>"
+    ],
+});
+
 jQuery('#accountForm')
 .formValidation({
     framework: 'bootstrap',

@@ -39,8 +39,10 @@
 			<thead>
 				<tr>
 					<th>{{ trans('back/users.name') }}</th>
+                    <th>Email</th>
 					<th>{{ trans('back/users.role') }}</th>
-					<th>{{ trans('back/users.seen') }}</th>
+					<th>Kiểu người dùng</th>
+                    <th>Trạng thái</th>
 					<th></th>
 					<th></th>
 				</tr>

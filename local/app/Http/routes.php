@@ -104,4 +104,18 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('IPAdmin', 'IPAdminController');
 
     Route::resource('/homeFilter', 'HomeController@homeFilter');
+
+	// borrow
+	Route::get('borrow/order', ['uses' => 'BorrowController@indexOrder', 'as' => 'borrow.order']);
+	Route::get('borrow', 'BorrowController@indexFront');
+	Route::get('borrow/search', 'BorrowController@search');
+
+	Route::resource('borrow', 'BorrowController');
+
+	// invest
+	Route::get('invest/order', ['uses' => 'InvestController@indexOrder', 'as' => 'invest.order']);
+	Route::get('invest', 'InvestController@indexFront');
+	Route::get('invest/search', 'InvestController@search');
+
+	Route::resource('invest', 'InvestController');
 });

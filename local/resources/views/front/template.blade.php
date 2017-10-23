@@ -41,14 +41,14 @@
 
 	</head>
 
-  <body>
+  <body data-spy="scroll" data-target="#myNavbar" data-offset="70">
 
 	<!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
 	<header role="banner">
-		<div class="top-header">
+		<div class="top-header" id="myNavbar">
 			<div class="container">
 				<div class="col-md-3">
 					<div class="brand-logo">
@@ -57,7 +57,7 @@
                     </div>
 				</div>
 				<div class="col-md-9">
-					<div class="bottom-header">
+					<div class="bottom-header-">
 						<nav class="navbar navbar-default" role="navigation">
                             <div class="navbar-header">
                                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -71,19 +71,19 @@
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav">
                                     <li {!! classActivePath('/') !!}>
-                                        {!! link_to('/', trans('front/site.home')) !!}
+                                        {!! link_to('#home', trans('front/site.home')) !!}
                                     </li>
                                     <li>
-                                        {!! link_to('/', trans('front/site.about-us')) !!}
+                                        {!! link_to('#howwork', 'How it work') !!}
                                     </li>
                                     <li>
-                                        {!! link_to('/', trans('front/site.loan-payment')) !!}
+                                        {!! link_to('#resume', 'Resume') !!}
                                     </li>
-                                    <li {!! classActiveSegment(1, ['articles', 'blog']) !!}>
-                                        {!! link_to('articles', trans('front/site.QA')) !!}
+                                    <li>
+                                        {!! link_to('#qna', trans('front/site.QA')) !!}
                                     </li>
-                                    <li {!! classActivePath('contact/create') !!}>
-                                        {!! link_to('contact/create', trans('front/site.contact')) !!}
+                                    <li>
+                                        {!! link_to('#contact', trans('front/site.contact')) !!}
                                     </li>
                                 </ul>
                             </div>
@@ -93,7 +93,7 @@
 			</div>
 		</div>		
 
-		<div class="bottom-header">
+		<div class="bottom-header wow fadeIn" id="home" >
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">&nbsp;</div>
@@ -113,13 +113,6 @@
                                     {!! link_to('auth/login', trans('front/site.connection')) !!}
                                 </li>
                                 <?php } else {?>
-                                <li>
-                                    {!! link_to_route('admin', trans('front/site.administration')) !!}
-                                </li>
-
-                                <li>
-                                    {!! link_to('blog', trans('front/site.redaction')) !!}
-                                </li>
 
                                 <li>
                                     {!! link_to('auth/logout', trans('front/site.logout')) !!}
@@ -160,7 +153,7 @@
 	</main>
 
 	<!-- How it works -->
-	<section class="info-section how-it-works text-center">
+	<section class="info-section how-it-works text-center wow fadeIn" data-wow-delay="0.4s" id="howwork">
 	    <div class="container">
 	        <h2 class="highlight">How it works?</h2>
 	        <div class="row text-center">
@@ -203,7 +196,7 @@
 	<!-- TAB REALTIME COST -->
 	
 	<!-- Resume -->
-	<section id="page-59" class="front-sections section-padding ">
+	<section id="resume" class="front-sections section-padding wow fadeIn" data-wow-delay="0.5s">
 	   <div class="skt-page-overlay"></div>
 	   <div class="skt-page-content">
 	      <div class="container">
@@ -349,11 +342,31 @@
 	   </div>
 	</section>
 
+    <?php  if(isset($blogs)) : if (count($blogs)) :?>
+    <!-- Q&A -->
+    <section id="qna" class="wow bounceInLeft" data-wow-delay="0.8s">
+        <div class="container">
+            <h2 class="highlight">Q&A</h2>
+            <div id="sliderQA" class="row owl-carousel owl-theme">
+                <?php foreach ($blogs as $blog) : ?>
+                <div class="item item-padding">
+                    <h4 class="blog-title">
+                        {!! link_to('blog/' . $blog['slug'], $blog['title'], ['class' => '']) !!}
+                    </h4>
+                    <p><?php echo $blog['summary']; ?></p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <!-- end qa -->
+    <?php endif; endif; ?>
+
 	<!-- OUR CUSTOMERS LOVE US -->
     <div class="box-customer box-center">
         <div class="container">
             <div class="row">
-	            <h4>OUR CUSTOMERS LOVE US</h4>
+	            <h2>OUR CUSTOMERS LOVE US</h2>
                 <div class="col-md-2">
                     <div class="tp-widget-review">
                         <h4>Great</h4>
@@ -563,6 +576,11 @@
 	{!! HTML::script('js/plugins.js') !!}
 	{!! HTML::script('js/main.js') !!}
 
+    {!! HTML::script('https://nadiaschutz.github.io/landing_page-1/js/wow.min.js') !!}
+    <script>
+        new WOW().init();
+    </script>
+
 	<script>
         $(document).ready(function(){
             $(window).scroll(function () {
@@ -586,28 +604,5 @@
         });
 	</script>
 	@yield('scripts')
-	<style>
-		/* ========================back to top button ==================*/
-		.back-to-top {
-			cursor: pointer;
-			position: fixed;
-			bottom: 20px;
-			right: 20px;
-			display:none;
-			font-style: normal;
-			border-radius: 50%;
-			height: 50px;
-			width: 50px;
-			font-size: 22px;
-			padding: 11px 15px;
-			color: #fff;
-			background: #434345;
-			border: none;
-			box-shadow: 4px 4px 8px 0 rgba(0,0,0,0.4);
-		}
-		.back-to-top:hover {
-			background: #ff7e00;
-		}
-	</style>
   </body>
 </html>

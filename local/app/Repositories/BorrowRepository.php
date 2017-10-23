@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Borrow;
 use Carbon\Carbon;
-
+use DB;
 class BorrowRepository extends BaseRepository {
 
     public function __construct(
@@ -41,6 +41,11 @@ class BorrowRepository extends BaseRepository {
             \Session::put('borrow.data', $currentData);
             return 0;
         } else {
+            $checkMax = Borrow::where('status', '<>', 4)->where('uid', $inputs['uid'])->get();
+            $getMaxConstans = DB::table('settings')->where('name', 'dataLogo')->select('content')->get()[0];
+            if (count($checkMax) > $getMaxConstans->content) {
+                return 01;
+            }
             $post->uid = $inputs['uid'];
             $post->soluongthechap = $soluongthechap;
             $post->kieuthechap = $kieuthechap;
@@ -128,16 +133,12 @@ class BorrowRepository extends BaseRepository {
      * @param  string  $direction
      * @return Illuminate\Support\Collection
      */
-    public function index($n, $user_id = null, $orderby = 'created_at', $direction = 'desc')
+    public function index($n, $orderby = 'created_at', $direction = 'desc')
     {
         $query = $this->model
-                ->select('posts.id', 'posts.created_at', 'title', 'posts.seen', 'active', 'user_id', 'slug', 'username')
-                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->select('borrow.*', 'users.username')
+                ->join('users', 'users.id', '=', 'borrow.uid')
                 ->orderBy($orderby, $direction);
-
-        if ($user_id) {
-            $query->where('user_id', $user_id);
-        }
 
         return $query->paginate($n);
     }
@@ -150,17 +151,9 @@ class BorrowRepository extends BaseRepository {
      */
     public function show($slug)
     {
-        $post = $this->model->with('user', 'tags')->whereSlug($slug)->firstOrFail();
+        $post = $this->model->whereId($slug)->firstOrFail();
 
-        $comments = $this->comment
-                ->wherePost_id($post->id)
-                ->with('user')
-                ->whereHas('user', function($q) {
-                    $q->whereValid(true);
-                })
-                ->get();
-
-        return compact('post', 'comments');
+        return compact('post');
     }
 
     /**

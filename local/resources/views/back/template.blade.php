@@ -65,7 +65,6 @@
                     </ul>
                 </li>
             </ul>
-            <!-- Menu de la barre latérale -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     @if(session('statut') == 'admin')
@@ -97,6 +96,14 @@
                             <li><a href="{!! url('blog') !!}">{{ trans('back/admin.see-all') }}</a></li>
                             <li><a href="{!! url('blog/create') !!}">{{ trans('back/admin.add') }}</a></li>
                         </ul>
+                    </li>
+
+                    <li {!! classActiveSegment(1, 'invest') !!}>
+                        <a href="{!! url('invest') !!}"><span class="fa fa-fw fa-dashboard"></span> Quản lý Đầu tư</a>
+                    </li>
+
+                    <li {!! classActiveSegment(1, 'borrow') !!}>
+                        <a href="{!! url('borrow') !!}"><span class="fa fa-fw fa-dashboard"></span> Quản lý vay</a>
                     </li>
 
                     <li {!! classActiveSegment(1, 'getsettings') !!}>

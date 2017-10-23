@@ -80,11 +80,13 @@ class AuthController extends Controller
                 ->withInput($request->only('log'));
         }
 
+        
+
         $user = $auth->getLastAttempted();
 
         $request->session()->put('user_id', $user->id);
 
-        if($user->confirmed) {
+        if($user->activated) {
             if ($throttles) {
                 $this->clearLoginAttempts($request);
             }
@@ -120,6 +122,13 @@ class AuthController extends Controller
                 if($request->session()->has('borrow'))
                 {
                     $dataBorrow = $request->session()->get('borrow.data');
+
+                    $checkMax = Borrow::where('status', '<>', 4)->where('uid', $user->id)->get();
+                    $getMaxConstans = DB::table('settings')->where('name', 'dataLogo')->select('content')->get()[0];
+                    if (count($checkMax) > $getMaxConstans->content) {
+                        return redirect('/')->with('ok', 'Bạn vượt quá số lượng khoản vay cho phép');
+                    }
+
                     $post = new Borrow();
                     $post->uid = $user->id;
                     $post->soluongthechap = $dataBorrow['soluongthechap'];

@@ -9,10 +9,10 @@
 				<hr>
 				<p>{{ trans('front/register.infos') }}</p>		
 
-				<div class="text-center">
+				<div class="text-center  link-login">
 
-					{!! link_to('redirect/facebook', 'FB Register') !!}
-					{!! link_to('redirect/google', 'Google Register') !!}
+					{!! link_to('redirect/facebook', '', ['class' => 'fb-link fa fa-facebook']) !!}
+					{!! link_to('redirect/google', '', ['class' => 'gg-link fa fa-google']) !!}
 
 				</div>
 

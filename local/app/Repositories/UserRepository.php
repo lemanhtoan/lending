@@ -37,8 +37,8 @@ class UserRepository extends BaseRepository
 	 * @return void
 	 */
   	private function save($user, $inputs)
-	{		
-		if(isset($inputs['seen'])) 
+	{
+		if(isset($inputs['seen']))
 		{
 			$user->seen = $inputs['seen'] == 'true';		
 		} else {
@@ -46,6 +46,7 @@ class UserRepository extends BaseRepository
 			$user->username = $inputs['username'];
 			$user->email = $inputs['email'];
 			$user->usertype = $inputs['usertype'];
+			$user->activated = isset($inputs['activated']) ? $inputs['activated'] : 0;
 
 			if(isset($inputs['role'])) {
 				$user->role_id = $inputs['role'];	
