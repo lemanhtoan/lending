@@ -7,7 +7,7 @@
     <td>{{ $post->created_at }}</td>
     <td>{{ $post->ngaydaohan }}</td>
     <td>{{ $post->sotiencanvay }}</td>
-    <td>{{ $post->phantramlai }}%</td>
+    <td>{{ $post->phantramlai }} (%/tháng)</td>
     <td>{{ $post->kieuthechap }}</td>
     <td>
       <?php

@@ -119,3 +119,10 @@ check max value borrow: ok
 fix data test for user_summary
 style layout
 
+
+GET current price: https://files.coinmarketcap.com/generated/search/quick_search.json
+https://coinmarketcap.com/widget/
+https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
+
+
+

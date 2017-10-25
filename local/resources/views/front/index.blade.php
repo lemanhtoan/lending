@@ -52,7 +52,6 @@
 											<option value="BTC">BTC</option>
 											<option value="ETH">ETH</option>
 											<option value="LTC">LTC</option>
-											<option value="Other">Other</option>
 										</select>
 									</div>
 								</div>
@@ -82,7 +81,7 @@
 								</div>
 
 								<div class="form-group">
-									<label class="control-label col-sm-6" for="email">Lãi suất:</label>
+									<label class="control-label col-sm-6" for="email">Lãi suất (%/tháng):</label>
 									<div class="col-sm-6">
 										<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
 									</div>
@@ -133,14 +132,13 @@
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<select class="form-control" id="search_laisuat" name="search_laisuat">
 								<option value="">Lãi suất</option>
-								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
-								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2 (%/tháng)</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3 (%/tháng)</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -149,7 +147,6 @@
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 						<input type="submit" value="Tìm kiếm" name="search_submit" id="search_submit">
@@ -184,7 +181,6 @@
 										<option value="BTC">BTC</option>
 										<option value="ETH">ETH</option>
 										<option value="LTC">LTC</option>
-										<option value="Other">Other</option>
 									</select>
 								</div>
 							</div>
@@ -214,7 +210,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Lãi suất:</label>
+								<label class="control-label col-sm-6" for="email">Lãi suất ( (%/tháng)):</label>
 								<div class="col-sm-6">
 									<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
 								</div>
@@ -267,14 +263,13 @@
 							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-							<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<select class="form-control" id="search_laisuat" name="search_laisuat">
 							<option value="">Lãi suất</option>
-							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
-							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
+							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2 (%/tháng)</option>
+							<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3 (%/tháng)</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -283,7 +278,6 @@
 							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-							<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 						</select>
 					</div>
 					<input type="submit" value="Tìm kiếm" name="search_submit" id="search_submit">
@@ -379,7 +373,6 @@
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-								<option <?php if(isset($_GET['search_tienthechap']) && $_GET['search_tienthechap'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 					</div>
@@ -387,8 +380,8 @@
 						<div class="form-group">
 							<select class="form-control" id="search_laisuat" name="search_laisuat">
 								<option value="">Lãi suất</option>
-								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2%</option>
-								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3%</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '2'){echo 'selected';}else{echo '';} ?>  value="2">2 (%/tháng)</option>
+								<option <?php if(isset($_GET['search_laisuat']) && $_GET['search_laisuat'] == '3'){echo 'selected';}else{echo '';} ?>  value="3">3 (%/tháng)</option>
 							</select>
 						</div>
 					</div>
@@ -399,7 +392,6 @@
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'BTC'){echo 'selected';}else{echo '';} ?>  value="BTC">BTC</option>
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'ETH'){echo 'selected';}else{echo '';} ?>  value="ETH">ETH</option>
 								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'LTC'){echo 'selected';}else{echo '';} ?>  value="LTC">LTC</option>
-								<option <?php if(isset($_GET['search_tiennhan']) && $_GET['search_tiennhan'] == 'Other'){echo 'selected';}else{echo '';} ?>  value="Other">Other</option>
 							</select>
 						</div>
 					</div>
@@ -435,7 +427,7 @@
 							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
 							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $borrow->phantramlai ?>%</td>
+							<td style="width: 15%"><?php echo $borrow->phantramlai ?> (%/tháng)</td>
 							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
 							<td style="width: 5%"><a href="{!! url('createInvest',[$borrow->id]) !!}">Invest</a></td>
 						</tr>
@@ -469,13 +461,13 @@
 						</tr>
 						</thead>
 						<tbody>
-                        <?php $i = 0; foreach ($borrows as $borrow) : $i++?>
+                        <?php $i = 0; foreach ($borrowsOfUser as $borrow) : $i++?>
 						<tr>
 							<td style="width: 5%"><?php echo $i;?></td>
 							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
 							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $borrow->phantramlai ?>%</td>
+							<td style="width: 15%"><?php echo $borrow->phantramlai ?> (%/tháng)</td>
 							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
 							<td style="width: 5%">
 								<?php
@@ -490,6 +482,8 @@
 										    $label = 'Giao dịch tạm khóa';break;
 										case 4:
 										    $label = 'Giao dịch hoàn thành';break;
+                                        case 10:
+                                            $label = 'Chờ admin duyệt';break;
 									}
 									echo $label;
 								?>
@@ -533,7 +527,7 @@
 							<td style="width: 20%"><?php echo $invest->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $invest->created_at ?></td>
 							<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $invest->phantramlai ?>%</td>
+							<td style="width: 15%"><?php echo $invest->phantramlai ?> (%/tháng)</td>
 							<td style="width: 20%"><?php echo $invest->dutinhlai ?></td>
 							<td style="width: 5%">
                                 <?php

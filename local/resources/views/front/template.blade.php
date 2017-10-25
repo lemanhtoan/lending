@@ -113,7 +113,9 @@
                                     {!! link_to('auth/login', trans('front/site.connection')) !!}
                                 </li>
                                 <?php } else {?>
-
+                                <li>
+                                    {!! link_to('manager', trans('front/site.manager')) !!}
+                                </li>
                                 <li>
                                     {!! link_to('auth/logout', trans('front/site.logout')) !!}
                                 </li>
@@ -145,8 +147,13 @@
 	<main role="main" class="container">
 		@if(session()->has('ok'))
 			@include('partials/error', ['type' => 'success', 'message' => session('ok')])
-		@endif	
-		@if(isset($info))
+		@endif
+
+        @if(session()->has('error'))
+            @include('partials/error', ['type' => 'danger', 'message' => session('error')])
+        @endif
+
+        @if(isset($info))
 			@include('partials/error', ['type' => 'info', 'message' => $info])
 		@endif
 		@yield('main')
@@ -189,7 +196,27 @@
     <div class="box-realtime  box-center">
         <div class="container">
             <div class="row">
-                <h4>TAB REALTIME COST</h4>
+                <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/currency.js"></script>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#bitcoinChart">Bitcoin</a></li>
+                    <li><a data-toggle="tab" href="#ethereumChart">Ethereum</a></li>
+                    <li><a data-toggle="tab" href="#litecoinChart">Litecoin</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="bitcoinChart" class="tab-pane fade in active">
+                        <h3>Bitcoin</h3>
+                        <div class="coinmarketcap-currency-widget" data-currency="bitcoin" data-base="USD" ></div>
+                    </div>
+                    <div id="ethereumChart" class="tab-pane fade">
+                        <h3>Ethereum</h3>
+                        <div class="coinmarketcap-currency-widget" data-currency="ethereum" data-base="USD" ></div>
+                    </div>
+                    <div id="litecoinChart" class="tab-pane fade">
+                        <h3>Litecoin</h3>
+                        <div class="coinmarketcap-currency-widget" data-currency="litecoin" data-base="USD" ></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

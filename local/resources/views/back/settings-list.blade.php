@@ -86,6 +86,17 @@
             <form action="settings" method="POST" role="form">
                 {{ csrf_field() }}
                 <div class="form-group">
+                    Số tiền khởi tạo : <input type="text" name="value" class="form-control" value="">
+                </div>
+                <input type="hidden" name="stype" value="khoitao">
+                <input type="submit"  class="btn btn-primary" value="Lưu khởi tạo tiền cho NĐT đặc biệt" class="button" />
+            </form>
+        </div>
+
+        <div class="row">
+            <form action="settings" method="POST" role="form">
+                {{ csrf_field() }}
+                <div class="form-group">
                     <?php $laisuat = $laisuat[0]['content']; ?>
                         laisuat : <input type="text" name="value" class="form-control" value="<?php if ( isset($laisuat)) { echo $laisuat;} ?>">
                 </div>

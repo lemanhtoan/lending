@@ -11,7 +11,7 @@ use DB;
 use App\Models\Borrow;
 use App\Models\Invest;
 use App\Models\Post;
-
+use App\Models\Verified;
 class HomeController extends Controller
 {
 
@@ -42,7 +42,7 @@ class HomeController extends Controller
             $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
         }
 
-        $borrowsOfUser = Borrow::where('status', 1)->where('uid', $uid)->orderBy('created_at', 'desc')->get();
+        $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
         $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
             ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
         );
@@ -56,11 +56,23 @@ class HomeController extends Controller
 	public function coinmarketcap(Request $request) {
 	    $sothechap = $request->input('sothechap');
         $methodPay = $request->input('methodPay');
-        $dataPriceGet = 1.55; // get from website later
+        switch ($methodPay) {
+            case 'BTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/?ref=widget&convert=USD';
+                break;
+            case 'ETH' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD';
+                break;
+            case 'LTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/litecoin/?ref=widget&convert=USD';
+                break;
+        }
+        $jsonData = json_decode(file_get_contents($url));
+        $dataPriceGet = $jsonData[0]->price_usd; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
         $maxValue = ($sothechap * $dataPriceGet * 70 * $tygia)/ 100;
-        return \Response::json($maxValue);
+        return \Response::json(round($maxValue, 2));
     }
 
     public function borrowcalc(Request $request) {
@@ -128,26 +140,29 @@ class HomeController extends Controller
                 $rq->file('value')->move('uploads/commons/',$filename);
                 $item->save();
             }
-        }else{
-           
-            $key = $rq->input('stype');
+        }elseif($type == 'khoitao') {
             $value = $rq->input('value');
-            $check = Settings::where('name', $key)->lists( 'content', 'id')->toArray();
-            if ($check) {
-                $checkId = key($check);
-                $cat = Settings::find($checkId);
-                $cat->name = $key;
-                $cat->content = $value;
-                $cat->save();
+            // get usertype = 1 => insert or update
+            // later
+        }else{
+                $key = $rq->input('stype');
+                $value = $rq->input('value');
+                $check = Settings::where('name', $key)->lists( 'content', 'id')->toArray();
+                if ($check) {
+                    $checkId = key($check);
+                    $cat = Settings::find($checkId);
+                    $cat->name = $key;
+                    $cat->content = $value;
+                    $cat->save();
 
-            } else {
-                $item = new Settings();
-                $item->name = $key;
-                $item->content = $value;
-                $item->save();
+                } else {
+                    $item = new Settings();
+                    $item->name = $key;
+                    $item->content = $value;
+                    $item->save();
+                }
             }
-        }
-        
+
         return redirect()->route('getsettings');
     }
 
@@ -329,6 +344,115 @@ class HomeController extends Controller
         $khoanggia = \Config::get('constants.khoanggia');
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
         return view('front.newloan', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+    }
+
+    public function manager() {
+        if (Auth::user()) {
+            $userType =  Auth::user()->usertype;
+            $uid = Auth::user()->id;
+        }else {
+            $userType = 'NON';
+            $uid = 0;
+        }
+
+        $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+    }
+
+    public function deleteitem(Request $request) {
+	    $id = $request->input('id');
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $userType =  Auth::user()->usertype;
+        }else {
+            $uid = 0;
+            $userType = 'NON';
+        }
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+        $borrowCheck = Borrow::where('uid', $uid)->where('id', $id)->get();
+        if(count($borrowCheck)) {
+            Borrow::where('uid', $uid)->where('id', $id)->delete();
+            $ok = 'Deleted item';
+            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok'));
+        } else {
+            $error = 'item not exist';
+            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error'));
+        }
+    }
+
+    public function uploadVerified(Request $request) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $type = $request->input('isType');
+            if ($type == '0') {
+                $lt = 'Hình thức CMTND';
+            } else {$lt = 'Hình thức Postcode';}
+            $front = $request->file('front_end');
+            if (isset($front)) {
+                $name_img_f = uniqid().'_'.$front->getClientOriginalName();
+                $front->move('uploads/verified/',$name_img_f);
+            }
+
+            $back = $request->file('back_end');
+            if (isset($back)) {
+                $name_img_b = uniqid().'_'.$back->getClientOriginalName();
+                $back->move('uploads/verified/',$name_img_b);
+            }
+
+            if ($back && $front) {
+                $isCheck = Verified::where('uid', $uid)->where('type', $type)->get();
+                if (count($isCheck)) {
+                    Verified::where('uid', $uid)->where('type', $type)->update(array('front'=>$name_img_f, 'back'=> $name_img_b));
+                } else {
+                    $verified = new Verified();
+                    $verified->uid = $uid;
+                    $verified->type = $type;
+                    $verified->front = $name_img_f;
+                    $verified->back = $name_img_b;
+                    $verified->status = 0;
+                    $verified->save();
+                }
+                $ok = 'Xác thực đã được gửi đi ('.$lt.') - chờ admin xét duyệt';
+                return view('front.verified', compact('ok'));
+            }else {
+                $error = 'Vui lòng nhập đủ file yêu cầu';
+                return view('front.verified', compact('error'));
+            }
+
+        } else {
+            $error = 'Vui lòng login và xác thực lại';
+            return view('front.verified', compact('error'));
+        }
+    }
+    public function borrowWaiting() {
+	    $data = DB::table('borrow')->leftJoin('user_id', 'borrow.uid', '=', 'user_id.uid')->where('borrow.status', 10)->where('user_id.status', 0)->get(['borrow.*', 'user_id.type', 'user_id.front', 'user_id.back']);
+        return view('back.waiting', compact('data'));
+    }
+
+    public function verifiedItem(Request $request) {
+	    $id = $request->input('id');
+        $uid = $request->input('uid');
+        Borrow::where('id', $id)->where('status', 10)->update(array('status'=>0));
+        Verified::where('uid', $uid)->update(array('status'=> 1));
+        $data = DB::table('borrow')->leftJoin('user_id', 'borrow.uid', '=', 'user_id.uid')->where('borrow.status', 10)->where('user_id.status', 0)->get(['borrow.*', 'user_id.type', 'user_id.front', 'user_id.back']);
+        $ok = 'Duyệt khoản vay thành công';
+        return view('back.waiting', compact('data', 'ok'));
     }
 }
 

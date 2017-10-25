@@ -106,6 +106,10 @@
                         <a href="{!! url('borrow') !!}"><span class="fa fa-fw fa-dashboard"></span> Quản lý vay</a>
                     </li>
 
+                    <li {!! classActiveSegment(1, 'borrowWaiting') !!}>
+                        <a href="{!! url('borrowWaiting') !!}"><span class="fa fa-fw fa-dashboard"></span> Khoản vay cần duyệt</a>
+                    </li>
+
                     <li {!! classActiveSegment(1, 'getsettings') !!}>
                         <a href="{!! url('getsettings') !!}"><span class="fa fa-fw fa-dashboard"></span> Cài đặt</a>
                     </li>
@@ -136,5 +140,17 @@
 
         @yield('scripts')
 
+        <script type="text/javascript">
+            jQuery('a[rel=popover]').popover({
+                html: true,
+                trigger: 'hover',
+                placement: 'left',
+                content: function(){return '<img src="'+jQuery(this).data('img') + '" />';}
+            });
+        </script>
+    <style>
+        .popover{max-width: 600px !important;}
+        .popover-content img{max-width: 560px !important;}
+    </style>
   </body>
 </html>

@@ -265,10 +265,15 @@ class BorrowController extends Controller {
 	{
         $data = $this->borrow_gestion->store($request->all());
         if($data == '0') {
-            return redirect('auth/login')->with('ok', 'Please login before borrow');
+            return redirect('auth/login')->with('error', 'Please login before borrow');
         }elseif($data == '01') {
-			return redirect('/')->with('ok', 'Bạn vượt quá số lượng khoản vay cho phép');
-		}else {
+			return redirect('/')->with('error', 'Bạn vượt quá số lượng khoản vay cho phép');
+		}elseif($data == '02') {
+            return redirect('/')->with('error', 'Bạn vượt quá số tiền tối đa vay cho phép');
+        }elseif($data == '10') {
+            $warning = 'Bạn vượt quá số tiền cho phép - vui lòng xác thực';
+            return view('front.verified', compact('warning'));
+        }else {
 			return redirect('/')->with('ok', 'Khoản vay của bạn đã được tạo');
 		}
 	}

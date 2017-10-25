@@ -59,6 +59,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('user/setSpecial', 'UserController@getSpecial');
     Route::post('user/setSpecial', 'UserController@setSpecial');
+    Route::get('cancelSpecial', 'UserController@cancelSpecial');
 
 	Route::put('userseen/{user}', 'UserController@updateSeen');
 
@@ -97,6 +98,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('/createALoan', 'BorrowController@createNew');
     Route::resource('/getAloan', 'HomeController@getNewLoan');
     Route::get('createInvest/{id}','InvestController@createNew');
+
+    Route::get('manager', 'HomeController@manager');
+    Route::resource('deleteitem', 'HomeController@deleteitem');
+    Route::resource('verified', 'HomeController@verified');
+    Route::resource('uploadVerified', 'HomeController@uploadVerified');
+
+    Route::resource('borrowWaiting', 'HomeController@borrowWaiting');
+    Route::get('verifiedItem', 'HomeController@verifiedItem');
 
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);

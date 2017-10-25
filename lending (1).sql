@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 23, 2017 at 07:01 AM
--- Server version: 5.7.19-0ubuntu0.16.04.1
--- PHP Version: 7.0.22-0ubuntu0.16.04.1
+-- Host: 127.0.0.1
+-- Generation Time: Oct 25, 2017 at 12:01 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,7 +39,7 @@ CREATE TABLE `admin_ip` (
 --
 
 INSERT INTO `admin_ip` (`id`, `ip`, `status`, `created_at`, `updated_at`) VALUES
-(1, '192.168.1.1', 1, '2017-10-19 02:01:41', '2017-10-19 02:21:42'),
+(1, '::1', 1, '2017-10-19 02:01:41', '2017-10-19 02:21:42'),
 (3, '117.12.12.12', 1, '2017-10-19 02:21:52', '2017-10-19 02:21:52');
 
 -- --------------------------------------------------------
@@ -75,7 +75,7 @@ INSERT INTO `borrow` (`id`, `uid`, `soluongthechap`, `kieuthechap`, `thoigianthe
 (3, 30, '1.25', 'BTC', 6, '3.00', '31.02', '5.14', '28.56', '2018-04-17 20:23:07', '2018-04-17 20:23:07', 1, '2017-10-17 20:23:07', '2017-10-17 20:23:07'),
 (4, 31, '78.90', 'ETH', 12, '3.00', '1957.82', '4.76', '13.23', '2018-10-18 01:37:13', '2018-10-18 01:37:13', 0, '2017-10-18 01:37:35', '2017-10-18 01:37:35'),
 (5, 31, '909.00', 'ETH', 18, '3.00', '22555.88', '54.00', '100.00', '2019-04-21 19:31:39', '2019-04-21 19:31:39', 0, '2017-10-21 19:31:39', '2017-10-21 19:31:39'),
-(6, 30, '100000.00', 'ETH', 24, '3.00', '2481395.00', '1374.47', '1908.98', '2019-10-21 23:50:11', '2019-10-21 23:50:11', 0, '2017-10-21 23:50:11', '2017-10-21 23:50:11');
+(9, 30, '100.00', 'BTC', 14, '3.00', '394531.90', '882.00', '2100.00', '2018-12-25 01:53:43', '2018-12-25 01:53:43', 0, '2017-10-25 01:53:43', '2017-10-25 02:54:41');
 
 -- --------------------------------------------------------
 
@@ -147,7 +147,9 @@ CREATE TABLE `invest` (
 --
 
 INSERT INTO `invest` (`id`, `uid`, `borrowId`, `status`, `created_at`, `updated_at`) VALUES
-(1, 29, 3, 0, '2017-10-17 23:49:26', '2017-10-17 23:49:26');
+(1, 29, 3, 0, '2017-10-17 23:49:26', '2017-10-17 23:49:26'),
+(3, 29, 2, 0, '2017-10-22 19:10:07', '2017-10-22 19:10:07'),
+(4, 29, 2, 0, '2017-10-22 19:10:32', '2017-10-22 19:10:32');
 
 -- --------------------------------------------------------
 
@@ -292,11 +294,11 @@ INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VAL
 (14, 'mainbg', '#ff0000', '2017-10-06 02:54:24', '2017-10-06 03:03:07'),
 (15, 'maincolor', '#0000ff', '2017-10-06 02:54:27', '2017-10-06 03:03:14'),
 (16, 'laisuat', '3', '2017-10-06 02:54:33', '2017-10-06 03:06:06'),
-(17, 'maxverified', '40000000', '2017-10-06 02:54:43', '2017-10-06 03:06:36'),
+(17, 'maxverified', '2000', '2017-10-06 02:54:43', '2017-10-06 03:06:36'),
 (18, 'footer', '<p>Footer content dynamic</p>\r\n', '2017-10-06 02:57:04', '2017-10-06 03:06:47'),
 (19, 'maxqty', '3', '2017-10-06 02:57:28', '2017-10-06 02:57:28'),
 (20, 'dayredm', '7', '2017-10-06 02:57:33', '2017-10-06 03:06:23'),
-(21, 'tygiaUV', '22.87', '2017-10-06 02:57:37', '2017-10-06 03:06:12'),
+(21, 'tygiaUV', '1', '2017-10-06 02:57:37', '2017-10-06 03:06:12'),
 (22, 'daylost', '15', '2017-10-06 02:58:34', '2017-10-06 03:06:18');
 
 -- --------------------------------------------------------
@@ -390,19 +392,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `seen`, `valid`, `confirmed`, `confirmation_code`, `created_at`, `updated_at`, `remember_token`, `activated`, `usertype`) VALUES
-(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-10-21 23:59:02', 'D9GMoQbnaDqjNEO8YsK6z4pkhXYkwDny1JS13QRLXOFNFgyvUaR1Csim6XEV', 1, 0),
-(2, 'Great Redactor', 'redac@gmail.com', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 1, 2),
+(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-10-24 21:41:43', 'vjNmGTlzEWG6w9BZjN6mIrmpSMLjVW6cgwi0NLxUw7VN3HrqhxrYiHrvxeFm', 1, 0),
+(2, 'Great Redactor', 'redac@gmail.com', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-10-24 21:07:53', NULL, 1, 2),
 (3, 'Walker', 'walker@gmail.com', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 1, 3),
 (4, 'Slacker', 'slacker@gmail.com', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 0, 3),
 (13, 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:50:52', '2017-10-12 03:27:53', 'AMvLrG2G6j2RSzbt607jqhPlWlSO2U1SkNg6J7mj3SfOLNkXTgR97Oi0cuX8', 1, 0),
 (14, 'english class', 'gep2a76@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:51:37', '2017-10-03 01:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', 1, 0),
 (27, 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', 3, 0, 0, 1, NULL, '2017-10-03 02:11:59', '2017-10-03 02:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', 1, 0),
-(28, 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', 3, 0, 0, 1, NULL, '2017-10-12 02:50:09', '2017-10-19 01:33:51', NULL, 1, 2),
-(29, 'ndtdb', 'ndtdb@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', 3, 0, 0, 1, NULL, '2017-10-12 03:02:36', '2017-10-21 01:52:01', 'SEW11HKLqKuzbruHxYeSTQOxaGjyNbYhqL5ihKreVK9ukK20K5YyFWSb3CkA', 1, 1),
-(30, 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-21 23:58:06', 'KADA44DPJzQseRcS6jFNurdtd8OonYjSshaPAUKUbFQTvnSrZr6ZEpGiqwWk', 1, 3),
+(28, 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', 3, 0, 0, 1, NULL, '2017-10-12 02:50:09', '2017-10-24 21:07:53', NULL, 1, 1),
+(29, 'ndtdb', 'ndtdb@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', 3, 0, 0, 1, NULL, '2017-10-12 03:02:36', '2017-10-24 21:07:53', 'b411N1hWoaPNmGSYb2DnYPDo8MA6hItYfRA5IGJe84OBcGDfuPZccLwty9VZ', 1, 2),
+(30, 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-25 02:01:54', '8KUFJXutaJyqTIUZnqmZSlUJwDOSHICcYiMCLI47ifvM4LN9SDhFzm93bNVv', 1, 3),
 (31, 'vay2', 'vay2@gmail.com', '$2y$10$cyq.EPq2gF6Kq25Trp9Y2OK071MX4Pc3per0UABcITC8DZhgKTr1O', 3, 0, 0, 1, NULL, '2017-10-12 03:04:46', '2017-10-21 19:47:40', 'qpVI5z3p5wmCbX7CBchck2gJA15k75hkSNh6ZuWYOdqIjutyx9dVpSjXQ8nR', 1, 3),
-(32, 'test', 'test@gmail.com', '$2y$10$aoKWL585E0zyPpMSu8HQ/.mhPbeDZjdxliedAHex6zSKgC0RYDfmO', 3, 0, 0, 1, NULL, '2017-10-21 01:44:11', '2017-10-21 01:50:54', NULL, 1, 2),
-(33, 'ndt1', 'ndt1@gmail.com', '$2y$10$hgks7FbQWR/puRFQNRFVH.JQw26JBM8VW7bquVYrpMh5AMeBslsl2', 3, 0, 0, 1, NULL, '2017-10-21 23:54:20', '2017-10-21 23:56:39', 'ZgbYB3gcLcjHCzXmcbV5zxR1PETj0FDudDZ92dyA0WNoZr1Axtcb4PJe9jGQ', 0, 2);
+(32, 'test', 'test@gmail.com', '$2y$10$aoKWL585E0zyPpMSu8HQ/.mhPbeDZjdxliedAHex6zSKgC0RYDfmO', 3, 0, 0, 1, NULL, '2017-10-21 01:44:11', '2017-10-24 21:07:53', NULL, 1, 2),
+(33, 'ndt1', 'ndt1@gmail.com', '$2y$10$hgks7FbQWR/puRFQNRFVH.JQw26JBM8VW7bquVYrpMh5AMeBslsl2', 3, 0, 0, 1, NULL, '2017-10-21 23:54:20', '2017-10-25 01:00:30', 'C16T9SdzhhTIdJTTdukxvAyZUcNHVweItMl7TFz2t4XBeurH0QZgwPPI2CV2', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -430,6 +432,31 @@ INSERT INTO `user_activations` (`user_id`, `token`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_id`
+--
+
+CREATE TABLE `user_id` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `type` int(11) NOT NULL COMMENT '0: cmnd; 1: passport',
+  `front` varchar(255) NOT NULL,
+  `back` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL COMMENT '0: wait, 1: accept; 2: reject',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user_id`
+--
+
+INSERT INTO `user_id` (`id`, `uid`, `type`, `front`, `back`, `status`, `created_at`, `updated_at`) VALUES
+(2, 30, 1, '59f0513f28a51_Screenshot_1.png', '59f0513f29114_db.jpg', 1, '2017-10-25 01:54:23', '2017-10-25 02:54:41'),
+(3, 30, 0, '59f052edd5318_Inkednew_LI.jpg', '59f052edd5a57_lending.jpg', 0, '2017-10-25 02:01:33', '2017-10-25 02:54:41');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_summary`
 --
 
@@ -442,6 +469,20 @@ CREATE TABLE `user_summary` (
   `moneyType` varchar(20) NOT NULL COMMENT 'ETC, ETH, ...',
   `isType` int(11) NOT NULL COMMENT '1: add, 0: minus',
   `status` int(11) NOT NULL COMMENT '1: dang su dung, 0: het han',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_total`
+--
+
+CREATE TABLE `user_total` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `total` decimal(20,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -546,9 +587,21 @@ ALTER TABLE `user_activations`
   ADD KEY `user_activations_token_index` (`token`);
 
 --
+-- Indexes for table `user_id`
+--
+ALTER TABLE `user_id`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_summary`
 --
 ALTER TABLE `user_summary`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_total`
+--
+ALTER TABLE `user_total`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -559,12 +612,12 @@ ALTER TABLE `user_summary`
 -- AUTO_INCREMENT for table `admin_ip`
 --
 ALTER TABLE `admin_ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `borrow`
 --
 ALTER TABLE `borrow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `comments`
 --
@@ -579,7 +632,7 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT for table `invest`
 --
 ALTER TABLE `invest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `posts`
 --
@@ -616,9 +669,19 @@ ALTER TABLE `temp_summary`
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
+-- AUTO_INCREMENT for table `user_id`
+--
+ALTER TABLE `user_id`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `user_summary`
 --
 ALTER TABLE `user_summary`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user_total`
+--
+ALTER TABLE `user_total`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables

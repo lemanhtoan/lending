@@ -196,6 +196,16 @@ class UserController extends Controller {
             User::where('id', '=', $uid)->update(['userType' => 1]);
         }
         $invests = User::where('userType','2')->orWhere('userType','1')->where('activated', 1)->get();
-        return view('back.users.special', compact('invests'));
+        $ok = trans('back/roles.ok');
+        return view('back.users.special', compact('invests', 'ok'));
+    }
+
+    public function cancelSpecial(Request $request) {
+	    $id = $request->input('id');
+        User::where('id', '=', $id)->update(['userType' => 2]);
+        $ok = trans('back/roles.ok');
+
+        $invests = User::where('userType','2')->orWhere('userType','1')->where('activated', 1)->get();
+        return view('back.users.special', compact('invests', 'ok'));
     }
 }

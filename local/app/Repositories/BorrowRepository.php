@@ -28,7 +28,7 @@ class BorrowRepository extends BaseRepository {
         $ngaygiaingan = Carbon::now()->addMonths($thoigianthechap);
         $ngaydaohan = $ngaygiaingan;
 
-        if ($sotiencanvay > $sotientoida) return;
+        if ($sotiencanvay > $sotientoida) return 02;
 
         if ($uid == 0)  {
             // save to session and after login - register => save
@@ -42,10 +42,28 @@ class BorrowRepository extends BaseRepository {
             return 0;
         } else {
             $checkMax = Borrow::where('status', '<>', 4)->where('uid', $inputs['uid'])->get();
-            $getMaxConstans = DB::table('settings')->where('name', 'dataLogo')->select('content')->get()[0];
+            $getMaxConstans = DB::table('settings')->where('name', 'maxqty')->select('content')->get()[0];
+            $getMaxVerified = DB::table('settings')->where('name', 'maxverified')->select('content')->get()[0];
             if (count($checkMax) > $getMaxConstans->content) {
                 return 01;
             }
+
+            if($sotiencanvay>=$getMaxVerified->content) {
+                $post->uid = $inputs['uid'];
+                $post->soluongthechap = $soluongthechap;
+                $post->kieuthechap = $kieuthechap;
+                $post->thoigianthechap = $thoigianthechap;
+                $post->phantramlai = $phantramlai;
+                $post->sotientoida = $sotientoida;
+                $post->dutinhlai = $dutinhlai;
+                $post->sotiencanvay = $sotiencanvay;
+                $post->ngaygiaingan = $ngaygiaingan;
+                $post->ngaydaohan = $ngaydaohan;
+                $post->status = 10; // dang cho admin duyet
+                $post->save();
+                return 10;
+            }
+
             $post->uid = $inputs['uid'];
             $post->soluongthechap = $soluongthechap;
             $post->kieuthechap = $kieuthechap;
@@ -195,24 +213,6 @@ class BorrowRepository extends BaseRepository {
     {
         $post = $this->savePost($post, $inputs);
 
-        // Tag gestion
-        $tags_id = [];
-        if (array_key_exists('tags', $inputs) && $inputs['tags'] != '') {
-
-            $tags = explode(',', $inputs['tags']);
-
-            foreach ($tags as $tag) {
-                $tag_ref = $this->tag->whereTag($tag)->first();
-                if (is_null($tag_ref)) {
-                    $tag_ref = new $this->tag();
-                    $tag_ref->tag = $tag;
-                    $tag_ref->save();
-                }
-                array_push($tags_id, $tag_ref->id);
-            }
-        }
-
-        $post->tags()->sync($tags_id);
     }
 
     /**
