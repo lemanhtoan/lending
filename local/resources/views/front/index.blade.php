@@ -40,7 +40,10 @@
 								<div class="form-group">
 									<label class="control-label col-sm-6" for="email">Bạn thế chấp:</label>
 									<div class="col-sm-6">
-										<input type="text" class="form-control change-inp" id="sothechap" name="sothechap">
+										<div class="input-group">
+											<span class="input-group-addon">$</span>
+											<input type="number"  min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency change-inp" id="sothechap" name="sothechap" />
+										</div>
 									</div>
 								</div>
 
@@ -64,7 +67,10 @@
 								<div class="form-group">
 									<label class="control-label col-sm-6" for="email">Bạn cần vay:</label>
 									<div class="col-sm-6">
-										<input type="number" step="0.01" min="0" max="" class="form-control  change-inp" id="cost" name="cost">
+										<div class="input-group">
+											<span class="input-group-addon">$</span>
+											<input type="number"  min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency change-inp" id="cost" name="cost" />
+										</div>
 									</div>
 								</div>
 
@@ -169,7 +175,10 @@
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Bạn thế chấp:</label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control change-inp" id="sothechap" name="sothechap">
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input type="number"  min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency change-inp" id="sothechap" name="sothechap" />
+									</div>
 								</div>
 							</div>
 
@@ -193,7 +202,10 @@
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">Bạn cần vay:</label>
 								<div class="col-sm-6">
-									<input type="number" step="0.01" min="0" max="" class="form-control  change-inp" id="cost" name="cost">
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input type="number"  min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency change-inp" id="cost" name="cost" />
+									</div>
 								</div>
 							</div>
 
@@ -210,7 +222,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="control-label col-sm-6" for="email">Lãi suất ( (%/tháng)):</label>
+								<label class="control-label col-sm-6" for="email">Lãi suất (%/tháng):</label>
 								<div class="col-sm-6">
 									<input type="text" disabled value="<?php echo $datalaisuat->content;?>" class="form-control" id="costMinus" name="costMinus">
 								</div>

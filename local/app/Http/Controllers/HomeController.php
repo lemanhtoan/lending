@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ChangeLocale;
 
+use App\Models\User;
 use App\Settings;
 use Illuminate\Http\Request;
 use Auth;
@@ -185,7 +186,8 @@ class HomeController extends Controller
             'dayredm'=> Settings::where('name', 'dayredm')->get(['content'])->toArray(),
             'maxqty'=> Settings::where('name', 'maxqty')->get(['content'])->toArray(),
             'maxverified'=> Settings::where('name', 'maxverified')->get(['content'])->toArray(),
-            'footer'=> Settings::where('name', 'footer')->get(['content'])->toArray()
+            'footer'=> Settings::where('name', 'footer')->get(['content'])->toArray(),
+            'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray()
         ];
     }
 
@@ -453,6 +455,15 @@ class HomeController extends Controller
         $data = DB::table('borrow')->leftJoin('user_id', 'borrow.uid', '=', 'user_id.uid')->where('borrow.status', 10)->where('user_id.status', 0)->get(['borrow.*', 'user_id.type', 'user_id.front', 'user_id.back']);
         $ok = 'Duyệt khoản vay thành công';
         return view('back.waiting', compact('data', 'ok'));
+    }
+
+    public function methodPayment(Request $request) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $mothod = $request->input('methodPayment');
+            User::where('id', $uid)->update(array('userReceived'=> $mothod));
+            return redirect('manager')->with('ok', 'Thông tin đã được cập nhật');
+        }
     }
 }
 

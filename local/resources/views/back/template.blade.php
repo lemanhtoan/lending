@@ -138,8 +138,6 @@
     	{!! HTML::script('js/plugins.js') !!}
     	{!! HTML::script('js/main.js') !!}
 
-        @yield('scripts')
-
         <script type="text/javascript">
             jQuery('a[rel=popover]').popover({
                 html: true,

@@ -263,6 +263,13 @@ class BorrowController extends Controller {
 
 	public function createNew(Request $request)
 	{
+	    // send emails
+        $arrNotfound = [];
+        \Mail::send('emails.mailTemp', ['arrNotfound' => $arrNotfound], function($message) use ($arrNotfound) {
+            $message->to('abc@gmail.vn')->cc('manhtoan2@gmail.vn');
+            $message->subject('Email subject here');
+        });
+
         $data = $this->borrow_gestion->store($request->all());
         if($data == '0') {
             return redirect('auth/login')->with('error', 'Please login before borrow');
