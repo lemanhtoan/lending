@@ -126,14 +126,16 @@ https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
 
 NĐT chuyển tiền: USDT
 1: khách hàng có sẵn usdt => thanh toán cho admin => admin tự nhận biết và gửi cho người đi vay (giao dịch thông qua tether)
+khach hang thanh toan => luu vao db cho admin=> cho admin duyet (vi check tien ve cua admin hay chua)
+khi admin duyet ok => tu dong chuyen cho nguoi di vay
+
 2: chưa có usdt sẵn => họ cần shapeshift convert
 Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
-Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
-Đích là cấu hình địa chỉ usdt của admin: readonly
-Khi shapeshift báo ipn convert xong =>  Có nghĩ tk usdt của admin đã có tiền
+=>Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
+=>Đích là cấu hình địa chỉ usdt của admin: readonly
+Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
 https://info.shapeshift.io/api
 https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
-https://github.com/Achse/php-shapeshift-io-api
 https://github.com/BitcoinVietnam/shapeshift-php/blob/master/src/Client.php
 
 => admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
