@@ -136,7 +136,8 @@ Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
 Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
 https://info.shapeshift.io/api
 https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
-https://github.com/BitcoinVietnam/shapeshift-php/blob/master/src/Client.php
+
+http://localhost/lending/ttest
 
 => admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
 

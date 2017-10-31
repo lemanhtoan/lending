@@ -13,6 +13,7 @@ use App\Models\Borrow;
 use App\Models\Invest;
 use App\Models\Post;
 use App\Models\Verified;
+
 class HomeController extends Controller
 {
 
@@ -464,6 +465,63 @@ class HomeController extends Controller
             User::where('id', $uid)->update(array('userReceived'=> $mothod));
             return redirect('manager')->with('ok', 'Thông tin đã được cập nhật');
         }
+    }
+
+    public function ttest() {
+
+        $result = $this->createFixedAmountTransaction(
+            '0.5',
+            '0x123f681646d4a755815f9cb19e1acc8565a0c2ac',
+            'BTC',
+            'ETH',
+            '1HLjjjSPzHLNn5GTvDNSGnhBqHEF7nZxNZ'
+        );
+        var_dump($result);die;
+        die('1');
+    }
+    public function createFixedAmountTransaction (
+         $amount,
+         $withdrawalAddress,
+         $coin1,
+         $coin2,
+         $returnAddress = null,
+         $rsAddress = null,
+         $destinationTag = null,
+         $apiKey = null
+    )
+    {
+        $input = [
+            'withdrawal' => $withdrawalAddress,
+            'pair' => strtolower($coin1).'_'.strtolower($coin2),
+            'returnAddress' => $returnAddress,
+            'destTag' => $destinationTag,
+            'rsAddress' => $rsAddress,
+            'apiKey' => $apiKey,
+            'amount' => $amount,
+        ];
+
+
+        $uri = 'https://shapeshift.io/sendamount';
+        $content = json_encode($input);
+
+        $curl = curl_init($uri);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+        $json_response = curl_exec($curl);
+
+        /*$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        if ( $status != 201 ) {
+            die("Error: call to URL $uri failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+        }
+        */
+        curl_close($curl);
+        $response = json_decode($json_response, true);
+        echo "<pre>"; var_dump($response);
     }
 }
 

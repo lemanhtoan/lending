@@ -129,4 +129,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('invest/search', 'InvestController@search');
 
 	Route::resource('invest', 'InvestController');
+
+    Route::resource('/ttest', 'HomeController@ttest');
 });
