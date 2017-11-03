@@ -126,8 +126,8 @@ https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
 
 NĐT chuyển tiền: USDT
 1: khách hàng có sẵn usdt => thanh toán cho admin => admin tự nhận biết và gửi cho người đi vay (giao dịch thông qua tether)
-khach hang thanh toan => luu vao db cho admin=> cho admin duyet (vi check tien ve cua admin hay chua)
-khi admin duyet ok => tu dong chuyen cho nguoi di vay
+http://prntscr.com/h5kwa8
+
 
 2: chưa có usdt sẵn => họ cần shapeshift convert
 Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
@@ -146,3 +146,13 @@ NĐT chuyển tiền: VNĐ => Khách làm
 và mình làm api để update thông tin của khách nào và tương ứng giá trị nào
 
 
+http://prntscr.com/h5kqnx
+
+=> tự động nhận biết đã chuyển vào cho admin với cú pháp tin nhắn? => vcb làm
+=> admin nhận được => tự động chuyển tiền cho người thanh toán ()
+
+Lay thong tin vcb: https://exchangeno1.com/check.php?xPayment=VCB&xAccount=0451000295304&xField=RECEIVE[Account]&xRandom=0.17801132720017288&_=1509684227084
+Bán: => đầu tư: http://prntscr.com/h5kwa8
+
+
+Check history: https://omniexplorer.info/
