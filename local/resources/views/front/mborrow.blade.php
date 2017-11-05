@@ -1,7 +1,13 @@
 @extends('front.template')
 
 @section('main')
-
+	<?php
+    	if (Auth::user()) {
+    		$uMethod = Auth::user()->userReceived;
+		} else {
+            $uMethod = '';
+		}
+	?>
 	<?php if (isset($ok)):?>
 		@include('partials/error', ['type' => 'success', 'message' => $ok])
 	<?php endif;?>
@@ -9,6 +15,33 @@
     <?php if (isset($error)):?>
 		@include('partials/error', ['type' => 'danger', 'message' => $error])
     <?php endif;?>
+
+	<!-- setup user money received method -->
+	<div class="row">
+		<h3>Cấu hình loại tiền nhận</h3>
+        <?php $moneyReceived = Config::get('constants.moneyReceived');?>
+		<form action="moneyReceived" method="POST" role="form">
+			{{ csrf_field() }}
+			<div class="form-group">
+				Phương thức nhận tiền:
+				<select name="methodPayment" id="methodPayment" required>
+					<option value="">Chọn phương thức nhận tiền</option>
+					<?php foreach($moneyReceived as $key=>$value) :?>
+					<option <?php if ($uMethod  == $key) {echo 'selected';}else{echo '';}?> value="<?php echo $key;?>"><?php echo $value ?></option>
+					<?php endforeach;?>
+				</select>
+			</div>
+			<input type="submit"  class="btn btn-primary" value="Lưu" class="button" />
+		</form>
+	</div>
+	<!-- setup user money received method -->
+
+	<!-- setup user bank -->
+	<div class="row">
+		<h3>Thiết lập tài khoản ngân hàng</h3>
+
+	</div>
+	<!-- setup user bank -->
 
     <?php if($userType == 'NON' || $userType == '2') { // not login OR invest ?>
     <?php } else { // borrow ?>

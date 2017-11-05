@@ -107,6 +107,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('borrowWaiting', 'HomeController@borrowWaiting');
     Route::get('verifiedItem', 'HomeController@verifiedItem');
 
+    Route::post('moneyReceived', 'HomeController@methodPayment');
+
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);
     Route::get('IPAdmin/search', 'IPAdminController@search');
@@ -127,4 +129,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('invest/search', 'InvestController@search');
 
 	Route::resource('invest', 'InvestController');
+
+    Route::resource('/ttest', 'HomeController@ttest');
 });

@@ -38,8 +38,7 @@
 		{!! HTML::script('js/bootstrap.min.js') !!}
 		{!! HTML::script('owl-carousel/owl.carousel.min.js') !!}
 		{!! HTML::script('http://www.jasny.net/bootstrap/dist/js/jasny-bootstrap.min.js') !!}
-
-	</head>
+    </head>
 
   <body data-spy="scroll" data-target="#myNavbar" data-offset="70">
 
@@ -221,7 +220,7 @@
         </div>
     </div>
 	<!-- TAB REALTIME COST -->
-	
+
 	<!-- Resume -->
 	<section id="resume" class="front-sections section-padding wow fadeIn" data-wow-delay="0.5s">
 	   <div class="skt-page-overlay"></div>
@@ -603,12 +602,23 @@
 	{!! HTML::script('js/plugins.js') !!}
 	{!! HTML::script('js/main.js') !!}
 
-    {!! HTML::script('https://nadiaschutz.github.io/landing_page-1/js/wow.min.js') !!}
-    <script>
+    {!! HTML::script('js/wow.min.js') !!}
+    <script src="http://afarkas.github.io/webshim/js-webshim/minified/polyfiller.js"></script>
+
+    @yield('scripts')
+    <script type="text/javascript">
+        webshims.setOptions('forms-ext', {
+            replaceUI: 'auto',
+            types: 'number'
+        });
+        webshims.polyfill('forms forms-ext');
+    </script>
+
+    <script type="text/javascript">
         new WOW().init();
     </script>
 
-	<script>
+    <script type="text/javascript">
         $(document).ready(function(){
             $(window).scroll(function () {
                 if ($(this).scrollTop() > 50) {

@@ -50,8 +50,21 @@
             <form action="settings" method="POST" role="form">
                 {{ csrf_field() }}
                 <div class="form-group">
+                    <?php $emailadmin = $emailadmin[0]['content']; ?>
+                    email admin : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailadmin)) { echo $emailadmin;} ?>">
+                </div>
+                <input type="hidden" name="stype" value="emailadmin">
+                <input type="submit"  class="btn btn-primary" value="Lưu emailadmin" class="button" />
+            </form>
+        </div>
+
+
+        <div class="row">
+            <form action="settings" method="POST" role="form">
+                {{ csrf_field() }}
+                <div class="form-group">
                     <?php $emailsupport = $emailsupport[0]['content']; ?>
-                        emailsupport : <input type="text" name="value" class="form-control" value="<?php if ( isset($emailsupport)) { echo $emailsupport;} ?>">
+                        emailsupport : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailsupport)) { echo $emailsupport;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="emailsupport">
                 <input type="submit"  class="btn btn-primary" value="Lưu emailsupport" class="button" />

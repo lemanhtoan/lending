@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2017 at 12:01 PM
+-- Generation Time: Oct 26, 2017 at 11:14 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -40,7 +40,7 @@ CREATE TABLE `admin_ip` (
 
 INSERT INTO `admin_ip` (`id`, `ip`, `status`, `created_at`, `updated_at`) VALUES
 (1, '::1', 1, '2017-10-19 02:01:41', '2017-10-19 02:21:42'),
-(3, '117.12.12.12', 1, '2017-10-19 02:21:52', '2017-10-19 02:21:52');
+(3, '127.0.0.1', 1, '2017-10-19 02:21:52', '2017-10-19 02:21:52');
 
 -- --------------------------------------------------------
 
@@ -290,7 +290,7 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VALUES
 (1, 'dataLogo', '1508030853_image.png', '2017-06-06 10:11:33', '2017-10-06 02:36:06'),
 (10, 'dataHotline', '024.3237.3333', '2017-06-09 09:42:11', '2017-10-06 02:35:17'),
-(13, 'emailsupport', 'toanktv.it@gmail.com', '2017-10-06 02:46:40', '2017-10-06 02:46:40'),
+(13, 'emailsupport', 'quocdungxd@gmail.com', '2017-10-06 02:46:40', '2017-10-26 02:08:21'),
 (14, 'mainbg', '#ff0000', '2017-10-06 02:54:24', '2017-10-06 03:03:07'),
 (15, 'maincolor', '#0000ff', '2017-10-06 02:54:27', '2017-10-06 03:03:14'),
 (16, 'laisuat', '3', '2017-10-06 02:54:33', '2017-10-06 03:06:06'),
@@ -299,7 +299,8 @@ INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VAL
 (19, 'maxqty', '3', '2017-10-06 02:57:28', '2017-10-06 02:57:28'),
 (20, 'dayredm', '7', '2017-10-06 02:57:33', '2017-10-06 03:06:23'),
 (21, 'tygiaUV', '1', '2017-10-06 02:57:37', '2017-10-06 03:06:12'),
-(22, 'daylost', '15', '2017-10-06 02:58:34', '2017-10-06 03:06:18');
+(22, 'daylost', '15', '2017-10-06 02:58:34', '2017-10-06 03:06:18'),
+(23, 'emailadmin', 'toanktv.it@gmail.com', '2017-10-25 17:00:00', '2017-10-25 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -384,27 +385,28 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `activated` tinyint(1) DEFAULT '0',
-  `usertype` int(1) NOT NULL COMMENT 'User type'
+  `usertype` int(1) NOT NULL COMMENT 'User type',
+  `userReceived` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `seen`, `valid`, `confirmed`, `confirmation_code`, `created_at`, `updated_at`, `remember_token`, `activated`, `usertype`) VALUES
-(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-10-24 21:41:43', 'vjNmGTlzEWG6w9BZjN6mIrmpSMLjVW6cgwi0NLxUw7VN3HrqhxrYiHrvxeFm', 1, 0),
-(2, 'Great Redactor', 'redac@gmail.com', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-10-24 21:07:53', NULL, 1, 2),
-(3, 'Walker', 'walker@gmail.com', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 1, 3),
-(4, 'Slacker', 'slacker@gmail.com', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 0, 3),
-(13, 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:50:52', '2017-10-12 03:27:53', 'AMvLrG2G6j2RSzbt607jqhPlWlSO2U1SkNg6J7mj3SfOLNkXTgR97Oi0cuX8', 1, 0),
-(14, 'english class', 'gep2a76@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:51:37', '2017-10-03 01:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', 1, 0),
-(27, 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', 3, 0, 0, 1, NULL, '2017-10-03 02:11:59', '2017-10-03 02:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', 1, 0),
-(28, 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', 3, 0, 0, 1, NULL, '2017-10-12 02:50:09', '2017-10-24 21:07:53', NULL, 1, 1),
-(29, 'ndtdb', 'ndtdb@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', 3, 0, 0, 1, NULL, '2017-10-12 03:02:36', '2017-10-24 21:07:53', 'b411N1hWoaPNmGSYb2DnYPDo8MA6hItYfRA5IGJe84OBcGDfuPZccLwty9VZ', 1, 2),
-(30, 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-25 02:01:54', '8KUFJXutaJyqTIUZnqmZSlUJwDOSHICcYiMCLI47ifvM4LN9SDhFzm93bNVv', 1, 3),
-(31, 'vay2', 'vay2@gmail.com', '$2y$10$cyq.EPq2gF6Kq25Trp9Y2OK071MX4Pc3per0UABcITC8DZhgKTr1O', 3, 0, 0, 1, NULL, '2017-10-12 03:04:46', '2017-10-21 19:47:40', 'qpVI5z3p5wmCbX7CBchck2gJA15k75hkSNh6ZuWYOdqIjutyx9dVpSjXQ8nR', 1, 3),
-(32, 'test', 'test@gmail.com', '$2y$10$aoKWL585E0zyPpMSu8HQ/.mhPbeDZjdxliedAHex6zSKgC0RYDfmO', 3, 0, 0, 1, NULL, '2017-10-21 01:44:11', '2017-10-24 21:07:53', NULL, 1, 2),
-(33, 'ndt1', 'ndt1@gmail.com', '$2y$10$hgks7FbQWR/puRFQNRFVH.JQw26JBM8VW7bquVYrpMh5AMeBslsl2', 3, 0, 0, 1, NULL, '2017-10-21 23:54:20', '2017-10-25 01:00:30', 'C16T9SdzhhTIdJTTdukxvAyZUcNHVweItMl7TFz2t4XBeurH0QZgwPPI2CV2', 1, 2);
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `seen`, `valid`, `confirmed`, `confirmation_code`, `created_at`, `updated_at`, `remember_token`, `activated`, `usertype`, `userReceived`) VALUES
+(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-10-24 21:41:43', 'vjNmGTlzEWG6w9BZjN6mIrmpSMLjVW6cgwi0NLxUw7VN3HrqhxrYiHrvxeFm', 1, 0, NULL),
+(2, 'Great Redactor', 'redac@gmail.com', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-10-24 21:07:53', NULL, 1, 2, NULL),
+(3, 'Walker', 'walker@gmail.com', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 1, 3, NULL),
+(4, 'Slacker', 'slacker@gmail.com', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 0, 3, NULL),
+(13, 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:50:52', '2017-10-12 03:27:53', 'AMvLrG2G6j2RSzbt607jqhPlWlSO2U1SkNg6J7mj3SfOLNkXTgR97Oi0cuX8', 1, 0, NULL),
+(14, 'english class', 'gep2a76@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:51:37', '2017-10-03 01:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', 1, 0, NULL),
+(27, 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', 3, 0, 0, 1, NULL, '2017-10-03 02:11:59', '2017-10-03 02:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', 1, 0, NULL),
+(28, 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', 3, 0, 0, 1, NULL, '2017-10-12 02:50:09', '2017-10-24 21:07:53', NULL, 1, 1, NULL),
+(29, 'ndtdb', 'ndtdb@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', 3, 0, 0, 1, NULL, '2017-10-12 03:02:36', '2017-10-24 21:07:53', 'b411N1hWoaPNmGSYb2DnYPDo8MA6hItYfRA5IGJe84OBcGDfuPZccLwty9VZ', 1, 2, NULL),
+(30, 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-26 00:31:10', '8KUFJXutaJyqTIUZnqmZSlUJwDOSHICcYiMCLI47ifvM4LN9SDhFzm93bNVv', 1, 3, 'USDT'),
+(31, 'vay2', 'vay2@gmail.com', '$2y$10$cyq.EPq2gF6Kq25Trp9Y2OK071MX4Pc3per0UABcITC8DZhgKTr1O', 3, 0, 0, 1, NULL, '2017-10-12 03:04:46', '2017-10-21 19:47:40', 'qpVI5z3p5wmCbX7CBchck2gJA15k75hkSNh6ZuWYOdqIjutyx9dVpSjXQ8nR', 1, 3, NULL),
+(32, 'test', 'test@gmail.com', '$2y$10$aoKWL585E0zyPpMSu8HQ/.mhPbeDZjdxliedAHex6zSKgC0RYDfmO', 3, 0, 0, 1, NULL, '2017-10-21 01:44:11', '2017-10-24 21:07:53', NULL, 1, 2, NULL),
+(33, 'ndt1', 'ndt1@gmail.com', '$2y$10$hgks7FbQWR/puRFQNRFVH.JQw26JBM8VW7bquVYrpMh5AMeBslsl2', 3, 0, 0, 1, NULL, '2017-10-21 23:54:20', '2017-10-25 01:00:30', 'C16T9SdzhhTIdJTTdukxvAyZUcNHVweItMl7TFz2t4XBeurH0QZgwPPI2CV2', 1, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -428,6 +430,25 @@ INSERT INTO `user_activations` (`user_id`, `token`, `created_at`) VALUES
 (30, '3588532a5e37b493480683756fb0ba9df0acbe8f0564b0ec4d5f544f49baaf5b', '2017-10-12 03:03:14'),
 (31, '5ad5cf7386b0a858866ce059e690d8f0d285adaeb679d9ad424b71de82bdf328', '2017-10-12 03:04:46'),
 (33, '3b9df710971a7835688cd3ed8381c8e0e95bb98daacae129f9538aca472a6694', '2017-10-21 23:54:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_bank`
+--
+
+CREATE TABLE `user_bank` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `bank_name` varchar(200) NOT NULL,
+  `bank_number` varchar(200) NOT NULL,
+  `bank_username` varchar(200) NOT NULL,
+  `exp_month` int(11) NOT NULL,
+  `exp_year` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -587,6 +608,12 @@ ALTER TABLE `user_activations`
   ADD KEY `user_activations_token_index` (`token`);
 
 --
+-- Indexes for table `user_bank`
+--
+ALTER TABLE `user_bank`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_id`
 --
 ALTER TABLE `user_id`
@@ -652,7 +679,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `tags`
 --
@@ -668,6 +695,11 @@ ALTER TABLE `temp_summary`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+--
+-- AUTO_INCREMENT for table `user_bank`
+--
+ALTER TABLE `user_bank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user_id`
 --

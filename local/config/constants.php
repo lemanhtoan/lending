@@ -7,6 +7,10 @@ return [
         '4' => 'Từ 4 triệu - 6 triệu',
         '6' => 'Từ 6 triệu - 9 triệu',
         '15x' => 'Trên 15 triệu',
+    ],
+    'moneyReceived' => [
+        'VND' => 'VNĐ',
+        'USDT' => 'USDT'
     ]
 ];
 ?>
