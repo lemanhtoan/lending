@@ -131,4 +131,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::resource('invest', 'InvestController');
 
     Route::resource('/ttest', 'HomeController@ttest');
+
+	// test log
+	Route::get('tlog', 'HomeController@cronSet');
+	Route::get('treminder1', 'HomeController@getBorrowReminder');
 });

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 26, 2017 at 11:14 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Host: localhost
+-- Generation Time: Nov 05, 2017 at 11:00 PM
+-- Server version: 5.7.20-0ubuntu0.16.04.1
+-- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -60,7 +60,7 @@ CREATE TABLE `borrow` (
   `sotiencanvay` decimal(20,2) NOT NULL,
   `ngaygiaingan` timestamp NULL DEFAULT NULL,
   `ngaydaohan` timestamp NULL DEFAULT NULL,
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL COMMENT '0:Khởi tạo; 1:Đã thế chấp tài sản, chờ nhà đầu tư; 2: Đang hoạt động; 3: Giao dịch tạm khóa; 4: Giao dịch hoàn thành; 10: Chờ admin duyệt; 20: reminder lan 1; 30: reminder lan 2: 40: da mat the chap',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -75,7 +75,9 @@ INSERT INTO `borrow` (`id`, `uid`, `soluongthechap`, `kieuthechap`, `thoigianthe
 (3, 30, '1.25', 'BTC', 6, '3.00', '31.02', '5.14', '28.56', '2018-04-17 20:23:07', '2018-04-17 20:23:07', 1, '2017-10-17 20:23:07', '2017-10-17 20:23:07'),
 (4, 31, '78.90', 'ETH', 12, '3.00', '1957.82', '4.76', '13.23', '2018-10-18 01:37:13', '2018-10-18 01:37:13', 0, '2017-10-18 01:37:35', '2017-10-18 01:37:35'),
 (5, 31, '909.00', 'ETH', 18, '3.00', '22555.88', '54.00', '100.00', '2019-04-21 19:31:39', '2019-04-21 19:31:39', 0, '2017-10-21 19:31:39', '2017-10-21 19:31:39'),
-(9, 30, '100.00', 'BTC', 14, '3.00', '394531.90', '882.00', '2100.00', '2018-12-25 01:53:43', '2018-12-25 01:53:43', 0, '2017-10-25 01:53:43', '2017-10-25 02:54:41');
+(9, 30, '100.00', 'BTC', 14, '3.00', '394531.90', '882.00', '2100.00', '2018-12-25 01:53:43', '2017-11-12 01:53:43', 20, '2017-10-25 01:53:43', '2017-11-05 08:34:06'),
+(10, 31, '10.00', 'ETH', 1, '3.00', '2086.84', '30.02', '1000.50', '2017-12-05 04:54:05', '2017-11-06 04:54:05', 20, '2017-11-05 04:54:05', '2017-11-05 08:33:55'),
+(11, 1, '300.00', 'BTC', 18, '3.00', '1581384.00', '1134.00', '2100.00', '2019-05-05 08:58:28', '2019-05-05 08:58:28', 0, '2017-11-05 08:58:28', '2017-11-05 08:59:44');
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,8 @@ CREATE TABLE `contacts` (
 INSERT INTO `contacts` (`id`, `name`, `email`, `text`, `seen`, `created_at`, `updated_at`) VALUES
 (1, 'Dupont', 'dupont@la.fr', 'Lorem ipsum inceptos malesuada leo fusce tortor sociosqu semper, facilisis semper class tempus faucibus tristique duis eros, cubilia quisque habitasse aliquam fringilla orci non. Vel laoreet dolor enim justo facilisis neque accumsan, in ad venenatis hac per dictumst nulla ligula, donec mollis massa porttitor ullamcorper risus. Eu platea fringilla, habitasse.', 0, '2017-09-22 18:15:24', '2017-09-22 18:15:24'),
 (2, 'Durand', 'durand@la.fr', ' Lorem ipsum erat non elit ultrices placerat, netus metus feugiat non conubia fusce porttitor, sociosqu diam commodo metus in. Himenaeos vitae aptent consequat luctus purus eleifend enim, sollicitudin eleifend porta malesuada ac class conubia, condimentum mauris facilisis conubia quis scelerisque. Lacinia tempus nullam felis fusce ac potenti netus ornare semper molestie, iaculis fermentum ornare curabitur tincidunt imperdiet scelerisque imperdiet euismod.', 0, '2017-09-22 18:15:25', '2017-09-22 18:15:25'),
-(3, 'Martin', 'martin@la.fr', 'Lorem ipsum tempor netus aenean ligula habitant vehicula tempor ultrices, placerat sociosqu ultrices consectetur ullamcorper tincidunt quisque tellus, ante nostra euismod nec suspendisse sem curabitur elit. Malesuada lacus viverra sagittis sit ornare orci, augue nullam adipiscing pulvinar libero aliquam vestibulum, platea cursus pellentesque leo dui. Lectus curabitur euismod ad, erat.', 1, '2017-09-22 18:15:25', '2017-09-22 18:15:25');
+(3, 'Martin', 'martin@la.fr', 'Lorem ipsum tempor netus aenean ligula habitant vehicula tempor ultrices, placerat sociosqu ultrices consectetur ullamcorper tincidunt quisque tellus, ante nostra euismod nec suspendisse sem curabitur elit. Malesuada lacus viverra sagittis sit ornare orci, augue nullam adipiscing pulvinar libero aliquam vestibulum, platea cursus pellentesque leo dui. Lectus curabitur euismod ad, erat.', 1, '2017-09-22 18:15:25', '2017-09-22 18:15:25'),
+(4, 'lemanhtoan', 'toan@ktv.it', 'ok toanlm contact', 0, '2017-11-05 08:53:01', '2017-11-05 08:53:01');
 
 -- --------------------------------------------------------
 
@@ -394,16 +397,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `seen`, `valid`, `confirmed`, `confirmation_code`, `created_at`, `updated_at`, `remember_token`, `activated`, `usertype`, `userReceived`) VALUES
-(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-10-24 21:41:43', 'vjNmGTlzEWG6w9BZjN6mIrmpSMLjVW6cgwi0NLxUw7VN3HrqhxrYiHrvxeFm', 1, 0, NULL),
+(1, 'Great Admin', 'admin@gmail.com', '$2y$10$a7LWpCz.C2bDQQinhE5Jju5tDiW1EQFqT7HWZKWdh/jL3uXzEdcja', 1, 1, 0, 1, NULL, '2017-09-22 18:15:23', '2017-11-05 08:59:20', 'IIZbCjomMu1trf4hW4AfZmsLXBtCemgHZaFpH0VLWHiKM1X2srquETICfc2C', 1, 0, NULL),
 (2, 'Great Redactor', 'redac@gmail.com', '$2y$10$Cxk19TMvUgupcknjBOXPL.rFJkv0sFk8WAsz5uHfLa7dKSl.6rKA2', 2, 1, 1, 1, NULL, '2017-09-22 18:15:24', '2017-10-24 21:07:53', NULL, 1, 2, NULL),
 (3, 'Walker', 'walker@gmail.com', '$2y$10$8kLCp4Ps.lzmzFiev.lPhOcOyO2GNYBRGNinwofp5uH9V.mOPy2mC', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 1, 3, NULL),
 (4, 'Slacker', 'slacker@gmail.com', '$2y$10$Plp2zR1tsjcvXXjCNYl/R.s4LozYOdHwnjpYMs4vI.UCMISKAx606', 3, 0, 0, 1, NULL, '2017-09-22 18:15:24', '2017-09-22 18:15:24', NULL, 0, 3, NULL),
 (13, 'Lê Mạnh Toàn', 'toanktv.it@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:50:52', '2017-10-12 03:27:53', 'AMvLrG2G6j2RSzbt607jqhPlWlSO2U1SkNg6J7mj3SfOLNkXTgR97Oi0cuX8', 1, 0, NULL),
 (14, 'english class', 'gep2a76@gmail.com', '', 1, 0, 0, 0, NULL, '2017-10-03 00:51:37', '2017-10-03 01:20:54', 'NoVxeUkwAGtNtPzmww6qgycTN8Wg0lhW8vUuXB59bmPjkX1cEvonrSWi3Z84', 1, 0, NULL),
-(27, 'toan', 'adcskt@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', 3, 0, 0, 1, NULL, '2017-10-03 02:11:59', '2017-10-03 02:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', 1, 0, NULL),
+(27, 'toan', 'adcskt1@gmail.com', '$2y$10$rh0YCEB22nyuldIdYWPG5eGv1mRBN8rYEHhaxoFlWsmHTvLvuZ2P6', 3, 0, 0, 1, NULL, '2017-10-03 02:11:59', '2017-10-03 02:15:20', 'i9yyyO9CnjswP77WBDddq98HdxqhYkz49hxK97WQopWBe66hSSH5Uvm0glOO', 1, 0, NULL),
 (28, 'toanlm', 'toanlm@gmail.com', '$2y$10$FlV3Qje1oyyH/J70mS/Yc.SJX8Vw2uagkQh5ftjLpdV6kenhzOPlW', 3, 0, 0, 1, NULL, '2017-10-12 02:50:09', '2017-10-24 21:07:53', NULL, 1, 1, NULL),
 (29, 'ndtdb', 'ndtdb@gmail.com', '$2y$10$J5UE2GkjXJXA0rS8WTpdG.lx7FHLa5349J56XgSsr4Z4whB3LDwN.', 3, 0, 0, 1, NULL, '2017-10-12 03:02:36', '2017-10-24 21:07:53', 'b411N1hWoaPNmGSYb2DnYPDo8MA6hItYfRA5IGJe84OBcGDfuPZccLwty9VZ', 1, 2, NULL),
-(30, 'vay', 'vay@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-26 00:31:10', '8KUFJXutaJyqTIUZnqmZSlUJwDOSHICcYiMCLI47ifvM4LN9SDhFzm93bNVv', 1, 3, 'USDT'),
+(30, 'vay', 'adcskt@gmail.com', '$2y$10$vV43IuxrJmj8pN50Ng0AROyiR3ReqDwJFwnC74LEYF9nX.BVcUvWC', 3, 0, 0, 1, NULL, '2017-10-12 03:03:13', '2017-10-26 00:31:10', '8KUFJXutaJyqTIUZnqmZSlUJwDOSHICcYiMCLI47ifvM4LN9SDhFzm93bNVv', 1, 3, 'USDT'),
 (31, 'vay2', 'vay2@gmail.com', '$2y$10$cyq.EPq2gF6Kq25Trp9Y2OK071MX4Pc3per0UABcITC8DZhgKTr1O', 3, 0, 0, 1, NULL, '2017-10-12 03:04:46', '2017-10-21 19:47:40', 'qpVI5z3p5wmCbX7CBchck2gJA15k75hkSNh6ZuWYOdqIjutyx9dVpSjXQ8nR', 1, 3, NULL),
 (32, 'test', 'test@gmail.com', '$2y$10$aoKWL585E0zyPpMSu8HQ/.mhPbeDZjdxliedAHex6zSKgC0RYDfmO', 3, 0, 0, 1, NULL, '2017-10-21 01:44:11', '2017-10-24 21:07:53', NULL, 1, 2, NULL),
 (33, 'ndt1', 'ndt1@gmail.com', '$2y$10$hgks7FbQWR/puRFQNRFVH.JQw26JBM8VW7bquVYrpMh5AMeBslsl2', 3, 0, 0, 1, NULL, '2017-10-21 23:54:20', '2017-10-25 01:00:30', 'C16T9SdzhhTIdJTTdukxvAyZUcNHVweItMl7TFz2t4XBeurH0QZgwPPI2CV2', 1, 2, NULL);
@@ -473,7 +476,8 @@ CREATE TABLE `user_id` (
 
 INSERT INTO `user_id` (`id`, `uid`, `type`, `front`, `back`, `status`, `created_at`, `updated_at`) VALUES
 (2, 30, 1, '59f0513f28a51_Screenshot_1.png', '59f0513f29114_db.jpg', 1, '2017-10-25 01:54:23', '2017-10-25 02:54:41'),
-(3, 30, 0, '59f052edd5318_Inkednew_LI.jpg', '59f052edd5a57_lending.jpg', 0, '2017-10-25 02:01:33', '2017-10-25 02:54:41');
+(3, 30, 0, '59f052edd5318_Inkednew_LI.jpg', '59f052edd5a57_lending.jpg', 0, '2017-10-25 02:01:33', '2017-10-25 02:54:41'),
+(4, 1, 0, '59ff35460b609_Volvo_X664279WL_1.JPG', '59ff35460ba88_Volvo_WP282_V1.JPG', 1, '2017-11-05 08:59:02', '2017-11-05 08:59:44');
 
 -- --------------------------------------------------------
 
@@ -644,7 +648,7 @@ ALTER TABLE `admin_ip`
 -- AUTO_INCREMENT for table `borrow`
 --
 ALTER TABLE `borrow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `comments`
 --
@@ -654,7 +658,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `invest`
 --
@@ -704,7 +708,7 @@ ALTER TABLE `user_bank`
 -- AUTO_INCREMENT for table `user_id`
 --
 ALTER TABLE `user_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user_summary`
 --

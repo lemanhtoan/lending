@@ -22,8 +22,13 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+		$schedule->command('inspire')->hourly();
+
+		// setup crontab automatic
+		$schedule->call('App\Http\Controllers\HomeController@cronSet')->everyMinute();
+
+		// setup crontab server
+		// * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
 	}
 
 }

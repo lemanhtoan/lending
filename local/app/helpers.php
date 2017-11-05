@@ -39,3 +39,19 @@ if (!function_exists('classActiveOnlySegment')) {
 		return '';
 	}
 }
+
+
+if (!function_exists('emailSend')) {
+	function emailSend($data, $email, $subject, $typeEmail) {
+		$dataAdmin = \DB::table('settings')->where('name', 'emailadmin')->select('content')->get()[0];
+		$emailAdmin = $dataAdmin->content;
+
+		\Mail::send('emails.mailTemp', ['data' => $data, 'typeEmail' => $typeEmail], function($message) use ($data, $email, $emailAdmin, $subject, $typeEmail) {
+			$message->to($email);
+			if ($typeEmail == 'REMINDER_1') { // check type is send to cc admin
+				$message->cc($emailAdmin);
+			}
+			$message->subject($subject);
+		});
+	}
+}

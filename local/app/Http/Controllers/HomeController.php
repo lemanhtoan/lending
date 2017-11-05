@@ -13,6 +13,7 @@ use App\Models\Borrow;
 use App\Models\Invest;
 use App\Models\Post;
 use App\Models\Verified;
+use Carbon;
 
 class HomeController extends Controller
 {
@@ -523,5 +524,36 @@ class HomeController extends Controller
         $response = json_decode($json_response, true);
         echo "<pre>"; var_dump($response);
     }
+
+    public function cronSet() {
+        $data = date('Y-m-d');
+        $time = date('h-A');
+        \Log::useFiles(base_path() . '/log/'.$data.'/'.$time.'-info.log', 'info');
+        \Log::info('Log content here ...');
+        // http://localhost/lending/tlog
+    }
+
+    public function getBorrowReminder() {
+        // reminder 1
+        $dataReminder = DB::table('settings')->where('name', 'dayredm')->select('content')->get()[0];
+        $fromDate = new Carbon('now');
+        $toDate = Carbon::now()->addDays($dataReminder->content);
+
+        $data = Borrow::where('status', '<', '20')->whereBetween( 'ngaydaohan', array($fromDate->toDateTimeString(), $toDate->toDateTimeString()) )->orderBy('ngaydaohan', 'asc')->get();
+        if (count($data)) {
+            foreach ($data as $record) {
+                $userObj = User::where('id', $record->uid)->first();
+                emailSend($record, $userObj['email'], 'Email Reminder ' .$userObj['username'], 'REMINDER_1');
+
+                // update - neu da send email reminder => cap nhat trang thai cua khoan vay la da reminder lan 1 => status = 20
+                Borrow::where('id', $record->id)->update(array('status'=> '20'));
+            }
+        } else {
+            echo 'No data';
+        }
+
+
+    }
+
 }
 

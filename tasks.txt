@@ -1,0 +1,69 @@
+(A: admin; DB; nha dau tu dac biet; D: nha dau tu; V: nguoi vay => default: cc -> A)
+
+1. Dang ky voi fb/gg
+sau khi login thì sẽ điền email để verified accout và update thông tin
+=> active
+
+2. Khoan vay
+Ngày giải ngân: tinh khi nha dau tu chuyen tien => update lai
+Ngày đáo hạn: thoi gian ngay giai ngan + so thang vay
+Email khi khoan vay duoc khoi tao (V) => link to 3
+
+3*. Nguoi vay the chap tai san => tai san nay lien ket voi 1 khoan vay
+=> Khi khoan vay het no => co the lien ket khoan vay khac ma khong can the chap moi
+=> Khi tao khoan vay: kiem tra tai khoan the chap truoc con bao nhieu => neu gia tri vay dam bao 
+trong khoang tai san the chap => co the lien ket cho vay tiep khoan vay moi.
+Email khi the chap xong (V) => link to detail khoan vay
+
+4*. NDT chuyen tien cho giao dich (co gia tri so phut cau hinh nao do cho giao dich - theo loai tien nhan cua khoan vay): qua VCB or USDT
+Email khi khoan vay co hieu luc (V + D) => Detail
+
+5*. Admin tu nhan biet giao dich nao da chuyen tien: cuphap ABC123456 va tu dong chuyen tien cho nguoi vay
+
+6. Nhac nho khoan vay 7 ngay: ok
+Email nhac nho (V) => Detail + date exp
+
+7. Tra no khoan vay
+Email thong bao thanh cong tra no (V) => Detail
+
+8. Nhac nho khoan vay qua 15 ngay
+Email nhac nho (V) => Detail + date lost 
+
+9. V rut tai san => Cho admin duyet: Dieu kien la khong con no, hoac tra 1 phan => chia tien cho D va V theo ty le
+
+Email chi tiet (V) => Address of your: .... => delay admin accept
+
+10. Admin accept 9 => access payment and email
+Email to (V) => Detail yeu cau => thong bao da gui vao address: ... => ... money
+
+11. Qua 15 ngay chua thanh toan =>
+Email to (V) => Tai san the chap da bi mat va chuyen cho D (address: ...) + Detail khoan vay
+
+12. D quan ly cac khoan vay, thong ke va trich xuat du lieu cua minh
+
+13.
+A
+- Quan ly, thay doi thong tin cac khoan vay
+- quan ly tai san dam bao (the chap cua nguoi vay)
+- quan ly danh sach: V, D, DB
+- thong ke so tien cho vay, so lai suat, cac khoan vay qua han, cac khoan vay den han.
+- dieu chinh: ngay dao han khoan vay,  so tien lai, lai suat,  tai san dam bao cua khoan vay
+
+14.
+V
+có thể thanh toán cho khoản vay (bao gồm lãi + gốc) bất cứ thời điểm nào trong thời hạn hiện lực của khoản vay, Lãi suất thanh toán khi đó sẽ được tính toán như sau= số tiền gốc * Lãi suất vay vốn * số ngày /360.
+
+
+15. Comment cho khoan vay/ dau tu giua A, D, V
+Email to ... khi co new comment
+
+16. Style + Res
+
+17. API mobile (later)
+
+18. Othes
+- Slider (+ alt + position)
+- Contacts (save db): ok
+- Config SEO tag to page to page
+- Chia role: Admin va nguoi quan ly tin tuc
+- Log data user (cang nhieu cang tot de theo doi)

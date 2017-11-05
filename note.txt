@@ -1,3 +1,73 @@
+A. Email template
+Các email gửi cho khách đều có CC Admin
+
++ Khoản vay được khởi tạo
+Content:
+Khoản vay của bạn đã được khởi tạo vui lòng truy cập liên kết sau để thế chấp tài sản
+Link abc:...
++ Khoản vay đã thế chấp tài sản
+Content:
+Bạn đã thế chấp xong tài sản Chi tiết khoản vay xem liên kết sau
+Link abc
++ Khoản vay có hiệu lực
+Conntent:
+Khoản vay của bạn đã được đầu tư.
+
+Hiển thị thông tin chi tiết khoản vay
+
++ Khoản vay sắp đến hạn trong vòng xxx(7 ngày)
+Content:
+Khoản vay của bạn sắp đến hạn vui lòng thu xếp vốn để thanh toán khoản vay
+
+Hiển thị thông tin chi tiết khoản vay
+
++ Khoản vay được trả nợ
+Content:
+
+Bạn đã thanh toán khoản vay abc số tiền là...
+
+Hiển thị thông tin chi tiết khoản vay
+
++ Khoản vay quá hạn (dưới 15 ngày)
+
+Khoản vay của bạn đã quá hạn xxx ngày. Nếu không thanh toán sau ngày xxx tài sản thế chấp sẽ chuyển cho người cho vay
+
+Chi tiết khoản vay
+
++ Người đi vay rút tài sản đang chờ duyệt
+
+10 BTC của bạn đang được Admin duyệt
+
+Send 10 BTC to address BTC (của khách hàng rút tiền)
+
++ Người đi va rút tài sản thành công
+
+10 BTC của bạn đã được Admin duyệt
+
+Send 10 BTC to address BTC (của khách hàng rút tiền)
+
++ Khoản vay quá hạn 15 ngày
+
+Bạn đã quá hạn tài sản thế chấp của bạn đã được chuyển cho nhà đầu tư (cho vay)
+
++ Chuyển tài sản cho nhà đầu tư
+
+Tài sản thếp chấp cho khoản vay đã quá hạn và tài sản được chuyển cho nhà đầu tư
+
+Send 10 BTC to address BTC (của nhà đầu tư)
+
+Chi tiết khoản vay
+
+===================================
+B. Dia chi nhan tien
+Bitcoin address: 1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd
+Etherium address: 0xc003724eb51c809b38340f91d16716ab67a0772b
+Litecoin address: 0xc003724eb51c809b38340f91d16716ab67a0772b
+
+====================================
+C. Process
+
+
 Administrator : email = admin@gmail.com, password = admin
 Redactor : email = redac@la.fr, password = redac
 User : email = walker@la.fr, password = walker
@@ -6,36 +76,17 @@ User : email = slacker@la.fr, password = slacker
 https://github.com/bestmomo/laravel5-example
 
 1. Register + verified email
-Email(*) + Phone + Password(*) + Info TYPE (borrower, investee)
-
-Address, CMND, BankAccount: Update profile
-
-OR Google login OR Facebook login (Relation account (need check same account email))
-
-=> Nếu google và fb: sau khi login thì sẽ điền email để verified accout và update thông tin + password
+Nếu google và fb: sau khi login thì sẽ điền email để verified accout và update thông tin + password
+=> active account neu dung fb hoac google
 
 2. Borrower tạo khoản vay.
-Ngày khởi tạo
-Số lượng cần thế chấp (decimal)
-Loại tài sản (BTC, ETH, LTC,..) (id, name, display_name, time_clone, url_clone, status, created_at, updated_at)
-Thời hạn khoản vay
-Lãi suất khoản vay (admin config backend),
-Số tiền vay tối đa (tính theo role tài khoản thế chấp): Ví dụ: khách hàng thế chấp 1 BTC, giá của BTC được lấy trên API https://coinmarketcap.com/ * 70% * Tỷ giá USD/VND(config)
-Số tiền cần vay,
-Ngày giải ngân,
-Ngày đáo hạn,
-
-status: 0 khởi tạo
-1: đã thế chấp tài sản => có thể cho nhà đầu tư nhìn thấy
-
-
-=> Trạng thái là: Khởi tạo
+Ngày giải ngân: tinh khi nha dau tu chuyen tien => update lai
+Ngày đáo hạn: thoi gian ngay giai ngan + so thang vay
+=>đã thế chấp tài sản => Trạng thái là: Khởi tạo => có thể cho nhà đầu tư nhìn thấy
 
 3. Borrower chuyển thế chấp
 Người dùng thế chấp trên https://jaxx.io/ => Hệ thống phải xử lý và kết nối với tài khoản trên hệ thống website
-
-https://btcsaigon.blogspot.com/2017/01/tao-vi-tien-ao-voi-google-chrome-cuc-ky.html
-https://nexus-coding.blogspot.com/2017/06/how-to-have-ethereum-wallet-without.html
+hoac co the luu tren: blockchain.info, bitcoin.com, myetherwallet.com
 
 - Mỗi thế chấp là 1 bản ghi tài sản đảm bảo của người vay.
 - Có thể + và - với tài khoản thế chấp cho các khoản vay khác nhau
@@ -45,56 +96,27 @@ https://nexus-coding.blogspot.com/2017/06/how-to-have-ethereum-wallet-without.ht
 4. Investee vào website và tìm khoản vay để đầu tư
 a. Tìm khoản vay và đầu tư
 Danh sách người vay hiển thị thi thỏa mãn (***).
-Tìm theo:
-Ngày kết thúc khoản vay
-Ngày khởi tạo
-Số tiền cần vay
-Lãi suất
-Số tiền lãi khi đáo hạn vay
+
 => Lựa chọn 1 người cần vay => cho vay và Invest
-=> Trạng thái là: Chờ nhà đầu tư chuyển tiền
+=> Trạng thái là: Chờ nhà đầu tư chuyển tiền => chuyen tien dau tu ngay tai thoi diem do (cau hinh thoi gian toi da la bao nhieu phut phai chuyen tien - neu khong giao dich se bi huy)
 
 b. Nhà đầu tư sẽ chuyển tiền vào tài khoản của hệ thống.
-Hệ thống tự động nhận biết và chuyển sang cho người đi vay (đối tác khác sẽ thực hiện nhận biết việc chuyển tiền
-của nhà đầu tư và chuyển sang cho người đi vay).
-=> Dựa vào đối tác nào => còn xử lý logic database và nhận biết nó.
+=> qua VCB hoac USDT (minh lam - tether.to / convert qua usdt de chuyen cho admin (shapeshift.io))
+http://prntscr.com/h5kwa8
+-----
+Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
+=>Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
+=>Đích là cấu hình địa chỉ usdt của admin: readonly
+Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
+https://info.shapeshift.io/api
+https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
 
-i.	Ban đầu người đi vay sẽ nhận tiền VND qua ngân hàng tại Việt Nam hoặc nhận USDT (https://tether.to/)
-=> Ai xử lý và còn xư lý DB
+http://localhost/lending/ttest
 
-ii.	Để đầu tư thì chủ đầu tư phải có tiền VND, USDT (https://tether.to/)  hoặc tiền ảo khác
-sẽ chuyển đổi thành USDT thông qua https://shapeshift.io
-=> Cái này nhận tiền nhứ thế nào => lưu vào đâu, thủ công hay tự động.
+=> admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
 
 5. Trường hợp chưa có nhà đầu tư: Thủ thuật cho website có nhiều người vào vay
-Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt,
-người này chọn các khoản vay để cung cấp cho người đi vay.
-
-N: settings
-Logo
-Hotline
-Email support
-Background main
-Color text main
-
-Lãi suất khoản vay (vd: 3%)
-Tỷ giá USD/VND
-Số ngày vượt quá bị mất tài sản thế chấp (15)
-Số ngày trước khi hết hạn nhắc nhở email (7)
-Số lượng vay hiệu lực tối đa (3)
-Số tiền tối đa vay cần xác thực cmnd hoặc passport (40.000.000)
-
-emailsupport
-mainbg
-maincolor
-laisuat
-tygiaUV
-daylost
-dayredm
-maxqty
-maxverified
-footer
-
+Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt - tu danh sach nguoi vay va dau tu cho cac khoan vay.
 
 FB:
 606771139713362
@@ -110,49 +132,14 @@ https://blog.damirmiladinov.com/laravel/laravel-5.2-socialite-google-login.html#
 => cacert.pem to php ini
 => Error google login: This means you have not configured Google APIs correctly.(Library > Google+ API > Enable) + Other config active google +.
 
-A. Add user type : ALTER TABLE `users` ADD `usertype` INT(1) NOT NULL COMMENT 'User type' AFTER `activated`;
-
-Filter invest or guest : ok
-crud invest, borrow: ok - delete + view
-some static backend: ok
-check max value borrow: ok
-fix data test for user_summary
-style layout
-
 
 GET current price: https://files.coinmarketcap.com/generated/search/quick_search.json
 https://coinmarketcap.com/widget/
 https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
 
-NĐT chuyển tiền: USDT
-1: khách hàng có sẵn usdt => thanh toán cho admin => admin tự nhận biết và gửi cho người đi vay (giao dịch thông qua tether)
-http://prntscr.com/h5kwa8
 
+Lay thong tin vcb: https://exchangeno1.com/check.php?xPayment=VCB&xAccount=0451000295304
 
-2: chưa có usdt sẵn => họ cần shapeshift convert
-Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
-=>Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
-=>Đích là cấu hình địa chỉ usdt của admin: readonly
-Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
-https://info.shapeshift.io/api
-https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
-
-http://localhost/lending/ttest
-
-=> admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
-
-
-NĐT chuyển tiền: VNĐ => Khách làm
-và mình làm api để update thông tin của khách nào và tương ứng giá trị nào
-
-
-http://prntscr.com/h5kqnx
-
-=> tự động nhận biết đã chuyển vào cho admin với cú pháp tin nhắn? => vcb làm
-=> admin nhận được => tự động chuyển tiền cho người thanh toán ()
-
-Lay thong tin vcb: https://exchangeno1.com/check.php?xPayment=VCB&xAccount=0451000295304&xField=RECEIVE[Account]&xRandom=0.17801132720017288&_=1509684227084
 Bán: => đầu tư: http://prntscr.com/h5kwa8
-
-
 Check history: https://omniexplorer.info/
+https://www.blockchain.com/enterprise/index.html
