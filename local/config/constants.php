@@ -16,6 +16,7 @@ return [
         'BTC' => '1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd',
         'ETH' => '0xc003724eb51c809b38340f91d16716ab67a0772b',
         'LTC' => '0xc003724eb51c809b38340f91d16716ab67a0772b'
-    ]
+    ],
+    'pathUpload' => 'uploads/files/'
 ];
 ?>

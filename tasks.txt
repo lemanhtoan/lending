@@ -62,7 +62,7 @@ Email to ... khi co new comment
 17. API mobile (later)
 
 18. Othes
-- Slider (+ alt + position)
+- Slider (+ alt + position): ok
 - Contacts (save db): ok
 - Config SEO tag to page to page
 - Chia role: Admin va nguoi quan ly tin tuc

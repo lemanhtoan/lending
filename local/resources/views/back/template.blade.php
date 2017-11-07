@@ -110,6 +110,10 @@
                         <a href="{!! url('borrowWaiting') !!}"><span class="fa fa-fw fa-dashboard"></span> Khoản vay cần duyệt</a>
                     </li>
 
+                    <li {!! classActiveSegment(1, 'slideshow') !!}>
+                        <a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>
+                    </li>
+
                     <li {!! classActiveSegment(1, 'getsettings') !!}>
                         <a href="{!! url('getsettings') !!}"><span class="fa fa-fw fa-dashboard"></span> Cài đặt</a>
                     </li>

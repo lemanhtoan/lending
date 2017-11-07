@@ -15,10 +15,12 @@
 		@endif
 
 		<div class="col-md-7 home-login">
-
 			<ul id="owl-homeslider" class="owl-carousel owl-theme">
-				<li class="item"><img src="{!!url('/img/banner1.jpg') !!}" alt="Banner"></li>
-				<li class="item"><img src="{!!url('/img/banner2.jpg') !!}" alt="Banner"></li>
+				<?php if (count($slideshows)) :?>
+				<?php foreach ($slideshows as $slide) :?>
+				<li class="item"><a href="<?php echo $slide['link']?>" title="<?php echo $slide['title']?>"><img src="{!! asset('uploads/files/' . $slide['image']) !!}"  alt="<?php echo $slide['title']?>"/></a></li>
+				<?php endforeach;?>
+				<?php endif; ?>
 			</ul>
 		</div>
 		<div class="col-md-5 home-slider">

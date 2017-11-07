@@ -13,6 +13,7 @@ use App\Models\Borrow;
 use App\Models\Invest;
 use App\Models\Post;
 use App\Models\Verified;
+use App\Models\Slideshow;
 use Carbon;
 
 class HomeController extends Controller
@@ -52,8 +53,8 @@ class HomeController extends Controller
 
         $khoanggia = \Config::get('constants.khoanggia');
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
-
-		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+        $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
+		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows'));
 	}
 
 	public function coinmarketcap(Request $request) {

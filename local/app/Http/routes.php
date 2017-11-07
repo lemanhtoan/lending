@@ -132,6 +132,10 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::resource('/ttest', 'HomeController@ttest');
 
+    // slideshow
+    Route::get('slideshow/order', ['uses' => 'SlideshowController@indexOrder', 'as' => 'Slideshow.order']);
+    Route::resource('slideshow', 'SlideshowController');
+
 	// test log
 	Route::get('tlog', 'HomeController@cronSet');
 	Route::get('treminder1', 'HomeController@getBorrowReminder');
