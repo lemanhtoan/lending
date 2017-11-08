@@ -535,7 +535,7 @@ class HomeController extends Controller
     }
 
     public function getBorrowReminder() {
-        // reminder 1
+        // reminder 1 - route: treminder1
         $dataReminder = DB::table('settings')->where('name', 'dayredm')->select('content')->get()[0];
         $fromDate = new Carbon('now');
         $toDate = Carbon::now()->addDays($dataReminder->content);
@@ -552,9 +552,65 @@ class HomeController extends Controller
         } else {
             echo 'No data';
         }
-
-
     }
 
+    public function getBorrowReminderLost() {
+        // reminder 2 - lost : route: treminderlost
+        $dataReminder = DB::table('settings')->where('name', 'daylost')->select('content')->get()[0];
+        $fromDate = new Carbon('now');
+
+
+        $data = Borrow::where('status', '=', '20')->where( 'ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('ngaydaohan', 'asc')->get();
+        if (count($data)) {
+            foreach ($data as $record) {
+                $toDate = Carbon::parse($record['ngaydaohan'])->addDays($dataReminder->content);
+                $dataAdd['dateLost'] = $toDate->toDateTimeString();
+                $userObj = User::where('id', $record->uid)->first();
+
+                emailSend($record, $userObj['email'], 'Email Reminder ' .$userObj['username'] .' - '.$toDate->toDateTimeString(), 'REMINDER_LOST', $dataAdd);
+
+                // update - neu da send email reminder => cap nhat trang thai cua khoan vay la da reminder lan 1 => status = 20
+                Borrow::where('id', $record->id)->update(array('status'=> '30'));
+            }
+        } else {
+            echo 'No data';
+        }
+    }
+
+    public function filterBorrow(Request $request) {
+	    //dd($request->all());
+        if ($request->input('uid')) {
+            $userObj = User::where('id', $request->input('uid'))->first();
+            $userType =  $userObj['usertype'];
+            $uid = $request->input('uid');
+        }else {
+            $userType = 'NON';
+            $uid = 0;
+        }
+
+        $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+        if ($request->input('start_time')) {
+            $startFilter = $request->input('start_time');
+        } else {
+            $startFilter = Carbon::now()->subMonths(12)->toDateTimeString();
+        }
+
+        if ($request->input('end_time')) {
+            $endFilter = $request->input('end_time');
+        } else {
+            $endFilter = Carbon::now()->addMonths(12)->toDateTimeString();
+        }
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)
+            ->whereBetween( 'invest.created_at', array($startFilter, $endFilter) )
+            ->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+    }
 }
 

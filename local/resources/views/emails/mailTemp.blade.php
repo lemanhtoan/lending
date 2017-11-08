@@ -51,6 +51,18 @@
 					$msg .= '<p>ngaygiaingan: ' . $data->ngaygiaingan . '</p>';
 					$msg .= '<p><b>ngaydaohan: ' . $data->ngaydaohan . '</b></p>';
 					break;
+                case 'REMINDER_LOST':
+                    $msg = '<h2>Email REMINDER_LOST</h2>';
+                    $msg .= '<p>soluongthechap: ' . $data->soluongthechap . '</p>';
+                    $msg .= '<p>kieuthechap: ' . $data->kieuthechap . '</p>';
+                    $msg .= '<p>thoigianthechap: ' . $data->thoigianthechap . '</p>';
+                    $msg .= '<p>phantramlai: ' . $data->phantramlai . '</p>';
+                    $msg .= '<p><b>sotiencanvay: ' . $data->sotiencanvay . '</b></p>';
+                    $msg .= '<p><b>dutinhlai: ' . $data->dutinhlai . '</b></p>';
+                    $msg .= '<p>ngaygiaingan: ' . $data->ngaygiaingan . '</p>';
+                    $msg .= '<p><b>ngaydaohan: ' . $data->ngaydaohan . '</b></p>';
+                    $msg .= '<p><b>ngay mat tai san the chap: ' . $dataAdd['dateLost'] . '</b></p>';
+                    break;
 			}
 
 			echo $msg;

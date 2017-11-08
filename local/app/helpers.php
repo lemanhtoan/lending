@@ -42,13 +42,13 @@ if (!function_exists('classActiveOnlySegment')) {
 
 
 if (!function_exists('emailSend')) {
-	function emailSend($data, $email, $subject, $typeEmail) {
+	function emailSend($data, $email, $subject, $typeEmail, $dataAdd = null) {
 		$dataAdmin = \DB::table('settings')->where('name', 'emailadmin')->select('content')->get()[0];
 		$emailAdmin = $dataAdmin->content;
 
-		\Mail::send('emails.mailTemp', ['data' => $data, 'typeEmail' => $typeEmail], function($message) use ($data, $email, $emailAdmin, $subject, $typeEmail) {
+		\Mail::send('emails.mailTemp', ['data' => $data, 'typeEmail' => $typeEmail,  'dataAdd' => $dataAdd], function($message) use ($data, $email, $emailAdmin, $subject, $typeEmail) {
 			$message->to($email);
-			if ($typeEmail == 'REMINDER_1' || $typeEmail == 'BORROW_INVEST_DONE') { // check type is send to cc admin
+			if ($typeEmail == 'REMINDER_1' || $typeEmail == 'BORROW_INVEST_DONE' || $typeEmail == 'REMINDER_LOST') { // check type is send to cc admin
 				$message->cc($emailAdmin);
 			}
 			$message->subject($subject);

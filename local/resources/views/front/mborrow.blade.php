@@ -1,7 +1,7 @@
 @extends('front.template')
 
 @section('main')
-
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	<?php
     	if (Auth::user()) {
     		$uMethod = Auth::user()->userReceived;
@@ -110,33 +110,68 @@
     <?php } ?>
 
 	<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
-
-	<div class="row">
-		<div class="col-md-6">
-			<div class="form-group">
-				{!! Form::label('Bắt đầu') !!} <em>*</em>
-				<div id="start_time" class="input-group input-append date">
-                        <span class="add-on" style="width: 100%">
-						<input value="<?php if(isset($post->start_time)) {echo $post->start_time;}else{echo '';} ?>" class="form-control" required data-format="yyyy-MM-dd hh:mm:ss" type="text" name="start_time"/>
-                        </span>
-				</div>
-			</div>
-
-			<div class="form-group">
-				{!! Form::label('Kết thúc') !!} <em>*</em>
-				<div id="end_time" class="input-group input-append date">
-                        <span class="add-on" style="width: 100%">
-						<input value="<?php if(isset($post->end_time)) {echo $post->end_time;}else{echo '';} ?>" class="form-control" required data-format="yyyy-MM-dd hh:mm:ss" type="text" name="end_time"/>
-					    </span>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
 				<h3>Các khoản đầu tư đã thực hiện <?php if ($userType == '1') {echo ' (Nhà đầu tư đặc biệt)';}?></h3>
+				<div class="row">
+					<form action="{!! url('filterBorrow') !!}" id="filterBorrow" class="form-horizontal" method="get">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<input type="hidden" name="uid" value="<?php echo $uid ?>">
+					<div class="col-md-3">
+						<div class="form-group">
+							{!! Form::label('Bắt đầu') !!} <em>*</em>
+							<div id="start_time" class="input-group input-append date">
+                        <span class="add-on" style="width: 100%">
+						<input value="<?php if(isset($_GET['start_time'])) {echo $_GET['start_time'];}else{echo '';} ?>" class="form-control" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="start_time"/>
+                        </span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							{!! Form::label('Kết thúc') !!} <em>*</em>
+							<div id="end_time" class="input-group input-append date">
+                        <span class="add-on" style="width: 100%">
+						<input value="<?php if(isset($_GET['end_time'])) {echo $_GET['end_time'];}else{echo '';} ?>" class="form-control" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="end_time"/>
+					    </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<input type="submit" value="Filter"/>
+					</div>
+					</form>
+				</div>
+
+				<div class="row chartData">
+					<script type="text/javascript">
+                        window.onload = function () {
+                            var chart = new CanvasJS.Chart("chartTransction", {
+                                title:{
+                                    text: "Thống kê khoản đầu tư - " + <?php echo date('m')?> + '/' +  <?php echo date('Y')?>
+                                },
+                                data: [
+                                    {
+                                        type: "column",
+                                        dataPoints: [
+                                            { label: "Tuần 1",  y: <?php echo 10; ?>  },
+                                            { label: "Tuần 2", y: <?php echo 5; ?> },
+                                            { label: "Tuần 3", y: <?php echo 20; ?>  },
+                                            { label: "Tuần 4",  y: <?php echo 50; ?>  }
+                                        ]
+                                    }
+                                ]
+                            });
+                            chart.render();
+
+                        }
+					</script>
+					<div id="chartTransction" style="height: 300px; width: 100%;"></div>
+
+				</div>
+
                 <?php if (count($investsOfUser)) { ?>
 				<div class="table-responsive">
 					<table class="table invest-table">

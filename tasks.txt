@@ -28,7 +28,7 @@ Email nhac nho (V) => Detail + date exp
 7. Tra no khoan vay
 Email thong bao thanh cong tra no (V) => Detail
 
-8. Nhac nho khoan vay qua 15 ngay
+8. Nhac nho khoan vay qua 15 ngay: ngay dao han <= hien tai ==> nhac nho 15 ngay (ok email nhac nho) => crontab - find items ( (now - ngaydaohan >= 15) && status = 30 )
 Email nhac nho (V) => Detail + date lost 
 
 9. V rut tai san => Cho admin duyet: Dieu kien la khong con no, hoac tra 1 phan => chia tien cho D va V theo ty le
@@ -41,7 +41,7 @@ Email to (V) => Detail yeu cau => thong bao da gui vao address: ... => ... money
 11. Qua 15 ngay chua thanh toan =>
 Email to (V) => Tai san the chap da bi mat va chuyen cho D (address: ...) + Detail khoan vay
 
-12. D quan ly cac khoan vay, thong ke va trich xuat du lieu cua minh
+12. D quan ly cac khoan vay (xem mà thôi), thống kê 12 tháng trong năm - dạng cột (fix tam data), lọc dữ liệu từ from date -> to date : ok
 
 13.
 A

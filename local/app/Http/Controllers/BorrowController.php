@@ -297,7 +297,6 @@ class BorrowController extends Controller {
 		if (count($investData)) {
 			$userInvest =  User::where('id', $investData['uid'])->first();
 			emailSend($borrowData, $userBorrowObj['email'], 'Email To Borrow - Invested Done To Invest' .$userInvest['username'], 'BORROW_INVEST_DONE_TO_INVEST');
-
 		}
 
 		return redirect('/')->with('ok', 'Data borrow data updated');

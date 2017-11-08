@@ -142,4 +142,7 @@ Route::group(['middleware' => ['web']], function () {
 	// test log
 	Route::get('tlog', 'HomeController@cronSet');
 	Route::get('treminder1', 'HomeController@getBorrowReminder');
+    Route::get('treminderlost', 'HomeController@getBorrowReminderLost');
+
+    Route::resource('filterBorrow', 'HomeController@filterBorrow');
 });
