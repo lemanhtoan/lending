@@ -29,6 +29,28 @@
 					$msg .= '<p>ngaygiaingan: ' . $data->ngaygiaingan . '</p>';
 					$msg .= '<p><b>ngaydaohan: ' . $data->ngaydaohan . '</b></p>';
 					break;
+				case 'BORROW_INVEST_DONE':
+					$msg = '<h2>Email BORROW_INVEST_DONE</h2>';
+					$msg .= '<p>soluongthechap: ' . $data->soluongthechap . '</p>';
+					$msg .= '<p>kieuthechap: ' . $data->kieuthechap . '</p>';
+					$msg .= '<p>thoigianthechap: ' . $data->thoigianthechap . '</p>';
+					$msg .= '<p>phantramlai: ' . $data->phantramlai . '</p>';
+					$msg .= '<p><b>sotiencanvay: ' . $data->sotiencanvay . '</b></p>';
+					$msg .= '<p><b>dutinhlai: ' . $data->dutinhlai . '</b></p>';
+					$msg .= '<p>ngaygiaingan: ' . $data->ngaygiaingan . '</p>';
+					$msg .= '<p><b>ngaydaohan: ' . $data->ngaydaohan . '</b></p>';
+					break;
+				case 'BORROW_INVEST_DONE_TO_INVEST':
+					$msg = '<h2>Email BORROW_INVEST_DONE_TO_INVEST</h2>';
+					$msg .= '<p>soluongthechap: ' . $data->soluongthechap . '</p>';
+					$msg .= '<p>kieuthechap: ' . $data->kieuthechap . '</p>';
+					$msg .= '<p>thoigianthechap: ' . $data->thoigianthechap . '</p>';
+					$msg .= '<p>phantramlai: ' . $data->phantramlai . '</p>';
+					$msg .= '<p><b>sotiencanvay: ' . $data->sotiencanvay . '</b></p>';
+					$msg .= '<p><b>dutinhlai: ' . $data->dutinhlai . '</b></p>';
+					$msg .= '<p>ngaygiaingan: ' . $data->ngaygiaingan . '</p>';
+					$msg .= '<p><b>ngaydaohan: ' . $data->ngaydaohan . '</b></p>';
+					break;
 			}
 
 			echo $msg;

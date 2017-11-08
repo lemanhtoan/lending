@@ -48,7 +48,7 @@ if (!function_exists('emailSend')) {
 
 		\Mail::send('emails.mailTemp', ['data' => $data, 'typeEmail' => $typeEmail], function($message) use ($data, $email, $emailAdmin, $subject, $typeEmail) {
 			$message->to($email);
-			if ($typeEmail == 'REMINDER_1') { // check type is send to cc admin
+			if ($typeEmail == 'REMINDER_1' || $typeEmail == 'BORROW_INVEST_DONE') { // check type is send to cc admin
 				$message->cc($emailAdmin);
 			}
 			$message->subject($subject);

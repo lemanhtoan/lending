@@ -1,6 +1,7 @@
 @extends('front.template')
 
 @section('main')
+
 	<?php
     	if (Auth::user()) {
     		$uMethod = Auth::user()->userReceived;
@@ -109,6 +110,29 @@
     <?php } ?>
 
 	<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				{!! Form::label('Bắt đầu') !!} <em>*</em>
+				<div id="start_time" class="input-group input-append date">
+                        <span class="add-on" style="width: 100%">
+						<input value="<?php if(isset($post->start_time)) {echo $post->start_time;}else{echo '';} ?>" class="form-control" required data-format="yyyy-MM-dd hh:mm:ss" type="text" name="start_time"/>
+                        </span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				{!! Form::label('Kết thúc') !!} <em>*</em>
+				<div id="end_time" class="input-group input-append date">
+                        <span class="add-on" style="width: 100%">
+						<input value="<?php if(isset($post->end_time)) {echo $post->end_time;}else{echo '';} ?>" class="form-control" required data-format="yyyy-MM-dd hh:mm:ss" type="text" name="end_time"/>
+					    </span>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
@@ -165,6 +189,14 @@
 		</div>
 	</div>
 	<?php } ?>
-@stop
 
+	{!! HTML::style('css/bootstrap-datetimepicker.min.css') !!}
+	{!! HTML::script('js/bootstrap-datetimepicker.min.js') !!}
+
+	<script type="text/javascript">
+		$('#start_time, #end_time').datetimepicker({});
+	</script>
+
+
+@stop
 

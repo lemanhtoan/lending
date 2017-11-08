@@ -136,6 +136,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('slideshow/order', ['uses' => 'SlideshowController@indexOrder', 'as' => 'Slideshow.order']);
     Route::resource('slideshow', 'SlideshowController');
 
+	// update borrow date
+	Route::get('borrowUpdateDate/{id}', 'BorrowController@borrowUpdateDate');
+
 	// test log
 	Route::get('tlog', 'HomeController@cronSet');
 	Route::get('treminder1', 'HomeController@getBorrowReminder');

@@ -1,11 +1,15 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\Borrow;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\SearchRequest;
 use App\Repositories\BorrowRepository;
 use App\Repositories\UserRepository;
+use Carbon;
+use App\Models\User;
+use App\Models\Invest;
 
 class BorrowController extends Controller {
 
@@ -276,6 +280,27 @@ class BorrowController extends Controller {
         }else {
 			return redirect('/')->with('ok', 'Khoản vay của bạn đã được tạo');
 		}
+	}
+
+	public function borrowUpdateDate($borrowId) {
+		$borrowData = Borrow::where('id', $borrowId)->first();
+		$giaingan = new Carbon('now');
+		$daohan = Carbon::now()->addMonths($borrowData['thoigianthechap']);
+		Borrow::where('id', $borrowId)->update(['ngaygiaingan' => $giaingan->toDateTimeString(), 'ngaydaohan' => $daohan->toDateTimeString()]);
+
+		// email to V
+		$userBorrowObj = User::where('id', $borrowData['uid'])->first();
+		emailSend($borrowData, $userBorrowObj['email'], 'Email To Borrow - Invested Done ' .$userBorrowObj['username'], 'BORROW_INVEST_DONE');
+
+		// email to D
+		$investData = Invest::where('borrowId', $borrowId)->firstOrFail();
+		if (count($investData)) {
+			$userInvest =  User::where('id', $investData['uid'])->first();
+			emailSend($borrowData, $userBorrowObj['email'], 'Email To Borrow - Invested Done To Invest' .$userInvest['username'], 'BORROW_INVEST_DONE_TO_INVEST');
+
+		}
+
+		return redirect('/')->with('ok', 'Data borrow data updated');
 	}
 
 }

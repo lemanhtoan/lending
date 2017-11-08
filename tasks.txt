@@ -1,13 +1,15 @@
 (A: admin; DB; nha dau tu dac biet; D: nha dau tu; V: nguoi vay => default: cc -> A)
 
 1. Dang ky voi fb/gg
-sau khi login thì sẽ điền email để verified accout và update thông tin
-=> active
+sau khi login thì sẽ điền email để verified account và update thông tin
+Email to D or V link verified => active
 
-2. Khoan vay
+2. Khoan vay khi da duoc dau tu: da cap nhat thong qua: http://localhost/lending/borrowUpdateDate/1 (id => id borrow)
 Ngày giải ngân: tinh khi nha dau tu chuyen tien => update lai
 Ngày đáo hạn: thoi gian ngay giai ngan + so thang vay
-Email khi khoan vay duoc khoi tao (V) => link to 3
+Email khi khoan vay duoc dau tu (V) + email D thong bao dau tu thanh cong
+
+BEFORE: khoan vay duoc tao => emai to V (khoan vay duoc tao => vui long link de the chap)=> link to 3
 
 3*. Nguoi vay the chap tai san => tai san nay lien ket voi 1 khoan vay
 => Khi khoan vay het no => co the lien ket khoan vay khac ma khong can the chap moi
@@ -20,7 +22,7 @@ Email khi khoan vay co hieu luc (V + D) => Detail
 
 5*. Admin tu nhan biet giao dich nao da chuyen tien: cuphap ABC123456 va tu dong chuyen tien cho nguoi vay
 
-6. Nhac nho khoan vay 7 ngay: ok
++++6. Nhac nho khoan vay 7 ngay: ok
 Email nhac nho (V) => Detail + date exp
 
 7. Tra no khoan vay
@@ -62,8 +64,6 @@ Email to ... khi co new comment
 17. API mobile (later)
 
 18. Othes
-- Slider (+ alt + position): ok
-- Contacts (save db): ok
 - Config SEO tag to page to page
 - Chia role: Admin va nguoi quan ly tin tuc
 - Log data user (cang nhieu cang tot de theo doi)
