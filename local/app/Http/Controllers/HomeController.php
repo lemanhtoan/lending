@@ -469,24 +469,49 @@ class HomeController extends Controller
         }
     }
 
-    public function ttest() {
+    // test on wez.nz coupon // chưa hoàn thiện: https://github.com/madmis/wexnz-api
+    public function tcoupon() {
+        $input = [
+            'currency' => 'USD',
+            'amount' => '0.01',
+            'receiver' => 'toanlm91',
+            'apiKey' => '7F8VC4WQ-U8QDJ56S-98F5OCHJ-ZB3WSKRM-F8305VGR',
+            'apiSecret' => '177ed0df6253ef7784e9325bb549c6df126235cb43d124e8e541c64213a92530'
+        ];
+        // key: 7F8VC4WQ-U8QDJ56S-98F5OCHJ-ZB3WSKRM-F8305VGR
+        // secret: 177ed0df6253ef7784e9325bb549c6df126235cb43d124e8e541c64213a92530
+        $uri = 'https://wex.nz/tapi';
+        $content = json_encode($input);
 
+        $curl = curl_init($uri);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+        var_dump($json_response);
+    }
+
+    public function ttest() {
+        // chuyển tiền ntnao, vì hiện tại chỉ có address của người nhận https://info.shapeshift.io/
         $result = $this->createFixedAmountTransaction(
-            '0.5',
-            '0x123f681646d4a755815f9cb19e1acc8565a0c2ac',
-            'BTC',
+            '0.01',
+            '14TJLFYhChumj3NDjHqjcDiUeL5A6opKx8',
             'ETH',
-            '1HLjjjSPzHLNn5GTvDNSGnhBqHEF7nZxNZ'
+            'BTC',
+            '0x123f681646d4a755815f9cb19e1acc8565a0c2ac'
         );
         var_dump($result);die;
-        die('1');
     }
     public function createFixedAmountTransaction (
          $amount,
-         $withdrawalAddress,
+         $withdrawalAddress, // sent to admin
          $coin1,
          $coin2,
-         $returnAddress = null,
+         $returnAddress = null, // dia chi nhan tien lai neu co loi xay ra
          $rsAddress = null,
          $destinationTag = null,
          $apiKey = null
@@ -501,8 +526,6 @@ class HomeController extends Controller
             'apiKey' => $apiKey,
             'amount' => $amount,
         ];
-
-
         $uri = 'https://shapeshift.io/sendamount';
         $content = json_encode($input);
 

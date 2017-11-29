@@ -132,6 +132,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::resource('/ttest', 'HomeController@ttest');
 
+    Route::resource('/tcoupon', 'HomeController@tcoupon');
+
     // slideshow
     Route::get('slideshow/order', ['uses' => 'SlideshowController@indexOrder', 'as' => 'Slideshow.order']);
     Route::resource('slideshow', 'SlideshowController');
