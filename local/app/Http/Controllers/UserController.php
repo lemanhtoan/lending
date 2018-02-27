@@ -208,4 +208,5 @@ class UserController extends Controller {
         $invests = User::where('userType','2')->orWhere('userType','1')->where('activated', 1)->get();
         return view('back.users.special', compact('invests', 'ok'));
     }
+
 }

@@ -6,6 +6,15 @@ use App\Http\Requests\PostRequest;
 use App\Http\Requests\SearchRequest;
 use App\Repositories\InvestRepository;
 use App\Repositories\UserRepository;
+use Auth;
+use DB;
+use App\Models\Borrow;
+use App\Models\Invest;
+use App\Models\Post;
+use App\Models\Verified;
+use App\Models\Slideshow;
+use Carbon;
+use App\Models\User;
 
 class InvestController extends Controller {
 
@@ -240,11 +249,65 @@ class InvestController extends Controller {
 
 	public function createNew($idBorrow)
 	{
-		$data = $this->borrow_gestion->store($idBorrow);
-		if($data == '0') {
-            return redirect('auth/login')->with('ok', 'Please login before invest');
-        } else {
-            return redirect('/')->with('ok', 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền');
+		// tao moi xong => hien thi thong tin dia chi nguoi nhan tien (theo borrow) va quy đổi số tiền token cần chuyển theo rate hiện tại 
+		// sau khi nhà đầu tư chuyển xong => focus tới phần xác nhận đã chuyển tiền => form submit
+		if (Auth::user()) {
+			$borrowCheck = Invest::where('borrowId', $idBorrow)->where('uid', Auth::user()->id)->first();
+			if ($borrowCheck) {
+				return redirect('/')->with('ok', 'Khoản đầu tư được thực hiện trước đó');
+			} else {
+				$data = $this->borrow_gestion->store($idBorrow);
+
+				if (Auth::user()) {
+		            $userType =  Auth::user()->usertype;
+		            $uid = Auth::user()->id;
+		            $borrowsExist = Invest::where('uid', $uid)->get();
+		            if (count($borrowsExist)) {
+		                $arrBorrow = [];
+		                foreach ($borrowsExist as $exist) {
+		                    $arrBorrow[] = $exist->borrowId;
+		                }
+		                $borrows = Borrow::where('status', 1)->whereNotIn('id', $arrBorrow)->orderBy('created_at', 'desc')->get();
+		            }else {
+		                $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
+		            }
+		        }else {
+		            $userType = 'NON';
+		            $uid = 0;
+
+		            $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
+		        }
+
+		        $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+		        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+		            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+		        );
+
+		        $khoanggia = \Config::get('constants.khoanggia');
+		        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+		        $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
+
+				if($data != '0') {
+					$okMessage = 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền';
+					$borrowData = Borrow::where('id', $idBorrow)->first();
+					if($borrowData) {
+						$sotien = $borrowData->sotiencanvay;
+						$dataTygia = DB::table('settings')->where('name', 'ccl')->select('content')->get()[0]; 
+						$dataMoney = round($sotien/$dataTygia->content, 2);
+						$userData = User::where('id', $borrowData->uid)->first();
+						if ($userData) {
+							$dataCCL = $userData->cclAddress;
+						}
+						$dataId = $data->borrowId;
+					}
+
+					return view('front.index', compact('okMessage', 'dataId', 'dataMoney', 'dataCCL', 'blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows'));
+		            // return redirect('/')->with('ok', 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền');
+		        } 
+		    }
+
+	    } else {
+	       return redirect('auth/login')->with('ok', 'Please login before invest');
         }
     }
 

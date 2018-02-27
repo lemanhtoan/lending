@@ -37,6 +37,22 @@
 	</div>
 	<!-- setup user money received method -->
 
+	<!-- setup user money received address token -->
+	<div class="row">
+		<h3>Địa chỉ token nhận tiền CCL</h3>
+		<form action="saveAccount" method="POST" role="form">
+			{{ csrf_field() }}
+			<div class="form-group">
+				 <label for="cclAddress">Địa chỉ token CCL của bạn</label>
+   				 <input type="text" class="form-control" id="cclAddress" name="cclAddress" value="<?php echo $uCCL;?>" <?php if($uCCL && $uCCL!="") {echo 'readonly';}?>>
+			</div>
+			<?php if($uCCL=="") : ?>
+				<input type="submit"  class="btn btn-primary" value="Lưu" class="button" />
+			<?php endif; ?>
+		</form>
+	</div>
+	<!-- setup user money received  address token -->
+
 	<!-- setup user bank -->
 	<div class="row">
 		<h3>Thiết lập tài khoản ngân hàng</h3>
@@ -178,24 +194,26 @@
 						<thead>
 						<tr>
 							<th style="width: 5%">#</th>
-							<th style="width: 20%">Ngày kết thúc khoản vay</th>
+							<th style="width: 10%">Ngày kết thúc khoản vay</th>
 							<th style="width: 15%">Ngày thực hiện đầu tư</th>
 							<th style="width: 15%">Số tiền cần vay</th>
 							<th style="width: 15%">Lãi suất</th>
-							<th style="width: 20%">Số tiền lãi khi đáo hạn khoản vay</th>
-							<th style="width: 5%">Trạng thái</th>
+							<th style="width: 15%">Số tiền lãi khi đáo hạn khoản vay</th>
+							<th style="width: 10%">Trạng thái</th>
+							<th style="width: 15%">Hanh dong</th>
 						</tr>
 						</thead>
 						<tbody>
-                        <?php $i = 0; foreach ($investsOfUser as $invest) : $i++?>
+                        <?php $i = 0; foreach ($investsOfUser as $invest) : $i++ ?>
+						
 						<tr>
 							<td style="width: 5%"><?php echo $i;?></td>
-							<td style="width: 20%"><?php echo $invest->ngaygiaingan ?></td>
+							<td style="width: 10%"><?php echo $invest->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $invest->created_at ?></td>
 							<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
 							<td style="width: 15%"><?php echo $invest->phantramlai ?> (%/tháng)</td>
-							<td style="width: 20%"><?php echo $invest->dutinhlai ?></td>
-							<td style="width: 5%">
+							<td style="width: 15%"><?php echo $invest->dutinhlai ?></td>
+							<td style="width: 10%">
                                 <?php
                                 switch ($invest->status) {
                                     case 0:
@@ -212,6 +230,7 @@
                                 echo $label;
                                 ?>
 							</td>
+							<td style="width: 15%"><a href="{{ url('confirmInvest/?id=' . $invest->borrowId) }}" class="btn btn-default">xac nhan chuyen tien</a></td>
 						</tr>
                         <?php endforeach; ?>
 						</tbody>

@@ -84,7 +84,7 @@ Ngày giải ngân: tinh khi nha dau tu chuyen tien => update lai
 Ngày đáo hạn: thoi gian ngay giai ngan + so thang vay
 =>đã thế chấp tài sản => Trạng thái là: Khởi tạo => có thể cho nhà đầu tư nhìn thấy
 
-3. Borrower chuyển thế chấp
+3. Borrower chuyển thế chấp (PENDING...)
 Người dùng thế chấp trên https://jaxx.io/ => Hệ thống phải xử lý và kết nối với tài khoản trên hệ thống website
 hoac co the luu tren: blockchain.info, bitcoin.com, myetherwallet.com
 
@@ -101,19 +101,8 @@ Danh sách người vay hiển thị thi thỏa mãn (***).
 => Trạng thái là: Chờ nhà đầu tư chuyển tiền => chuyen tien dau tu ngay tai thoi diem do (cau hinh thoi gian toi da la bao nhieu phut phai chuyen tien - neu khong giao dich se bi huy)
 
 b. Nhà đầu tư sẽ chuyển tiền vào tài khoản của hệ thống.
-=> qua VCB hoac USDT (minh lam - tether.to / convert qua usdt de chuyen cho admin (shapeshift.io))
-http://prntscr.com/h5kwa8
------
-Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
-=>Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
-=>Đích là cấu hình địa chỉ usdt của admin: readonly
-Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
-https://info.shapeshift.io/api
-https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
 
-http://localhost/lending/ttest
-
-=> admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
+=> UPDATE theo giai phap moi.......
 
 5. Trường hợp chưa có nhà đầu tư: Thủ thuật cho website có nhiều người vào vay
 Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt - tu danh sach nguoi vay va dau tu cho cac khoan vay.
@@ -140,6 +129,46 @@ https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
 
 Lay thong tin vcb: https://exchangeno1.com/check.php?xPayment=VCB&xAccount=0451000295304
 
-Bán: => đầu tư: http://prntscr.com/h5kwa8
-Check history: https://omniexplorer.info/
-https://www.blockchain.com/enterprise/index.html
+
+=====================NDT chuyển tiền=========================
+contract của token mình dùng 0xF7b0962b9b00D42EeDb1005316875f1312785e84: CCT
+1. cách tạo token riêng cho web mình ( dũng cung cấp )
+2. lấy tỷ giá 5phut 1 lần từ https://coinmarketcap.com  https://coinmarketcap.com/currencies/salt/#charts
+3. tài khoản người vay cần có 1 địa chỉ token để nhận tiền (mình cung cấp hay khách tự điền - nếu tự điền thì nó làm sao để kết nối token bên mình) - không thể edit (admin có thể edit)
+4. nhà đầu tư tự chuyển token về cho người vay và lấy được haskkey => sau đó điền vào form của mình để check
+5. check info sau khi thask submit: https://api.ethplorer.io/getTxInfo/0xc3c99b13eac2338993020cad8c5991cfe9baa9e4e8319f3c50ac4c4a597e24c5?apiKey=freekey
+
+"success":true: Giao dịch chuyển thành công
+Contract tạo token/coin "address":"0x78971f0f20e7aac8adf286dba7d4487f96d36ab0 =>Mỗi token sẽ được tạo từ 1 mã contact, Dũng sẽ gửi em mã này
+Số lượng coin "value":"100000000000" => Giá trị là 1000 token: Căn cứ "decimals":"8"
+Mã token "symbol":"EFSS
+"to":"0x9a64d9493de1d1c1377e415460ccf09fcd7ff532"
+=> tất cả ok: giao dịch thành công!
+
+6. chuyển thiếu: => thông báo người vay hoàn trả tiền. => mình làm sao biết đã hoàn trả???
+Cập nhật giá trị khoản vay tương ứng với số lượng token: 300/500*1000 => không cần vì đã thông bao hoàn trả
+=> khi nhà đầu tư submit chọn khoản vay => tính giá trị token và lưu vào db khi ndt quyết định đầu tư (confirm => lưu lại)
+sau đó khi nhà đầu tư confim đã chuyển bằng haskcode => submit check giá trị từ api value trả về và giá trị db lưu kia: nếu = thì ok, thiếu thì thông báo tới người vay hoàn trả
+
+----------
+dùng Ethereum token chuẩn ERC20
+
+Chúng ta sẽ tạo token dùng chung cho website coincashloan.com
+Ví dụ token của 1 website khác
+https://etherscan.io/address/0x4086f6c05207d0747499fcf41328d736a18c564b
+
+Thí dụ: Nhà đầu tư muốn cho vay 1000 USD sẽ mua token trên exchanger (sàn giao dịch). Lúc đó chúng ta sẽ lấy giá trên https://coinmarketcap.com qui đổi 1000 USD này sẽ được bao nhiêu token tương ứng (Giả sử tại thời điểm chuyển tiền thì giá trị token này là 1 USD thì nhà đầu tư chuyển 1000 token cho người đi vay)
+
+Đến thời hạn trả nợ thì người đi vay sẽ làm tương ứng nhưng theo chiều ngược lại
+
+Để làm được điều này nhà đầu tư và đi vay phải có ví Ethereum để chứa token (ví này có thể tạo ở myetherwallet.com hay https://metamask.io/)
+
+Do ban đầu token chưa có niêm yết trên sàn nên chúng ta sẽ cấu hình 1 giá trị hợp lý thí dụ 0.5 USD để quy đổi token sau khi được niêm yết lên sàn thì chúng ta lấy tỷ giá từ sàn niêm yết
+
+Do giá token sẽ thay đổi liên tục nên form chuyển tiền của nhà đâu tư sẽ cập nhật giá token 5 phút/lần để giá cả được hợp lý. Khi nhà đầu tư chuyển token (tương đương tiền vay) sang cho người đi vay và ngược lại chúng ta có thể check tại website https://ethplorer.io/address/0x9b289436de13a4c6705b0875556f067dfb9e0fbb#pageSize=100 và dùng API của họ để check https://github.com/EverexIO/Ethplorer/wiki/Ethplorer-API
+
+
+ALTER TABLE `users` ADD `cclAddress` VARCHAR(255) NULL;
+INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VALUES (NULL, 'ccl', '0.5', NULL, NULL);
+
+

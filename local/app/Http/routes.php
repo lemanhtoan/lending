@@ -108,6 +108,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('verifiedItem', 'HomeController@verifiedItem');
 
     Route::post('moneyReceived', 'HomeController@methodPayment');
+    Route::post('saveAccount', 'HomeController@saveAccount');
+    Route::get('confirmInvest', 'HomeController@confirmInvest');
+    Route::post('confirmInvest', 'HomeController@postConfirmInvest');
 
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);

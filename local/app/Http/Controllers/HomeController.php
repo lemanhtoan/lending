@@ -190,7 +190,8 @@ class HomeController extends Controller
             'maxqty'=> Settings::where('name', 'maxqty')->get(['content'])->toArray(),
             'maxverified'=> Settings::where('name', 'maxverified')->get(['content'])->toArray(),
             'footer'=> Settings::where('name', 'footer')->get(['content'])->toArray(),
-            'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray()
+            'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray(),
+            'ccl'=> Settings::where('name', 'ccl')->get(['content'])->toArray(),
         ];
     }
 
@@ -355,9 +356,11 @@ class HomeController extends Controller
         if (Auth::user()) {
             $userType =  Auth::user()->usertype;
             $uid = Auth::user()->id;
+            $uCCL = Auth::user()->cclAddress;
         }else {
             $userType = 'NON';
             $uid = 0;
+            $uCCL = '';
         }
 
         $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
@@ -368,7 +371,7 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL'));
     }
 
     public function deleteitem(Request $request) {
@@ -465,6 +468,15 @@ class HomeController extends Controller
             $uid = Auth::user()->id;
             $mothod = $request->input('methodPayment');
             User::where('id', $uid)->update(array('userReceived'=> $mothod));
+            return redirect('manager')->with('ok', 'Thông tin đã được cập nhật');
+        }
+    }
+
+     public function saveAccount(Request $request) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $mothod = $request->input('cclAddress');
+            User::where('id', $uid)->update(array('cclAddress'=> $mothod));
             return redirect('manager')->with('ok', 'Thông tin đã được cập nhật');
         }
     }
@@ -634,6 +646,55 @@ class HomeController extends Controller
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
         return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+    }
+
+
+    public function confirmInvest(Request $request) {
+        $id = $request->input('id');
+        return view('front.confirm', compact('id'));
+    }
+
+    public function postConfirmInvest(Request $request) {
+        $id = $request->input('investId');
+        $keyHash = $request->input('keyHash');
+        $apiKey = 'freekey';
+        $baseUrl = 'https://api.ethplorer.io/getTxInfo/';
+        // https://api.ethplorer.io/getTxInfo/0xc3c99b13eac2338993020cad8c5991cfe9baa9e4e8319f3c50ac4c4a597e24c5?apiKey=freekey
+        $getInfo = $baseUrl.$keyHash.'?apiKey='.$apiKey;
+
+        $jsonInfo = file_get_contents($getInfo);
+
+        $objInfo = json_decode($jsonInfo);
+        if(isset($objInfo->error)) {
+            echo 'error';
+            die;
+        } else {
+            $borrowsOfUser = Borrow::where('id', $id)->first();
+            $userInfo = User::where('id', $borrowsOfUser->uid)->first();
+            $isSuccess = false;
+            $isTo = false;
+
+            $value = $objInfo->operations[0];
+            $valueMoney = $value->value;
+            $decimals = $value->tokenInfo->decimals;
+            $symbol = $value->tokenInfo->symbol;
+
+            $isToAdd = $value->to;
+
+            if($objInfo->success) {
+                $isSuccess= true;
+            }
+            if($isToAdd) {
+                if ($userInfo) {
+                    if ($userInfo->cclAddress == $isToAdd) {
+                        $isTo = true;
+                    }
+                } 
+            }
+
+        }
+        echo "<pre>"; var_dump($valueMoney,$decimals,$symbol,  $isSuccess, $isTo, $id, $keyHash, $objInfo);die;
+        return view('front.confirm', compact('id'));
     }
 }
 

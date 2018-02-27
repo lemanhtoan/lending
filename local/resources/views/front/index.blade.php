@@ -14,6 +14,16 @@
 			</div>
 		@endif
 
+		<?php  if(isset($okMessage)) : ?>
+			<div class="box-info">
+				<div class="alert alert-success">
+				  <h3><?php echo $okMessage; ?></h3>
+				  <p>Bạn cần chuyển số token: <b><?php echo $dataMoney; ?></b> tới địa chỉ người vay <b><?php echo $dataCCL; ?></b></p>
+				  <p>Sau khi chuyển vui lòng bấm <a href="{{ url('confirmInvest/?id=' . $dataId) }}">xác nhận chuyển tiền </a> để hoàn thành giao dịch</p>
+				</div>
+			</div>
+		<?php endif; ?>
+
 		<div class="col-md-7 home-login">
 			<ul id="owl-homeslider" class="owl-carousel owl-theme">
 				<?php if (count($slideshows)) :?>
