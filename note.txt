@@ -62,7 +62,7 @@ Chi tiết khoản vay
 B. Dia chi nhan tien
 Bitcoin address: 1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd
 Etherium address: 0xc003724eb51c809b38340f91d16716ab67a0772b
-Litecoin address: 0xc003724eb51c809b38340f91d16716ab67a0772b
+Litecoin address: 0xc003724eb51c809b38340f91d16716ab67a0772b : later
 
 ====================================
 C. Process
@@ -172,3 +172,36 @@ ALTER TABLE `users` ADD `cclAddress` VARCHAR(255) NULL;
 INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VALUES (NULL, 'ccl', '0.5', NULL, NULL);
 
 
+EX: ccl value 2356789000 (8) => but on etherscanIO Value: 0 Ether ($0.00)
+
+TEST:
+https://etherscan.io/tx/0xff7d7f8e897161b374b938cfbb1ef1cf3911b9c18bebef11be98f5014df66e40  CCL
+https://etherscan.io/tx/0x81690bcc8639d6403a17ea30d6c1e549b211d3b5a2800d93d0c2549a1815b3be ETH
+
+
+thế chấp thì họ gửi tiền ảo vào btc hoặc eth cho mình: dung api check 2 step
+họ tự chuyển vào địa chỉ mình => sau đó họ sẽ phải confirm và submit transId
+và mình sẽ save nó lại và check trạng thái tiền bên mình, nếu chưa có thì báo penđing, và sau đó mình chạy crontab => check api kia
+khi nào nhận dc tiền thì mới noti
+là đã hoàn thành
+
+còn ndt chuyển tiền và trả tiền vay là dùng ccl token
+
+
+Khi kh nhập transaction id vào system, Thì phải check nó có trên hệ thống mình ko nhé
+Vì sợ kh dùng 2 lần Cho 1 id
+Transaction id ấy
+
+1. https://blockchain.info/rawtx/b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da
+blockchain.info
+{ "ver":1, "inputs":[ { "sequence":4294967295, "witness":"", "prev_out":{ "spent":true, "tx_index":1937837, "type":0, "addr":"1FwYmGEjXhMtxpWDpUXwLx7ndLNfFQncKq", "value":100000000, "n":2, "script":"76a914a3e2bcc9a5f776112497a32b05f4b9e5b2405ed988ac" }, "script":"48304502210098a2851420e4daba656fd79c...
+blockchain.info
+e lấy ra: block_height: 154598,
+sau đó truy xuất: https://blockchain.info/latestblock
+blockchain.info
+{ "hash":"0000000000000000002a7aa71b96719b088e36246f1a7415afdab6cb8a99cd24", "time":1519779860, "block_index":1675906, "height":511239, "txIndexes":[333526061,333525278,333525520,333525275,333525076,333525384,333525843,333525458,333525115,333525468,333525120,333525747,333525888,333525485,333525390,3...
+blockchain.info
+lấy ra: height: 511239,
+
+chay crontab vi delay process : 2-3h
+và kiểm tra: lấy 511129 - 154598 +1 (if > 2) => giao dịch thế chấp thành công

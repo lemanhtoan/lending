@@ -662,6 +662,8 @@ class HomeController extends Controller
         // https://api.ethplorer.io/getTxInfo/0xc3c99b13eac2338993020cad8c5991cfe9baa9e4e8319f3c50ac4c4a597e24c5?apiKey=freekey
         $getInfo = $baseUrl.$keyHash.'?apiKey='.$apiKey;
 
+        // ETH diffirent structure  https://api.ethplorer.io/getTxInfo/0x81690bcc8639d6403a17ea30d6c1e549b211d3b5a2800d93d0c2549a1815b3be?apiKey=freekey
+
         $jsonInfo = file_get_contents($getInfo);
 
         $objInfo = json_decode($jsonInfo);
