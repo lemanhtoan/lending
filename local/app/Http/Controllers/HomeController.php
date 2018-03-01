@@ -694,8 +694,12 @@ class HomeController extends Controller
                 } 
             }
 
+            $sotien = $borrowsOfUser->sotiencanvay;
+            $dataTygia = DB::table('settings')->where('name', 'ccl')->select('content')->get()[0];
+            $dataMoney = round($sotien/$dataTygia->content, 2);
+
         }
-        echo "<pre>"; var_dump($valueMoney,$decimals,$symbol,  $isSuccess, $isTo, $id, $keyHash, $objInfo);die;
+        echo "<pre>"; var_dump($dataMoney, pow(10,$decimals), ($valueMoney/(pow(10,$decimals))), $valueMoney, $decimals, $symbol,  $isSuccess, $isTo, $id, $keyHash, $objInfo);die;
         return view('front.confirm', compact('id'));
     }
 }

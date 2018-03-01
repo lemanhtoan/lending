@@ -205,3 +205,16 @@ lấy ra: height: 511239,
 
 chay crontab vi delay process : 2-3h
 và kiểm tra: lấy 511129 - 154598 +1 (if > 2) => giao dịch thế chấp thành công
+
+A. nhà đầu tư
+1. nhìn thấy các khoản vay
+2. chọn khoản vay đầu tư
+3. tự thanh toán và submit check thanh toán
+4. process done => done follow
+
+B. người vay
+1. khởi tạo khoản vay => k có ccl, chỉ eth và btc
+2. thế chấp theo số đăng ký thế chấp => sau khi submit => cần hiển thị thông tin số tiền thế chấp, loại tiền thế chấp và địa chỉ nhận của admin (theo loại tiền đó)
+3. sau khi thế chấp => hiển thị form cho họ confirm tranfirmID ( submit thì lưu lại db mình để tránh họ cùng 2 lần 1 ID )
+sau đó check 2 step, trường hợp 1 ok, nhưng 2 chưa ok thì lưu lại sau đó chạy crontab.
+4. sau khi bước 2 crontab ok => cập nhật trạng thái đã thế chấp thành công => cho phép ndt tìm và đầu tư.
