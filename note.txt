@@ -215,6 +215,15 @@ A. nhà đầu tư
 B. người vay
 1. khởi tạo khoản vay => k có ccl, chỉ eth và btc
 2. thế chấp theo số đăng ký thế chấp => sau khi submit => cần hiển thị thông tin số tiền thế chấp, loại tiền thế chấp và địa chỉ nhận của admin (theo loại tiền đó)
-3. sau khi thế chấp => hiển thị form cho họ confirm tranfirmID ( submit thì lưu lại db mình để tránh họ cùng 2 lần 1 ID )
+3. sau khi thế chấp => hiển thị form cho họ confirm tranfirmID ( submit thì lưu lại db mình để tránh họ cùng 2 lần 1 ID - submit ok xong step 1 moi luu)
 sau đó check 2 step, trường hợp 1 ok, nhưng 2 chưa ok thì lưu lại sau đó chạy crontab.
 4. sau khi bước 2 crontab ok => cập nhật trạng thái đã thế chấp thành công => cho phép ndt tìm và đầu tư.
+
+check crontab API 2 (by function script): * * * * * /usr/local/bin/php /var/www/example.com/artisan schedule:run 1>> /dev/null 2>&1
+lay du db ra nhung hask status = 0, sau do chay check len  https://blockchain.info/rawtx/b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da
+de tim height, khi nao co height thi tiep tuc lay tu 2  https://blockchain.info/latestblock va thuc hien phep toan .
+neu thoa man thi update status = 1 trong bang hash_confirm va borrow = 1 status
+
+Ndt va nv sau khi submit check thi luu thong tin vao db, de check trang thai thanh cong hay k, va check duy nhat
+
+CREATE TABLE `hash_confirm` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(255) NOT NULL , `hask` VARCHAR(255) NOT NULL , `uid` INT NOT NULL , `status` INT NOT NULL , `dataId` INT NOT NULL , `created_at` TIMESTAMP NOT NULL , `updated_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

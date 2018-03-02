@@ -66,7 +66,7 @@
 											<option value="">Chọn loại thế chấp</option>
 											<option value="BTC">BTC</option>
 											<option value="ETH">ETH</option>
-											<option value="LTC">LTC</option>
+											{{--<option value="LTC">LTC</option>--}}
 										</select>
 									</div>
 								</div>
@@ -201,7 +201,7 @@
 										<option value="">Chọn loại thế chấp</option>
 										<option value="BTC">BTC</option>
 										<option value="ETH">ETH</option>
-										<option value="LTC">LTC</option>
+										{{--<option value="LTC">LTC</option>--}}
 									</select>
 								</div>
 							</div>

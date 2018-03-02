@@ -7,6 +7,12 @@
 				<hr>	
 				<h2 class="intro-text text-center">Confirm invest</h2>
 				<hr>
+                <?php if(isset($mess)): ?>
+				<div class="alert alert-success">
+					<h3><?php echo $mess; ?></h3>
+				</div>
+                <?php endif;?>
+
 				<p>Please enter hash key to confirm invest</p>				
 				
 				{!! Form::open(['url' => 'confirmInvest', 'method' => 'post', 'role' => 'form']) !!}	

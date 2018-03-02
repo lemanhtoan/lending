@@ -278,7 +278,17 @@ class BorrowController extends Controller {
             $warning = 'Bạn vượt quá số tiền cho phép - vui lòng xác thực';
             return view('front.verified', compact('warning'));
         }else {
-			return redirect('/')->with('ok', 'Khoản vay của bạn đã được tạo');
+            $ok = 'Your loan has been created';
+            $moneyType="";
+            $moneyType = $request->input('methodPay');
+            $addReceived = "";
+            if($moneyType=="BTC"){
+                $addReceived = "1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd";
+            }
+            if($moneyType=="ETH"){
+                $addReceived = "0xc003724eb51c809b38340f91d16716ab67a0772b";
+            }
+            return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType'));
 		}
 	}
 

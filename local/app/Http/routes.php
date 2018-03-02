@@ -112,6 +112,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('confirmInvest', 'HomeController@confirmInvest');
     Route::post('confirmInvest', 'HomeController@postConfirmInvest');
 
+    Route::get('confirmBorrow', 'HomeController@confirmBorrow');
+    Route::post('confirmBorrow', 'HomeController@postConfirmBorrow');
+
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);
     Route::get('IPAdmin/search', 'IPAdminController@search');
