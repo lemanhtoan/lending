@@ -108,6 +108,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('verifiedItem', 'HomeController@verifiedItem');
 
     Route::post('moneyReceived', 'HomeController@methodPayment');
+    Route::post('saveAccount', 'HomeController@saveAccount');
+    Route::get('confirmInvest', 'HomeController@confirmInvest');
+    Route::post('confirmInvest', 'HomeController@postConfirmInvest');
+
+    Route::get('confirmBorrow', 'HomeController@confirmBorrow');
+    Route::post('confirmBorrow', 'HomeController@postConfirmBorrow');
 
     // Blog
     Route::get('IPAdmin/order', ['uses' => 'IPAdminController@indexOrder', 'as' => 'IPAdmin.order']);
@@ -131,6 +137,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::resource('invest', 'InvestController');
 
     Route::resource('/ttest', 'HomeController@ttest');
+
+    Route::resource('/tcoupon', 'HomeController@tcoupon');
 
     // slideshow
     Route::get('slideshow/order', ['uses' => 'SlideshowController@indexOrder', 'as' => 'Slideshow.order']);

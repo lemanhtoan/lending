@@ -14,6 +14,7 @@ use App\Models\Invest;
 use App\Models\Post;
 use App\Models\Verified;
 use App\Models\Slideshow;
+use App\Models\Hash;
 use Carbon;
 
 class HomeController extends Controller
@@ -75,7 +76,7 @@ class HomeController extends Controller
         $dataPriceGet = $jsonData[0]->price_usd; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
-        $maxValue = ($sothechap * $dataPriceGet * 70 * $tygia)/ 100;
+            $maxValue = ($sothechap * $dataPriceGet * 70 * $tygia)/ 100;
         return \Response::json(round($maxValue, 2));
     }
 
@@ -98,7 +99,6 @@ class HomeController extends Controller
 	/**
 	 * Change language.
 	 *
-	 * @param  App\Jobs\ChangeLocaleCommand $changeLocale
 	 * @param  String $lang
 	 * @return Response
 	 */
@@ -190,7 +190,8 @@ class HomeController extends Controller
             'maxqty'=> Settings::where('name', 'maxqty')->get(['content'])->toArray(),
             'maxverified'=> Settings::where('name', 'maxverified')->get(['content'])->toArray(),
             'footer'=> Settings::where('name', 'footer')->get(['content'])->toArray(),
-            'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray()
+            'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray(),
+            'ccl'=> Settings::where('name', 'ccl')->get(['content'])->toArray(),
         ];
     }
 
@@ -355,9 +356,11 @@ class HomeController extends Controller
         if (Auth::user()) {
             $userType =  Auth::user()->usertype;
             $uid = Auth::user()->id;
+            $uCCL = Auth::user()->cclAddress;
         }else {
             $userType = 'NON';
             $uid = 0;
+            $uCCL = '';
         }
 
         $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
@@ -368,7 +371,7 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL'));
     }
 
     public function deleteitem(Request $request) {
@@ -469,24 +472,58 @@ class HomeController extends Controller
         }
     }
 
-    public function ttest() {
+     public function saveAccount(Request $request) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $mothod = $request->input('cclAddress');
+            User::where('id', $uid)->update(array('cclAddress'=> $mothod));
+            return redirect('manager')->with('ok', 'Thông tin đã được cập nhật');
+        }
+    }
 
+    // test on wez.nz coupon // chưa hoàn thiện: https://github.com/madmis/wexnz-api
+    public function tcoupon() {
+        $input = [
+            'currency' => 'USD',
+            'amount' => '0.01',
+            'receiver' => 'toanlm91',
+            'apiKey' => '7F8VC4WQ-U8QDJ56S-98F5OCHJ-ZB3WSKRM-F8305VGR',
+            'apiSecret' => '177ed0df6253ef7784e9325bb549c6df126235cb43d124e8e541c64213a92530'
+        ];
+        // key: 7F8VC4WQ-U8QDJ56S-98F5OCHJ-ZB3WSKRM-F8305VGR
+        // secret: 177ed0df6253ef7784e9325bb549c6df126235cb43d124e8e541c64213a92530
+        $uri = 'https://wex.nz/tapi';
+        $content = json_encode($input);
+
+        $curl = curl_init($uri);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+        $json_response = curl_exec($curl);
+        curl_close($curl);
+        var_dump($json_response);
+    }
+
+    public function ttest() {
+        // chuyển tiền ntnao, vì hiện tại chỉ có address của người nhận https://info.shapeshift.io/
         $result = $this->createFixedAmountTransaction(
-            '0.5',
-            '0x123f681646d4a755815f9cb19e1acc8565a0c2ac',
-            'BTC',
+            '0.01',
+            '14TJLFYhChumj3NDjHqjcDiUeL5A6opKx8',
             'ETH',
-            '1HLjjjSPzHLNn5GTvDNSGnhBqHEF7nZxNZ'
+            'BTC',
+            '0x123f681646d4a755815f9cb19e1acc8565a0c2ac'
         );
         var_dump($result);die;
-        die('1');
     }
     public function createFixedAmountTransaction (
          $amount,
-         $withdrawalAddress,
+         $withdrawalAddress, // sent to admin
          $coin1,
          $coin2,
-         $returnAddress = null,
+         $returnAddress = null, // dia chi nhan tien lai neu co loi xay ra
          $rsAddress = null,
          $destinationTag = null,
          $apiKey = null
@@ -501,8 +538,6 @@ class HomeController extends Controller
             'apiKey' => $apiKey,
             'amount' => $amount,
         ];
-
-
         $uri = 'https://shapeshift.io/sendamount';
         $content = json_encode($input);
 
@@ -527,6 +562,40 @@ class HomeController extends Controller
     }
 
     public function cronSet() {
+//        lay du db ra nhung hask status = 0, sau do chay check len  https://blockchain.info/rawtx/b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da
+//        de tim height, khi nao co height thi tiep tuc lay tu 2  https://blockchain.info/latestblock va thuc hien phep toan .
+//
+//        neu thoa man thi update status = 1 trong bang hash_confirm va borrow = 1 status
+        // check borrow the chap
+        $listCheck = Hash::where('status', 0)->get();
+        if(count($listCheck)) {
+            foreach($listCheck as $ihash) {
+                $keyHash = $ihash->hask;
+                $baseUrl = 'https://blockchain.info/rawtx/';
+                $getInfo = $baseUrl.$keyHash;
+                $file = $getInfo;
+                $file_headers = @get_headers($file);
+                if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 500 Internal Server Error') {
+                    $exists = false;
+                }
+                else {
+                    $exists = true;
+                }
+                if ($exists) {
+                    $jsonInfo = file_get_contents($getInfo);
+                    $objInfo = json_decode($jsonInfo);
+                    $urlHeight = 'https://blockchain.info/latestblock';
+                    $jsonInfoHeight = file_get_contents($urlHeight);
+                    $objInfoHeight = json_decode($jsonInfoHeight);
+                    if ( ( ($objInfoHeight->height - $objInfo->block_height) + 1) > 2 ) {
+                        Hash::where('id', $ihash->id)->update(array('status'=>1));
+                        // update status ...
+                        Borrow::where('id', $ihash->dataId)->update(array('status'=>1));
+                    }
+                }
+            }
+        }
+
         $data = date('Y-m-d');
         $time = date('h-A');
         \Log::useFiles(base_path() . '/log/'.$data.'/'.$time.'-info.log', 'info');
@@ -611,6 +680,179 @@ class HomeController extends Controller
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
         return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+    }
+
+
+    public function confirmInvest(Request $request) {
+        $id = $request->input('id');
+        return view('front.confirm', compact('id'));
+    }
+
+    public function postConfirmInvest(Request $request) {
+        $id = $request->input('investId');
+        $keyHash = $request->input('keyHash');
+        $apiKey = 'freekey';
+        $baseUrl = 'https://api.ethplorer.io/getTxInfo/';
+        $getInfo = $baseUrl.$keyHash.'?apiKey='.$apiKey;
+
+        $file_headers = @get_headers($getInfo);
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 500 Internal Server Error') {
+            $exists = false;
+        } else {
+            $exists = true;
+        }
+        if ($exists) {
+            $jsonInfo = file_get_contents($getInfo);
+            $objInfo = json_decode($jsonInfo);
+            if(isset($objInfo->error)) {
+                $mess = "Transaction invalid";
+            } else {
+                $borrowsOfUser = Borrow::where('id', $id)->first();
+                $userInfo = User::where('id', $borrowsOfUser->uid)->first();
+                $isSuccess = false;
+                $isTo = false;
+                $value = $objInfo->operations[0];
+                $valueMoney = $value->value;
+                $decimals = $value->tokenInfo->decimals;
+                $symbol = $value->tokenInfo->symbol;
+                $isToAdd = $value->to;
+                if($objInfo->success) {
+                    $isSuccess= true;
+                }
+                if($isToAdd) {
+                    if ($userInfo) {
+                        if ($userInfo->cclAddress == $isToAdd) {
+                            $isTo = true;
+                        }
+                    }
+                }
+
+                $sotien = $borrowsOfUser->sotiencanvay;
+                $dataTygia = DB::table('settings')->where('name', 'ccl')->select('content')->get()[0];
+                $dataMoney = round($sotien/$dataTygia->content, 8);
+                if ( ($valueMoney/(pow(10,$decimals)) ) < $dataMoney) { // > test
+                    // thong bao toi nguoi vay hoan tra
+                    if ($isSuccess && $isTo) {
+                        // email to $userInfo->email
+                        $email = $userInfo->email;
+                        $dataAdmin = \DB::table('settings')->where('name', 'emailadmin')->select('content')->get()[0];
+                        $emailAdmin = $dataAdmin->content;
+                        $data = array(
+                            'message' => 'You need refund wrong token to username '. $userInfo->username.' with ',
+                            'value' => ($valueMoney/(pow(10,$decimals))),
+                            'to' => $userInfo->cclAddress
+                        );
+                        \Mail::send('emails.mailError', ['data' => $data], function($message) use ($data, $email, $emailAdmin) {
+                            $message->to($email);
+                            $message->cc($emailAdmin);
+                            $message->subject("Email refund token wrong");
+                        });
+                        $mess = "Transaction wrong token value";
+                    } else {
+                        $mess = "Transaction invalid";
+                    }
+                } else {
+                    if ($isSuccess && $isTo) {
+                        if (Auth::user()) {
+                            $uid = Auth::user()->id;
+                        } else {
+                            $uid = 0;
+                        }
+                        // cap nhat trang thai ndt da chuyen tien
+                        // thong bao giao dich thanh cong
+                        // luu thong tin hash
+                        $isCheck = Hash::where('hask', $keyHash)->get();
+                        if(count($isCheck) == '0') {
+                            $hash = new Hash();
+                            $mess = "Transaction completed";
+                            $hash->uid = $uid;
+                            $hash->type = 'borrow';
+                            $hash->hask = $keyHash;
+                            $hash->dataId = $id;
+                            $hash->status = 1;
+                            $hash->save();
+
+                            // update status ...
+                            Invest::where('borrowId', $id)->update(array('status'=>1));
+                        } else {
+                            $mess = "Transaction invalid - Use before";
+                        }
+                    }
+                }
+            }
+        } else {
+            $mess = "Transaction invalid";
+        }
+        return view('front.confirm', compact('id', 'mess'));
+    }
+
+    public function confirmBorrow(Request $request) {
+        $id = $request->input('id');
+        return view('front.confirmborrow', compact('id'));
+    }
+
+    public function postConfirmBorrow(Request $request) {
+        $id = $request->input('borrowId');
+        $keyHash = $request->input('keyHash');
+        $baseUrl = 'https://blockchain.info/rawtx/';
+        $getInfo = $baseUrl.$keyHash;
+        $file = $getInfo;
+        $file_headers = @get_headers($file);
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 500 Internal Server Error') {
+            $exists = false;
+        }
+        else {
+            $exists = true;
+        }
+        if ($exists) {
+            if (Auth::user()) {
+                $uid = Auth::user()->id;
+            } else {
+                $uid = 0;
+            }
+            $jsonInfo = file_get_contents($getInfo);
+            $objInfo = json_decode($jsonInfo);
+            if(isset($objInfo->block_height)) {
+                // process save db and check unique value => 1: success; 0: confirm
+                $isCheck = Hash::where('hask', $keyHash)->get();
+                if(count($isCheck) == '0') {
+                    $urlHeight = 'https://blockchain.info/latestblock';
+                    $jsonInfoHeight = file_get_contents($urlHeight);
+                    $objInfoHeight = json_decode($jsonInfoHeight);
+                    $hash = new Hash();
+                    if ( ( ($objInfoHeight->height - $objInfo->block_height) + 1) > 2 ) {
+                        // transaction success
+                        $mess = "Transaction completed";
+                        $hash->uid = $uid;
+                        $hash->type = 'borrow';
+                        $hash->hask = $keyHash;
+                        $hash->dataId = $id;
+                        $hash->status = 1;
+                        $hash->save();
+
+                        // update status ...
+                        Borrow::where('id', $id)->update(array('status'=>1));
+                    } else {
+                        // transaction confirm => need crontab check and update
+                        $mess = "Transaction confirm, process checking completed";
+                        $hash->uid = $uid;
+                        $hash->type = 'borrow';
+                        $hash->hask = $keyHash;
+                        $hash->dataId = $id;
+                        $hash->status = 0;
+                        $hash->save();
+                    }
+                } else {
+                    $mess = "Transaction invalid - Use before";
+                }
+            } else {
+                $mess = "Transaction invalid";
+            }
+        } else {
+            $mess = "Transaction invalid";
+        }
+
+        return view('front.confirmborrow', compact('id', 'mess'));
     }
 }
 

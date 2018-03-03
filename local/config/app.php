@@ -78,7 +78,7 @@ return [
 	! and at least, add the ISO code in languages array.
 	*/
 
-	'languages' => ['vi', 'en', 'fr', 'pt-BR'],
+	'languages' => ['en', 'vi'], //, 'fr', 'pt-BR'
 
 	/*
 	|--------------------------------------------------------------------------
