@@ -19,27 +19,27 @@
 
 	<!-- setup user money received method -->
 	<div class="row">
-		<h3>Cấu hình loại tiền nhận</h3>
+		<h3>{{ trans('front/site.chtiennhan') }}</h3>
         <?php $moneyReceived = Config::get('constants.moneyReceived');?>
 		<form action="moneyReceived" method="POST" role="form">
 			{{ csrf_field() }}
 			<div class="form-group">
-				Phương thức nhận tiền:
+				{{ trans('front/site.ptnhantien') }}:
 				<select name="methodPayment" id="methodPayment" required>
-					<option value="">Chọn phương thức nhận tiền</option>
+					<option value="">{{ trans('front/site.ptnhantien') }}</option>
 					<?php foreach($moneyReceived as $key=>$value) :?>
 					<option <?php if ($uMethod  == $key) {echo 'selected';}else{echo '';}?> value="<?php echo $key;?>"><?php echo $value ?></option>
 					<?php endforeach;?>
 				</select>
 			</div>
-			<input type="submit"  class="btn btn-primary" value="Lưu" class="button" />
+			<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
 		</form>
 	</div>
 	<!-- setup user money received method -->
 
 	<!-- setup user money received address token -->
 	<div class="row">
-		<h3>Địa chỉ token nhận tiền CCL</h3>
+		<h3>{{ trans('front/site.addccl') }}</h3>
 		<form action="saveAccount" method="POST" role="form">
 			{{ csrf_field() }}
 			<div class="form-group">
@@ -47,7 +47,7 @@
    				 <input type="text" class="form-control" id="cclAddress" name="cclAddress" value="<?php echo $uCCL;?>" <?php if($uCCL && $uCCL!="") {echo 'readonly';}?>>
 			</div>
 			<?php if($uCCL=="") : ?>
-				<input type="submit"  class="btn btn-primary" value="Lưu" class="button" />
+				<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
 			<?php endif; ?>
 		</form>
 	</div>
@@ -55,7 +55,7 @@
 
 	<!-- setup user bank -->
 	<div class="row">
-		<h3>Thiết lập tài khoản ngân hàng</h3>
+		<h3>{{ trans('front/site.banksetting') }}</h3>
 
 	</div>
 	<!-- setup user bank -->
@@ -65,20 +65,20 @@
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
-				<h3>Các khoản vay đã thực hiện</h3>
+				<h3>{{ trans('front/site.borrowed_process') }}</h3>
                 <?php if (count($borrowsOfUser)) { ?>
 				<div class="table-responsive">
 					<table class="table invest-table">
 						<thead>
 						<tr>
 							<th style="width: 5%">#</th>
-							<th style="width: 20%">Ngày kết thúc khoản vay</th>
-							<th style="width: 15%">Ngày khởi tạo</th>
-							<th style="width: 15%">Số tiền cần vay</th>
-							<th style="width: 15%">Lãi suất</th>
-							<th style="width: 15%">Số tiền lãi khi đáo hạn khoản vay</th>
-							<th style="width: 5%">Trạng thái</th>
-							<th style="width: 5%">Hành động</th>
+							<th style="width: 20%">{{ trans('front/site.borrowed_date_done') }}</th>
+							<th style="width: 15%">{{ trans('front/site.borrowed_date_start') }}</th>
+							<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
+							<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+							<th style="width: 15%">{{ trans('front/site.laidaohan') }}</th>
+							<th style="width: 5%">{{ trans('front/site.status') }}</th>
+							<th style="width: 5%">{{ trans('front/site.action') }}</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -88,7 +88,7 @@
 							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
 							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $borrow->phantramlai ?> (%/tháng)</td>
+							<td style="width: 15%"><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
 							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
 							<td style="width: 5%">
 								<?php
@@ -96,7 +96,7 @@
 										case 0:
 										    $label = 'Khởi tạo';break;
 										case 1:
-										    $label = 'Đã thế chấp tài sản, chờ nhà đầu tư';break;
+										    $label = 'Đã thế chấp';break;
 										case 2:
 										    $label = 'Đang hoạt động';break;
 										case 3:
@@ -110,7 +110,7 @@
 								?>
 							</td>
 							<td style="width: 5%"><?php if ($borrow->status == '0' || $borrow->status == '10'  ) :?>
-								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Xóa</a>
+								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">{{ trans('front/site.delete') }}</a>
 							<?php endif; ?></td>
 						</tr>
                         <?php endforeach; ?>
@@ -129,14 +129,14 @@
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
-				<h3>Các khoản đầu tư đã thực hiện <?php if ($userType == '1') {echo ' (Nhà đầu tư đặc biệt)';}?></h3>
+				<h3>{{ trans('front/site.invested_done') }} <?php if ($userType == '1') {echo ' (Nhà đầu tư đặc biệt)';}?></h3>
 				<div class="row">
 					<form action="{!! url('filterBorrow') !!}" id="filterBorrow" class="form-horizontal" method="get">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="uid" value="<?php echo $uid ?>">
 					<div class="col-md-3">
 						<div class="form-group">
-							{!! Form::label('Bắt đầu') !!} <em>*</em>
+							<label>{{ trans('front/site.start') }} <em>*</em></label>
 							<div id="start_time" class="input-group input-append date">
                         <span class="add-on" style="width: 100%">
 						<input value="<?php if(isset($_GET['start_time'])) {echo $_GET['start_time'];}else{echo '';} ?>" class="form-control" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="start_time"/>
@@ -146,7 +146,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							{!! Form::label('Kết thúc') !!} <em>*</em>
+							<label>{{ trans('front/site.end') }} <em>*</em></label>
 							<div id="end_time" class="input-group input-append date">
                         <span class="add-on" style="width: 100%">
 						<input value="<?php if(isset($_GET['end_time'])) {echo $_GET['end_time'];}else{echo '';} ?>" class="form-control" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="end_time"/>
@@ -194,13 +194,13 @@
 						<thead>
 						<tr>
 							<th style="width: 5%">#</th>
-							<th style="width: 10%">Ngày kết thúc khoản vay</th>
-							<th style="width: 15%">Ngày thực hiện đầu tư</th>
-							<th style="width: 15%">Số tiền cần vay</th>
-							<th style="width: 15%">Lãi suất</th>
-							<th style="width: 15%">Số tiền lãi khi đáo hạn khoản vay</th>
-							<th style="width: 10%">Trạng thái</th>
-							<th style="width: 15%">Hanh dong</th>
+							<th style="width: 10%">{{ trans('front/site.borrowed_date_done') }}</th>
+							<th style="width: 15%">{{ trans('front/site.date_invest') }}</th>
+							<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
+							<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+							<th style="width: 15%">{{ trans('front/site.laidaohan') }}</th>
+							<th style="width: 10%">{{ trans('front/site.status') }}</th>
+							<th style="width: 15%">{{ trans('front/site.action') }}</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -211,7 +211,7 @@
 							<td style="width: 10%"><?php echo $invest->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $invest->created_at ?></td>
 							<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $invest->phantramlai ?> (%/tháng)</td>
+							<td style="width: 15%"><?php echo $invest->phantramlai ?> ({{ trans('front/site.thang') }})</td>
 							<td style="width: 15%"><?php echo $invest->dutinhlai ?></td>
 							<td style="width: 10%">
                                 <?php
@@ -230,7 +230,7 @@
                                 echo $label;
                                 ?>
 							</td>
-							<td style="width: 15%"><a href="{{ url('confirmInvest/?id=' . $invest->borrowId) }}" class="btn btn-default">xac nhan chuyen tien</a></td>
+							<td style="width: 15%"><a href="{{ url('confirmInvest/?id=' . $invest->borrowId) }}" class="btn btn-default">{{ trans('front/site.confirm_invest') }}</a></td>
 						</tr>
                         <?php endforeach; ?>
 						</tbody>

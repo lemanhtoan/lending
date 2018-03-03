@@ -28,15 +28,15 @@
             <thead>
             <tr>
                 <th>STT</th>
-                <th>Ngày khởi tạo</th>
-                <th>Số tiền cần vay</th>
-                <th>Lãi suất</th>
+                <th>{{ trans('front/site.borrowed_date_start') }}</th>
+                <th>{{ trans('front/site.sotiencanvay') }}</th>
+                <th>{{ trans('front/site.laisuat') }}</th>
                 <th>Kiểu thế chấp</th>
                 <th>Dự tính lãi</th>
                 <th>Kiểu verified</th>
                 <th>Ảnh mặt trước</th>
                 <th>Ảnh mặt sau</th>
-                <th>Hành động</th>
+                <th>{{ trans('front/site.action') }}</th>
             </tr>
             </thead>
             <tbody>

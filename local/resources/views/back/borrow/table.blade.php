@@ -7,7 +7,7 @@
     <td>{{ $post->created_at }}</td>
     <td>{{ $post->ngaydaohan }}</td>
     <td>{{ $post->sotiencanvay }}</td>
-    <td>{{ $post->phantramlai }} (%/tháng)</td>
+    <td>{{ $post->phantramlai }} ({{ trans('front/site.thang') }})</td>
     <td>{{ $post->kieuthechap }}</td>
     <td>
       <?php
@@ -15,7 +15,7 @@
         case 0:
           $label = 'Khởi tạo';break;
         case 1:
-          $label = 'Đã thế chấp tài sản, chờ nhà đầu tư';break;
+          $label = 'Đã thế chấp';break;
         case 2:
           $label = 'Đang hoạt động';break;
         case 3:

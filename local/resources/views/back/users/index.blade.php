@@ -42,7 +42,7 @@
                     <th>Email</th>
 					<th>{{ trans('back/users.role') }}</th>
 					<th>Kiểu người dùng</th>
-                    <th>Trạng thái</th>
+                    <th>{{ trans('front/site.status') }}</th>
 					<th></th>
 					<th></th>
 				</tr>
