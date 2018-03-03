@@ -62,7 +62,7 @@ Chi tiết khoản vay
 B. Dia chi nhan tien
 Bitcoin address: 1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd
 Etherium address: 0xc003724eb51c809b38340f91d16716ab67a0772b
-Litecoin address: 0xc003724eb51c809b38340f91d16716ab67a0772b
+Litecoin address: 0xc003724eb51c809b38340f91d16716ab67a0772b : later
 
 ====================================
 C. Process
@@ -84,7 +84,7 @@ Ngày giải ngân: tinh khi nha dau tu chuyen tien => update lai
 Ngày đáo hạn: thoi gian ngay giai ngan + so thang vay
 =>đã thế chấp tài sản => Trạng thái là: Khởi tạo => có thể cho nhà đầu tư nhìn thấy
 
-3. Borrower chuyển thế chấp
+3. Borrower chuyển thế chấp (PENDING...)
 Người dùng thế chấp trên https://jaxx.io/ => Hệ thống phải xử lý và kết nối với tài khoản trên hệ thống website
 hoac co the luu tren: blockchain.info, bitcoin.com, myetherwallet.com
 
@@ -101,19 +101,8 @@ Danh sách người vay hiển thị thi thỏa mãn (***).
 => Trạng thái là: Chờ nhà đầu tư chuyển tiền => chuyen tien dau tu ngay tai thoi diem do (cau hinh thoi gian toi da la bao nhieu phut phai chuyen tien - neu khong giao dich se bi huy)
 
 b. Nhà đầu tư sẽ chuyển tiền vào tài khoản của hệ thống.
-=> qua VCB hoac USDT (minh lam - tether.to / convert qua usdt de chuyen cho admin (shapeshift.io))
-http://prntscr.com/h5kwa8
------
-Còn dùng shapeshift em sẽ chuyển coin khác thành usdt:
-=>Nguồn là kiểu tiền của khách hàng và khách hàng input địa chỉ,
-=>Đích là cấu hình địa chỉ usdt của admin: readonly
-Khi shapeshift báo ipn convert xong (convert va chuyen cho admin address) =>  Có nghĩ tk usdt của admin đã có tiền
-https://info.shapeshift.io/api
-https://github.com/Achse/php-shapeshift-io-api/blob/master/tests/ClientTest.phpt
 
-http://localhost/lending/ttest
-
-=> admin tự động nhận biết và chuyển cho người đi vay qua call API của tether (Người vay cần có tài khoan trên tether)
+=> UPDATE theo giai phap moi.......
 
 5. Trường hợp chưa có nhà đầu tư: Thủ thuật cho website có nhiều người vào vay
 Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất làm đầu tư đặc biệt - tu danh sach nguoi vay va dau tu cho cac khoan vay.
@@ -140,6 +129,101 @@ https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD
 
 Lay thong tin vcb: https://exchangeno1.com/check.php?xPayment=VCB&xAccount=0451000295304
 
-Bán: => đầu tư: http://prntscr.com/h5kwa8
-Check history: https://omniexplorer.info/
-https://www.blockchain.com/enterprise/index.html
+
+=====================NDT chuyển tiền=========================
+contract của token mình dùng 0xF7b0962b9b00D42EeDb1005316875f1312785e84: CCT
+1. cách tạo token riêng cho web mình ( dũng cung cấp )
+2. lấy tỷ giá 5phut 1 lần từ https://coinmarketcap.com  https://coinmarketcap.com/currencies/salt/#charts
+3. tài khoản người vay cần có 1 địa chỉ token để nhận tiền (mình cung cấp hay khách tự điền - nếu tự điền thì nó làm sao để kết nối token bên mình) - không thể edit (admin có thể edit)
+4. nhà đầu tư tự chuyển token về cho người vay và lấy được haskkey => sau đó điền vào form của mình để check
+5. check info sau khi thask submit: https://api.ethplorer.io/getTxInfo/0xc3c99b13eac2338993020cad8c5991cfe9baa9e4e8319f3c50ac4c4a597e24c5?apiKey=freekey
+
+"success":true: Giao dịch chuyển thành công
+Contract tạo token/coin "address":"0x78971f0f20e7aac8adf286dba7d4487f96d36ab0 =>Mỗi token sẽ được tạo từ 1 mã contact, Dũng sẽ gửi em mã này
+Số lượng coin "value":"100000000000" => Giá trị là 1000 token: Căn cứ "decimals":"8"
+Mã token "symbol":"EFSS
+"to":"0x9a64d9493de1d1c1377e415460ccf09fcd7ff532"
+=> tất cả ok: giao dịch thành công!
+
+6. chuyển thiếu: => thông báo người vay hoàn trả tiền. => mình làm sao biết đã hoàn trả???
+Cập nhật giá trị khoản vay tương ứng với số lượng token: 300/500*1000 => không cần vì đã thông bao hoàn trả
+=> khi nhà đầu tư submit chọn khoản vay => tính giá trị token và lưu vào db khi ndt quyết định đầu tư (confirm => lưu lại)
+sau đó khi nhà đầu tư confim đã chuyển bằng haskcode => submit check giá trị từ api value trả về và giá trị db lưu kia: nếu = thì ok, thiếu thì thông báo tới người vay hoàn trả
+
+----------
+dùng Ethereum token chuẩn ERC20
+
+Chúng ta sẽ tạo token dùng chung cho website coincashloan.com
+Ví dụ token của 1 website khác
+https://etherscan.io/address/0x4086f6c05207d0747499fcf41328d736a18c564b
+
+Thí dụ: Nhà đầu tư muốn cho vay 1000 USD sẽ mua token trên exchanger (sàn giao dịch). Lúc đó chúng ta sẽ lấy giá trên https://coinmarketcap.com qui đổi 1000 USD này sẽ được bao nhiêu token tương ứng (Giả sử tại thời điểm chuyển tiền thì giá trị token này là 1 USD thì nhà đầu tư chuyển 1000 token cho người đi vay)
+
+Đến thời hạn trả nợ thì người đi vay sẽ làm tương ứng nhưng theo chiều ngược lại
+
+Để làm được điều này nhà đầu tư và đi vay phải có ví Ethereum để chứa token (ví này có thể tạo ở myetherwallet.com hay https://metamask.io/)
+
+Do ban đầu token chưa có niêm yết trên sàn nên chúng ta sẽ cấu hình 1 giá trị hợp lý thí dụ 0.5 USD để quy đổi token sau khi được niêm yết lên sàn thì chúng ta lấy tỷ giá từ sàn niêm yết
+
+Do giá token sẽ thay đổi liên tục nên form chuyển tiền của nhà đâu tư sẽ cập nhật giá token 5 phút/lần để giá cả được hợp lý. Khi nhà đầu tư chuyển token (tương đương tiền vay) sang cho người đi vay và ngược lại chúng ta có thể check tại website https://ethplorer.io/address/0x9b289436de13a4c6705b0875556f067dfb9e0fbb#pageSize=100 và dùng API của họ để check https://github.com/EverexIO/Ethplorer/wiki/Ethplorer-API
+
+
+ALTER TABLE `users` ADD `cclAddress` VARCHAR(255) NULL;
+INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VALUES (NULL, 'ccl', '0.5', NULL, NULL);
+
+
+EX: ccl value 2356789000 (8) => but on etherscanIO Value: 0 Ether ($0.00)
+
+TEST:
+https://etherscan.io/tx/0xff7d7f8e897161b374b938cfbb1ef1cf3911b9c18bebef11be98f5014df66e40  CCL
+https://etherscan.io/tx/0x81690bcc8639d6403a17ea30d6c1e549b211d3b5a2800d93d0c2549a1815b3be ETH
+
+
+thế chấp thì họ gửi tiền ảo vào btc hoặc eth cho mình: dung api check 2 step
+họ tự chuyển vào địa chỉ mình => sau đó họ sẽ phải confirm và submit transId
+và mình sẽ save nó lại và check trạng thái tiền bên mình, nếu chưa có thì báo penđing, và sau đó mình chạy crontab => check api kia
+khi nào nhận dc tiền thì mới noti
+là đã hoàn thành
+
+còn ndt chuyển tiền và trả tiền vay là dùng ccl token
+
+
+Khi kh nhập transaction id vào system, Thì phải check nó có trên hệ thống mình ko nhé
+Vì sợ kh dùng 2 lần Cho 1 id
+Transaction id ấy
+
+1. https://blockchain.info/rawtx/b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da
+blockchain.info
+{ "ver":1, "inputs":[ { "sequence":4294967295, "witness":"", "prev_out":{ "spent":true, "tx_index":1937837, "type":0, "addr":"1FwYmGEjXhMtxpWDpUXwLx7ndLNfFQncKq", "value":100000000, "n":2, "script":"76a914a3e2bcc9a5f776112497a32b05f4b9e5b2405ed988ac" }, "script":"48304502210098a2851420e4daba656fd79c...
+blockchain.info
+e lấy ra: block_height: 154598,
+sau đó truy xuất: https://blockchain.info/latestblock
+blockchain.info
+{ "hash":"0000000000000000002a7aa71b96719b088e36246f1a7415afdab6cb8a99cd24", "time":1519779860, "block_index":1675906, "height":511239, "txIndexes":[333526061,333525278,333525520,333525275,333525076,333525384,333525843,333525458,333525115,333525468,333525120,333525747,333525888,333525485,333525390,3...
+blockchain.info
+lấy ra: height: 511239,
+
+chay crontab vi delay process : 2-3h
+và kiểm tra: lấy 511129 - 154598 +1 (if > 2) => giao dịch thế chấp thành công
+
+A. nhà đầu tư
+1. nhìn thấy các khoản vay
+2. chọn khoản vay đầu tư
+3. tự thanh toán và submit check thanh toán
+4. process done => done follow
+
+B. người vay
+1. khởi tạo khoản vay => k có ccl, chỉ eth và btc
+2. thế chấp theo số đăng ký thế chấp => sau khi submit => cần hiển thị thông tin số tiền thế chấp, loại tiền thế chấp và địa chỉ nhận của admin (theo loại tiền đó)
+3. sau khi thế chấp => hiển thị form cho họ confirm tranfirmID ( submit thì lưu lại db mình để tránh họ cùng 2 lần 1 ID - submit ok xong step 1 moi luu)
+sau đó check 2 step, trường hợp 1 ok, nhưng 2 chưa ok thì lưu lại sau đó chạy crontab.
+4. sau khi bước 2 crontab ok => cập nhật trạng thái đã thế chấp thành công => cho phép ndt tìm và đầu tư.
+
+check crontab API 2 (by function script): * * * * * /usr/local/bin/php /var/www/example.com/artisan schedule:run 1>> /dev/null 2>&1
+lay du db ra nhung hask status = 0, sau do chay check len  https://blockchain.info/rawtx/b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da
+de tim height, khi nao co height thi tiep tuc lay tu 2  https://blockchain.info/latestblock va thuc hien phep toan .
+neu thoa man thi update status = 1 trong bang hash_confirm va borrow = 1 status
+
+Ndt va nv sau khi submit check thi luu thong tin vao db, de check trang thai thanh cong hay k, va check duy nhat
+
+CREATE TABLE `hash_confirm` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(255) NOT NULL , `hask` VARCHAR(255) NOT NULL , `uid` INT NOT NULL , `status` INT NOT NULL , `dataId` INT NOT NULL , `created_at` TIMESTAMP NOT NULL , `updated_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

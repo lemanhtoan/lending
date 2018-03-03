@@ -13,7 +13,7 @@
 	<p>Dự tính lãi: {{$post->dutinhlai}}</p>
 	<p>Ngày giải ngân: {{$post->ngaygiaingan}}</p>
 	<p>Ngày đáo hạn: {{$post->ngaydaohan}}</p>
-	<p>Trạng thái:
+	<p>{{ trans('front/site.status') }}:
 		<?php
 		switch ($post->status) {
 			case 0:

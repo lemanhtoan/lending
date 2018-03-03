@@ -17,7 +17,7 @@
 		{!! Form::control('text', 0, 'ip', $errors, 'IP address') !!}
 
 		<div class="form-group">
-			<label for="input-id">Trạng thái</label>
+			<label for="input-id">{{ trans('front/site.status') }}</label>
 			<select name="status" class="form-control">
 				<option value="1" <?php if (isset($post['status']) && $post['status'] == '1') {echo 'selected';} else {echo '';}?>>Hoạt động</option>
 				<option value="0" <?php if (isset($post['status']) && $post['status'] == '0') {echo 'selected';}  else {echo '';}?>>Khoá</option>

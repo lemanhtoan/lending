@@ -26,10 +26,10 @@
 			</div>
 
 			<div class="form-group">
-				<label for="role" class="control-label">Trạng thái</label>
+				<label for="role" class="control-label">{{ trans('front/site.status') }}</label>
 
 				<select class="form-control"  name="activated" id="activated" required>
-					<option value="">Trạng thái</option>
+					<option value="">{{ trans('front/site.status') }}</option>
 					<option <?php if($user->activated == '1') {echo 'selected';}else{echo '';}?>  value="1">Hoạt động</option>
 					<option <?php if($user->activated == '0') {echo 'selected';}else{echo '';}?>  value="0">Khóa</option>
 				</select>

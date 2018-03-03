@@ -19,12 +19,12 @@
           <tr>
             <th>#</th>
             <th>Người vay</th>
-            <th>Ngày khởi tạo</th>
+            <th>{{ trans('front/site.borrowed_date_start') }}</th>
             <th>Ngày kết thúc</th>
-            <th>Số tiền cần vay</th>
-            <th>Lãi suất</th>
+            <th>{{ trans('front/site.sotiencanvay') }}</th>
+            <th>{{ trans('front/site.laisuat') }}</th>
             <th>Loại thế chấp</th>
-            <th>Trạng thái</th>
+            <th>{{ trans('front/site.status') }}</th>
           </tr>
         </thead>
         <tbody>
