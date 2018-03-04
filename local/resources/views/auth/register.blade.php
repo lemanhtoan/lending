@@ -31,11 +31,11 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-							  <label for="sel1">User type:</label>
+							  <label for="sel1">{{ trans('front/site.usertype') }}</label>
 							  <select class="form-control" id="usertype" name="usertype" required="">
-							  	<option value="">Chọn kiểu người dùng</option>
-							    <option value="2">Nhà đầu tư</option>
-							    <option value="3">Người vay tiền</option>
+							  	<option value="">{{ trans('front/site.choiceusertype') }}</option>
+							    <option value="2">{{ trans('front/site.investee') }}</option>
+							    <option value="3">{{ trans('front/site.borrower') }}</option>
 							  </select>
 							</div>
 						</div>

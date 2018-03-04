@@ -144,21 +144,21 @@
 									<td style="width: 15%"><?php echo $invest->phantramlai ?>%</td>
 									<td style="width: 20%"><?php echo $invest->dutinhlai ?></td>
 									<td style="width: 5%">
-										<?php
-										switch ($invest->status) {
-											case 0:
-												$label = 'Chờ nhà đầu tư chuyển tiền';break;
-											case 1:
-												$label = 'Đã chuyển tiền';break;
-											case 2:
-												$label = 'Đang hoạt động';break;
-											case 3:
-												$label = 'Giao dịch tạm khóa';break;
-											case 4:
-												$label = 'Giao dịch hoàn thành';break;
-										}
-										echo $label;
-										?>
+										 <?php if($invest->status =='0') {?>
+		                                   {{ trans('front/site.investPending') }}                         	
+		                            	<?php  } ?>
+		                            	<?php if($invest->status =='1') {?>
+		                                   {{ trans('front/site.investDone') }}                         	
+		                            	<?php  } ?>
+		                            	<?php if($invest->status =='2') {?>
+		                                   {{ trans('front/site.investWork') }}                         	
+		                            	<?php  } ?>
+		                            	<?php if($invest->status =='3') {?>
+		                                   {{ trans('front/site.investPause') }}                         	
+		                            	<?php  } ?>
+		                            	<?php if($invest->status =='4') {?>
+		                                   {{ trans('front/site.investCompleted') }}                         	
+		                            	<?php  } ?>      
 									</td>
 								</tr>
 								<?php endforeach; ?>

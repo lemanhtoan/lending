@@ -43,7 +43,7 @@
 		<form action="saveAccount" method="POST" role="form">
 			{{ csrf_field() }}
 			<div class="form-group">
-				 <label for="cclAddress">Địa chỉ token CCL của bạn</label>
+				 <label for="cclAddress">{{ trans('front/site.yourCCL') }}</label>
    				 <input type="text" class="form-control" id="cclAddress" name="cclAddress" value="<?php echo $uCCL;?>" <?php if($uCCL && $uCCL!="") {echo 'readonly';}?>>
 			</div>
 			<?php if($uCCL=="") : ?>
@@ -91,26 +91,37 @@
 							<td style="width: 15%"><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
 							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
 							<td style="width: 5%">
-								<?php
-									switch ($borrow->status) {
-										case 0:
-										    $label = 'Khởi tạo';break;
-										case 1:
-										    $label = 'Đã thế chấp';break;
-										case 2:
-										    $label = 'Đang hoạt động';break;
-										case 3:
-										    $label = 'Giao dịch tạm khóa';break;
-										case 4:
-										    $label = 'Giao dịch hoàn thành';break;
-                                        case 10:
-                                            $label = 'Chờ admin duyệt';break;
-									}
-									echo $label;
-								?>
+								<?php if($borrow->status =='0') {?>
+                                   {{ trans('front/site.borrowInit') }}                         	
+                            	<?php  } ?>
+                            	<?php if($borrow->status =='1') {?>
+                                   {{ trans('front/site.borrowDone') }}                         	
+                            	<?php  } ?>
+                            	<?php if($borrow->status =='2') {?>
+                                   {{ trans('front/site.borrowWork') }}                         	
+                            	<?php  } ?>
+                            	<?php if($borrow->status =='3') {?>
+                                   {{ trans('front/site.borrowPause') }}                         	
+                            	<?php  } ?>
+                            	<?php if($borrow->status =='4') {?>
+                                   {{ trans('front/site.borrowCompleted') }}                         	
+                            	<?php  } ?>    
+                            	<?php if($borrow->status =='10') {?>
+                                   {{ trans('front/site.borrowAdmin') }}                         	
+                            	<?php  } ?> 
+                            	<?php if($borrow->status =='20') {?>
+                                   {{ trans('front/site.borrow1') }}                         	
+                            	<?php  } ?>  
+                            	<?php if($borrow->status =='30') {?>
+                                   {{ trans('front/site.borrow2') }}                         	
+                            	<?php  } ?>  
+                            	<?php if($borrow->status =='40') {?>
+                                   {{ trans('front/site.borrow3') }}                         	
+                            	<?php  } ?>    
+								
 							</td>
 							<td style="width: 5%"><?php if ($borrow->status == '0' || $borrow->status == '10'  ) :?>
-								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure?')">{{ trans('front/site.delete') }}</a>
+								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('{{ trans('front/site.areSure') }}')">{{ trans('front/site.delete') }}</a>
 							<?php endif; ?></td>
 						</tr>
                         <?php endforeach; ?>
@@ -129,7 +140,9 @@
 	<div class="row">
 		<div class="box result-box">
 			<div class="col-lg-12">
-				<h3>{{ trans('front/site.invested_done') }} <?php if ($userType == '1') {echo ' (Nhà đầu tư đặc biệt)';}?></h3>
+				<h3>{{ trans('front/site.invested_done') }} <?php if ($userType == '1') { ?>
+					({{ trans('front/site.dddb') }})
+					<?php }?></h3>
 				<div class="row">
 					<form action="{!! url('filterBorrow') !!}" id="filterBorrow" class="form-horizontal" method="get">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -166,16 +179,16 @@
                         window.onload = function () {
                             var chart = new CanvasJS.Chart("chartTransction", {
                                 title:{
-                                    text: "Thống kê khoản đầu tư - " + <?php echo date('m')?> + '/' +  <?php echo date('Y')?>
+                                    text: <?php echo date('m')?> + '/' +  <?php echo date('Y')?>
                                 },
                                 data: [
                                     {
                                         type: "column",
                                         dataPoints: [
-                                            { label: "Tuần 1",  y: <?php echo 10; ?>  },
-                                            { label: "Tuần 2", y: <?php echo 5; ?> },
-                                            { label: "Tuần 3", y: <?php echo 20; ?>  },
-                                            { label: "Tuần 4",  y: <?php echo 50; ?>  }
+                                            { label: "w1",  y: <?php echo 10; ?>  },
+                                            { label: "w2", y: <?php echo 5; ?> },
+                                            { label: "w3", y: <?php echo 20; ?>  },
+                                            { label: "w4",  y: <?php echo 50; ?>  }
                                         ]
                                     }
                                 ]
@@ -214,21 +227,21 @@
 							<td style="width: 15%"><?php echo $invest->phantramlai ?> ({{ trans('front/site.thang') }})</td>
 							<td style="width: 15%"><?php echo $invest->dutinhlai ?></td>
 							<td style="width: 10%">
-                                <?php
-                                switch ($invest->status) {
-                                    case 0:
-                                        $label = 'Chờ nhà đầu tư chuyển tiền';break;
-                                    case 1:
-                                        $label = 'Đã chuyển tiền';break;
-                                    case 2:
-                                        $label = 'Đang hoạt động';break;
-                                    case 3:
-                                        $label = 'Giao dịch tạm khóa';break;
-                                    case 4:
-                                        $label = 'Giao dịch hoàn thành';break;
-                                }
-                                echo $label;
-                                ?>
+                                <?php if($invest->status =='0') {?>
+                                   {{ trans('front/site.investPending') }}                         	
+                            	<?php  } ?>
+                            	<?php if($invest->status =='1') {?>
+                                   {{ trans('front/site.investDone') }}                         	
+                            	<?php  } ?>
+                            	<?php if($invest->status =='2') {?>
+                                   {{ trans('front/site.investWork') }}                         	
+                            	<?php  } ?>
+                            	<?php if($invest->status =='3') {?>
+                                   {{ trans('front/site.investPause') }}                         	
+                            	<?php  } ?>
+                            	<?php if($invest->status =='4') {?>
+                                   {{ trans('front/site.investCompleted') }}                         	
+                            	<?php  } ?>      
 							</td>
 							<td style="width: 15%"><a href="{{ url('confirmInvest/?id=' . $invest->borrowId) }}" class="btn btn-default">{{ trans('front/site.confirm_invest') }}</a></td>
 						</tr>

@@ -47,6 +47,26 @@
 	<![endif]-->
 
 	<header role="banner">
+		<?php if (Auth::check()): ?>
+		<?php if(isset($uCCL)) :?>
+		<?php if ($uCCL == '' || $uCCL == null || strtolower($uCCL) == 'null') :?>
+		<div class="top-ccl">
+			<div class="alert alert-info alert-dismissible">
+			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			  {!! trans('front/site.cclRequired') !!} <a style="color:red" href="{{ url('manager') }}">{!! trans('front/site.isHere') !!}</a>
+			</div>
+			
+			<style type="text/css">
+				.top-ccl {
+				    position: fixed;
+			        top: 150px;
+				    right: 0;
+				    z-index: 10;
+				}
+			</style>
+		</div>
+		<?php endif;   endif; endif;?>
+
 		<div class="top-header" id="myNavbar">
 			<div class="container">
 				<div class="col-md-3">
@@ -73,10 +93,10 @@
                                         {!! link_to('#home', trans('front/site.home')) !!}
                                     </li>
                                     <li>
-                                        {!! link_to('#howwork', 'How it work') !!}
+                                        {!! link_to('#howwork', trans('front/site.howwork')) !!}
                                     </li>
                                     <li>
-                                        {!! link_to('#resume', 'Resume') !!}
+                                        {!! link_to('#resume', trans('front/site.resume')) !!}
                                     </li>
                                     <li>
                                         {!! link_to('#qna', trans('front/site.QA')) !!}
@@ -148,8 +168,27 @@
 			@include('partials/error', ['type' => 'success', 'message' => session('ok')])
 		@endif
 
+
         @if(session()->has('error'))
-            @include('partials/error', ['type' => 'danger', 'message' => session('error')])
+
+        <div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">×</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<?php if(Session::get('error') =='MAX_VALUE_BORROW') {?>
+				{!! trans('front/site.MAX_VALUE_BORROW') !!}
+			<?php } elseif(Session::get('error') =='MAX_MONEY_BORROW') {?>
+				{!! trans('front/site.MAX_MONEY_BORROW') !!}
+			<?php }elseif(Session::get('error') =='MAX_AUTHEN') {?>
+				{!! trans('front/site.MAX_AUTHEN') !!}
+			<?php }elseif(Session::get('error') =='LOGIN_BORROW') {?>
+				{!! trans('front/site.LOGIN_BORROW') !!}
+			<?php } else { ?> 
+				<?php echo Session::get('error');?>
+			<?php } ?>
+		</div>
+
         @endif
 
         @if(isset($info))
@@ -631,7 +670,7 @@
 	</footer>
 
 
-	<a id="back-to-top" href="#" class="back-to-top" role="button" title="Click lên đầu trang" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+	<a id="back-to-top" href="#" class="back-to-top" role="button" title="{{ trans('front/site.totop') }}" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
 
 	{!! HTML::script('js/plugins.js') !!}
 	{!! HTML::script('js/main.js') !!}

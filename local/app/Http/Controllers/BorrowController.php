@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use Carbon;
 use App\Models\User;
 use App\Models\Invest;
+use Auth;
 
 class BorrowController extends Controller {
 
@@ -267,18 +268,23 @@ class BorrowController extends Controller {
 
 	public function createNew(Request $request)
 	{
+		if (Auth::user()) {
+            $uCCL = Auth::user()->cclAddress;
+        } else {
+        	$uCCL = '';
+        }
         $data = $this->borrow_gestion->store($request->all());
         if($data == '0') {
-            return redirect('auth/login')->with('error', 'Please login before borrow');
+            return redirect('auth/login')->with('error', 'LOGIN_BORROW');
         }elseif($data == '01') {
-			return redirect('/')->with('error', 'Bạn vượt quá số lượng khoản vay cho phép');
+			return redirect('/')->with('error', 'MAX_VALUE_BORROW');
 		}elseif($data == '02') {
-            return redirect('/')->with('error', 'Bạn vượt quá số tiền tối đa vay cho phép');
+            return redirect('/')->with('error', 'MAX_MONEY_BORROW');
         }elseif($data == '10') {
-            $warning = 'Bạn vượt quá số tiền cho phép - vui lòng xác thực';
-            return view('front.verified', compact('warning'));
+            $warning = 'MAX_AUTHEN';
+            return view('front.verified', compact('warning', 'uCCL'));
         }else {
-            $ok = 'Your loan has been created';
+            $ok = 'IS_LOAN_CREATED';
             $moneyType="";
             $moneyType = $request->input('methodPay');
             $addReceived = "";
@@ -288,7 +294,7 @@ class BorrowController extends Controller {
             if($moneyType=="ETH"){
                 $addReceived = "0xc003724eb51c809b38340f91d16716ab67a0772b";
             }
-            return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType'));
+            return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType', 'uCCL'));
 		}
 	}
 

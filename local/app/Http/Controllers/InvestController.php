@@ -288,7 +288,7 @@ class InvestController extends Controller {
 		        $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
 
 				if($data != '0') {
-					$okMessage = 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền';
+					$okMessage = 'investIsOk';
 					$borrowData = Borrow::where('id', $idBorrow)->first();
 					if($borrowData) {
 						$sotien = $borrowData->sotiencanvay;
@@ -302,7 +302,6 @@ class InvestController extends Controller {
 					}
 
 					return view('front.index', compact('okMessage', 'dataId', 'dataMoney', 'dataCCL', 'blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows'));
-		            // return redirect('/')->with('ok', 'Khoản đầu tư đã được gửi, chờ nhà đầu tư chuyển tiền');
 		        } 
 		    }
 

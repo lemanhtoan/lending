@@ -30,6 +30,7 @@ class HomeController extends Controller
         if (Auth::user()) {
             $userType =  Auth::user()->usertype;
             $uid = Auth::user()->id;
+            $uCCL = Auth::user()->cclAddress;
             $borrowsExist = Invest::where('uid', $uid)->get();
             if (count($borrowsExist)) {
                 $arrBorrow = [];
@@ -43,6 +44,7 @@ class HomeController extends Controller
         }else {
             $userType = 'NON';
             $uid = 0;
+            $uCCL = '';
 
             $borrows = Borrow::where('status', 1)->orderBy('created_at', 'desc')->get();
         }
@@ -55,7 +57,7 @@ class HomeController extends Controller
         $khoanggia = \Config::get('constants.khoanggia');
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
         $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
-		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows'));
+		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows', 'uCCL'));
 	}
 
 	public function coinmarketcap(Request $request) {
@@ -379,9 +381,11 @@ class HomeController extends Controller
         if (Auth::user()) {
             $uid = Auth::user()->id;
             $userType =  Auth::user()->usertype;
+            $uCCL = Auth::user()->cclAddress;
         }else {
             $uid = 0;
             $userType = 'NON';
+            $uCCL = Auth::user()->cclAddress;
         }
 
         $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
@@ -395,12 +399,12 @@ class HomeController extends Controller
             $ok = 'Deleted item';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
 
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok'));
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL'));
         } else {
-            $error = 'item not exist';
+            $error = 'Item not exist';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
 
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error'));
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL'));
         }
     }
 
@@ -705,7 +709,7 @@ class HomeController extends Controller
             $jsonInfo = file_get_contents($getInfo);
             $objInfo = json_decode($jsonInfo);
             if(isset($objInfo->error)) {
-                $mess = "Transaction invalid";
+                $mess = "TRAN_INVALID";
             } else {
                 $borrowsOfUser = Borrow::where('id', $id)->first();
                 $userInfo = User::where('id', $borrowsOfUser->uid)->first();
@@ -749,7 +753,7 @@ class HomeController extends Controller
                         });
                         $mess = "Transaction wrong token value";
                     } else {
-                        $mess = "Transaction invalid";
+                        $mess = "TRAN_INVALID";
                     }
                 } else {
                     if ($isSuccess && $isTo) {
@@ -764,7 +768,7 @@ class HomeController extends Controller
                         $isCheck = Hash::where('hask', $keyHash)->get();
                         if(count($isCheck) == '0') {
                             $hash = new Hash();
-                            $mess = "Transaction completed";
+                            $mess = "TRAN_COMPLETED";
                             $hash->uid = $uid;
                             $hash->type = 'borrow';
                             $hash->hask = $keyHash;
@@ -775,20 +779,25 @@ class HomeController extends Controller
                             // update status ...
                             Invest::where('borrowId', $id)->update(array('status'=>1));
                         } else {
-                            $mess = "Transaction invalid - Use before";
+                            $mess = "TRAN_INVALID_BEFORE";
                         }
                     }
                 }
             }
         } else {
-            $mess = "Transaction invalid";
+            $mess = "TRAN_INVALID";
         }
         return view('front.confirm', compact('id', 'mess'));
     }
 
     public function confirmBorrow(Request $request) {
         $id = $request->input('id');
-        return view('front.confirmborrow', compact('id'));
+        if (Auth::user()) {
+            $uCCL = Auth::user()->cclAddress;
+        } else {
+            $uCCL = '';
+        }
+        return view('front.confirmborrow', compact('id', 'uCCL'));
     }
 
     public function postConfirmBorrow(Request $request) {
@@ -822,7 +831,7 @@ class HomeController extends Controller
                     $hash = new Hash();
                     if ( ( ($objInfoHeight->height - $objInfo->block_height) + 1) > 2 ) {
                         // transaction success
-                        $mess = "Transaction completed";
+                        $mess = "TRAN_COMPLETED";
                         $hash->uid = $uid;
                         $hash->type = 'borrow';
                         $hash->hask = $keyHash;
@@ -843,13 +852,13 @@ class HomeController extends Controller
                         $hash->save();
                     }
                 } else {
-                    $mess = "Transaction invalid - Use before";
+                    $mess = "TRAN_INVALID_BEFORE";
                 }
             } else {
-                $mess = "Transaction invalid";
+                $mess = "TRAN_INVALID";
             }
         } else {
-            $mess = "Transaction invalid";
+            $mess = "TRAN_INVALID";
         }
 
         return view('front.confirmborrow', compact('id', 'mess'));

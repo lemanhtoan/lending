@@ -69,11 +69,9 @@ C. Process
 
 
 Administrator : email = admin@gmail.com, password = admin
-Redactor : email = redac@la.fr, password = redac
-User : email = walker@la.fr, password = walker
-User : email = slacker@la.fr, password = slacker
-
 https://github.com/bestmomo/laravel5-example
+/administrator
+
 
 1. Register + verified email
 Nếu google và fb: sau khi login thì sẽ điền email để verified accout và update thông tin + password
@@ -227,3 +225,20 @@ neu thoa man thi update status = 1 trong bang hash_confirm va borrow = 1 status
 Ndt va nv sau khi submit check thi luu thong tin vao db, de check trang thai thanh cong hay k, va check duy nhat
 
 CREATE TABLE `hash_confirm` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(255) NOT NULL , `hask` VARCHAR(255) NOT NULL , `uid` INT NOT NULL , `status` INT NOT NULL , `dataId` INT NOT NULL , `created_at` TIMESTAMP NOT NULL , `updated_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+SERVER
+ip: 45.76.243.124
+user: root
+pass: ]8Cdu9_ZrG?EcVWa
+port: 22
+
+fbmediaz.com
+
+Upload code vao /home/fbmediaz.com/public_html
+Ten Database: fbmediaz_co_c64e
+User name: fbmediazcoc64e
+Mat khau: 58d3cc5c6027ae18
+Link phpMyAdmin: http://45.76.243.124:26213
+Username: loanprojectssss  | Password: 769dca
+Lê Quốc Dũng đã xem lúc Thứ Sáu 16:54chiềuHoàng Hoàng đã xem lúc Thứ Sáu 17:07chiềuHuy Pham Dinh đã xem lúc Thứ Sáu 19:01chiều
+

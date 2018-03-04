@@ -8,10 +8,10 @@
                 <h2 class="intro-text text-center"><?php echo $ok?></h2>
                 <hr>
                 <p>
-                    You need pay <?php echo $data['soluongthechap'];?> <?php echo $moneyType; ?> to admin address: <?php echo $addReceived;?>
+                    {!! trans('front/site.YOU_NEED_PAY') !!} <?php echo $data['soluongthechap'];?> <?php echo $moneyType; ?> {!! trans('front/site.TO_ADMIN') !!}: <?php echo $addReceived;?>
                 </p>
                 <p>
-                    After your pay, please <a href="{{ url('confirmBorrow/?id=' . $data['id']) }}">confirm transaction </a></p>
+                    {!! trans('front/site.AFTER_PAY') !!} <a href="{{ url('confirmBorrow/?id=' . $data['id']) }}">{!! trans('front/site.CONFIRM_TRAN') !!} </a></p>
                 </p>
             </div>
         </div>

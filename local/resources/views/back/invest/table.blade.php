@@ -10,21 +10,21 @@
     <td>{{ $post->phantramlai }}%</td>
     <td>{{ $post->kieuthechap }}</td>
     <td>
-      <?php
-      switch ($post->status) {
-        case 0:
-          $label = 'Chờ nhà đầu tư chuyển tiền';break;
-        case 1:
-          $label = 'Đã chuyển tiền';break;
-        case 2:
-          $label = 'Đang hoạt động';break;
-        case 3:
-          $label = 'Giao dịch tạm khóa';break;
-        case 4:
-          $label = 'Giao dịch hoàn thành';break;
-      }
-      echo $label;
-      ?>
+      <?php if($post->status =='0') {?>
+           {{ trans('front/site.investPending') }}                          
+      <?php  } ?>
+      <?php if($post->status =='1') {?>
+           {{ trans('front/site.investDone') }}                           
+      <?php  } ?>
+      <?php if($post->status =='2') {?>
+           {{ trans('front/site.investWork') }}                           
+      <?php  } ?>
+      <?php if($post->status =='3') {?>
+           {{ trans('front/site.investPause') }}                          
+      <?php  } ?>
+      <?php if($post->status =='4') {?>
+           {{ trans('front/site.investCompleted') }}                          
+      <?php  } ?>          
     </td>
     <td>{!! link_to('invest/' . $post->id, trans('back/blog.see'), ['class' => 'btn btn-success btn-block btn']) !!}</td>
     <td>

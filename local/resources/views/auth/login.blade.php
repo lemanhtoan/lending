@@ -4,9 +4,11 @@
 	<div class="row">
 		<div class="box">
 			<div class="col-lg-12">
+			<!--
 				@if(session()->has('error'))
 					@include('partials/error', ['type' => 'danger', 'message' => session('error')])
 				@endif	
+				-->
 				<hr>	
 				<h2 class="intro-text text-center">{{ trans('front/login.connection') }}</h2>
 				<hr>
