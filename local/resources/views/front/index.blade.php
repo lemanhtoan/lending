@@ -365,7 +365,7 @@
 			<div class="col-lg-12">
 				<form action="{!! url('homeFilter') !!}" method="get" id="home_search" name="home_search">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<div class="col-md-2">
+					<div class="col-md-2 first-col">
 						<div class="form-group">
 							<select class="form-control" id="search_sotienvay" name="search_sotienvay">
 								<option value="">{{ trans('front/site.sotienvay') }}</option>
@@ -430,27 +430,27 @@
 					<table class="table invest-table">
 						<thead>
 						<tr>
-							<th style="width: 5%">#</th>
-							<th style="width: 20%">{{ trans('front/site.borrowed_date_done') }}</th>
-							<th style="width: 15%">{{ trans('front/site.borrowed_date_start') }}</th>
-							<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
-							<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
-							<th style="width: 20%">{{ trans('front/site.laidaohan') }}</th>
-							<th style="width: 5%">&nbsp;</th>
+							<th>#</th>
+							<th>{{ trans('front/site.borrowed_date_done') }}</th>
+							<th>{{ trans('front/site.borrowed_date_start') }}</th>
+							<th>{{ trans('front/site.sotiencanvay') }}</th>
+							<th>{{ trans('front/site.laisuat') }}</th>
+							<th>{{ trans('front/site.laidaohan') }}</th>
+							<th>&nbsp;</th>
 						</tr>
 						</thead>
 						<tbody>
-						<?php $i = 0; foreach ($borrows as $borrow) : $i++?>
+                        <?php $i = 0; foreach ($borrows as $borrow) : $i++?>
 						<tr>
-							<td style="width: 5%"><?php echo $i;?></td>
-							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
-							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
-							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
-							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
-							<td style="width: 5%"><a href="{!! url('createInvest',[$borrow->id]) !!}">{{trans('front/site.invest')}}</a></td>
+							<td><?php echo $i;?></td>
+							<td><?php echo $borrow->ngaygiaingan ?></td>
+							<td><?php echo $borrow->created_at ?></td>
+							<td><?php echo $borrow->sotiencanvay ?></td>
+							<td><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
+							<td><?php echo $borrow->dutinhlai ?></td>
+							<td ><a href="{!! url('createInvest',[$borrow->id]) !!}">{{trans('front/site.invest')}}</a></td>
 						</tr>
-						<?php endforeach; ?>
+                        <?php endforeach; ?>
 						</tbody>
 					</table>
 				</div>

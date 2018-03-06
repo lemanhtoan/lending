@@ -1,10 +1,10 @@
 <?php
 
 return [
-	'title' => 'Contact form',
-	'text' => 'If you wish to send a message please fill this form :',
-	'name' => 'Your name',
-	'email' => 'Your email',
-	'message' => 'Your message',
-	'ok' => 'Your message has been recorded, we will respond as soon as possible.'
+	'title' => 'Liên hệ',
+	'text' => 'Vui lòng điền các thông tin liên hệ',
+	'name' => 'Tên của ban',
+	'email' => 'Email của bạn',
+	'message' => 'Tin nhắn',
+	'ok' => 'Liên hệ của bạn đã được gửi, chúng tôi sẽ phản hồi lại sớm nhất, cảm ơn'
 ];

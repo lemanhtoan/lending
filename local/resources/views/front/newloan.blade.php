@@ -18,7 +18,7 @@
 				<div class="col-lg-12">
 					<form action="{!! url('getAloan') !!}" method="get" id="home_search" name="home_search">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<div class="col-md-2">
+						<div class="col-md-2 first-col">
 							<div class="form-group">
 								<select class="form-control" id="search_sotienvay" name="search_sotienvay">
 									<option value="">{{ trans('front/site.sotienvay') }}</option>

@@ -418,7 +418,17 @@
                     <h4 class="blog-title">
                         {!! link_to('blog/' . $blog['slug'], $blog['title'], ['class' => '']) !!}
                     </h4>
-                    <p><?php echo $blog['summary']; ?></p>
+                    <p>
+                        <?php
+                        $string = strip_tags($blog['summary']);
+                        if (strlen($string) > 300) {
+                            $stringCut = substr($string, 0, 300);
+                            $endPoint = strrpos($stringCut, ' ');
+                            //if the string doesn't contain any space then it will cut without word basis.
+                            $string = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+                            $string .= '...';
+                        }
+                        echo $string;?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -554,10 +564,8 @@
             <div class="row">
                 <div class="box">
                     <div class="col-lg-12">
-                        <hr>
-                        <h2 class="intro-text text-center">{{ trans('front/contact.title') }}</h2>
-                        <hr>
-                        <p>{{ trans('front/contact.text') }}</p>
+                        <h2 class="box-center">{{ trans('front/contact.title') }}</h2>
+                        <p  class="box-center">{{ trans('front/contact.text') }}</p>
 
                         {!! Form::open(['url' => 'contact', 'method' => 'post', 'role' => 'form']) !!}
 
@@ -568,7 +576,7 @@
                             {!! Form::control('textarea', 12, 'message', $errors, trans('front/contact.message')) !!}
                             {!! Form::text('address', '', ['class' => 'hpet']) !!}
 
-                            {!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}
+                            {!! Form::submit(trans('front/form.send'), ['col-lg-12 box-center']) !!}
 
                         </div>
 
