@@ -87,9 +87,9 @@
 								<th style="width: 20%">{{ trans('front/site.borrowed_date_done') }}</th>
 								<th style="width: 15%">{{ trans('front/site.borrowed_date_start') }}</th>
 								<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
-								<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+								<th style="width: 10%">{{ trans('front/site.laisuat') }}</th>
 								<th style="width: 20%">{{ trans('front/site.laidaohan') }}</th>
-								<th style="width: 5%">&nbsp;</th>
+								<th style="width: 10%">&nbsp;</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -98,10 +98,10 @@
 								<td style="width: 5%"><?php echo $i;?></td>
 								<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
 								<td style="width: 15%"><?php echo $borrow->created_at ?></td>
-								<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-								<td style="width: 15%"><?php echo $borrow->phantramlai ?>%</td>
-								<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
-								<td style="width: 5%"><a href="{!! url('createInvest',[$borrow->id]) !!}">Invest</a></td>
+								<td style="width: 15%">{{ trans('front/site.USD') }} <?php echo $borrow->sotiencanvay ?></td>
+								<td style="width: 10%"><?php echo $borrow->phantramlai ?>%</td>
+								<td style="width: 20%">{{ trans('front/site.USD') }} <?php echo $borrow->dutinhlai ?></td>
+								<td style="width: 10%"><a href="{!! url('createInvest',[$borrow->id]) !!}">Invest</a></td>
 							</tr>
 							<?php endforeach; ?>
 							</tbody>
@@ -129,9 +129,9 @@
 									<th style="width: 20%">{{ trans('front/site.borrowed_date_done') }}</th>
 									<th style="width: 15%">{{ trans('front/site.date_invest') }}</th>
 									<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
-									<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+									<th style="width: 10%">{{ trans('front/site.laisuat') }}</th>
 									<th style="width: 20%">{{ trans('front/site.laidaohan') }}</th>
-									<th style="width: 5%">{{ trans('front/site.status') }}</th>
+									<th style="width: 10%">{{ trans('front/site.status') }}</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -140,10 +140,10 @@
 									<td style="width: 5%"><?php echo $i;?></td>
 									<td style="width: 20%"><?php echo $invest->ngaygiaingan ?></td>
 									<td style="width: 15%"><?php echo $invest->created_at ?></td>
-									<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
-									<td style="width: 15%"><?php echo $invest->phantramlai ?>%</td>
-									<td style="width: 20%"><?php echo $invest->dutinhlai ?></td>
-									<td style="width: 5%">
+									<td style="width: 15%">{{ trans('front/site.USD') }} <?php echo $invest->sotiencanvay ?></td>
+									<td style="width: 10%"><?php echo $invest->phantramlai ?>%</td>
+									<td style="width: 20%">{{ trans('front/site.USD') }} <?php echo $invest->dutinhlai ?></td>
+									<td style="width: 10%">
 										 <?php if($invest->status =='0') {?>
 		                                   {{ trans('front/site.investPending') }}                         	
 		                            	<?php  } ?>

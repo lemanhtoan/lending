@@ -27,7 +27,7 @@ return [
     'thoigianvay'=>'Thời gian vay',
     'tienthechap' => 'Loại tiền thế chấp',
     'laisuat'=> 'Lãi suất',
-    'thang' => 'tháng',
+    'thang' => '%/tháng',
     'loaitiennhan' => 'Loại tiền nhận',
     'search' => 'Tìm kiếm',
     'borrowed_done'=>'Các khoản vay đã thế chấp',
@@ -104,5 +104,6 @@ return [
     'TO_ADMIN'=>'tới địa chỉ quản trị',
     'AFTER_PAY'=>'Sau khi thanh toán, vui lòng',
     'CONFIRM_TRAN'=>'xác nhận thanh toán',
-    'LOGIN_BORROW'=>'Please login before borrow'
+    'LOGIN_BORROW'=>'Vui lòng đăng nhập trước khi tạo khoản vay',
+    'USD'=>'USD'
 ];

@@ -19,51 +19,43 @@
 
 	<!-- setup user money received method -->
 	<div class="row">
-		<h3>{{ trans('front/site.chtiennhan') }}</h3>
-        <?php $moneyReceived = Config::get('constants.moneyReceived');?>
-		<form action="moneyReceived" method="POST" role="form">
-			{{ csrf_field() }}
-			<div class="form-group">
-				{{ trans('front/site.ptnhantien') }}:
-				<select name="methodPayment" id="methodPayment" required>
-					<option value="">{{ trans('front/site.ptnhantien') }}</option>
-					<?php foreach($moneyReceived as $key=>$value) :?>
-					<option <?php if ($uMethod  == $key) {echo 'selected';}else{echo '';}?> value="<?php echo $key;?>"><?php echo $value ?></option>
-					<?php endforeach;?>
-				</select>
-			</div>
-			<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
-		</form>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<h3>{{ trans('front/site.chtiennhan') }}</h3>
+            <?php $moneyReceived = Config::get('constants.moneyReceived');?>
+			<form action="moneyReceived" method="POST" role="form">
+				{{ csrf_field() }}
+				<div class="form-group">
+					<label for="">{{ trans('front/site.ptnhantien') }}</label>
+					<select class="form-control"  name="methodPayment" id="methodPayment" required>
+						<option value="">{{ trans('front/site.ptnhantien') }}</option>
+                        <?php foreach($moneyReceived as $key=>$value) :?>
+						<option <?php if ($uMethod  == $key) {echo 'selected';}else{echo '';}?> value="<?php echo $key;?>"><?php echo $value ?></option>
+                        <?php endforeach;?>
+					</select>
+				</div>
+				<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
+			</form>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<h3>{{ trans('front/site.addccl') }}</h3>
+			<form action="saveAccount" method="POST" role="form">
+				{{ csrf_field() }}
+				<div class="form-group">
+					<label for="cclAddress">{{ trans('front/site.yourCCL') }}</label>
+					<input type="text" class="form-control" id="cclAddress" name="cclAddress" value="<?php echo $uCCL;?>" <?php if($uCCL && $uCCL!="") {echo 'readonly';}?>>
+				</div>
+                <?php if($uCCL=="") : ?>
+				<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
+                <?php endif; ?>
+			</form>
+		</div>
 	</div>
 	<!-- setup user money received method -->
-
-	<!-- setup user money received address token -->
-	<div class="row">
-		<h3>{{ trans('front/site.addccl') }}</h3>
-		<form action="saveAccount" method="POST" role="form">
-			{{ csrf_field() }}
-			<div class="form-group">
-				 <label for="cclAddress">{{ trans('front/site.yourCCL') }}</label>
-   				 <input type="text" class="form-control" id="cclAddress" name="cclAddress" value="<?php echo $uCCL;?>" <?php if($uCCL && $uCCL!="") {echo 'readonly';}?>>
-			</div>
-			<?php if($uCCL=="") : ?>
-				<input type="submit"  class="btn btn-primary" value="{{ trans('front/site.save') }}" class="button" />
-			<?php endif; ?>
-		</form>
-	</div>
-	<!-- setup user money received  address token -->
-
-	<!-- setup user bank -->
-	<div class="row">
-		<h3>{{ trans('front/site.banksetting') }}</h3>
-
-	</div>
-	<!-- setup user bank -->
 
     <?php if($userType == 'NON' || $userType == '2') { // not login OR invest ?>
     <?php } else { // borrow ?>
 	<div class="row">
-		<div class="box result-box">
+		<div class="box result-box is-borrow">
 			<div class="col-lg-12">
 				<h3>{{ trans('front/site.borrowed_process') }}</h3>
                 <?php if (count($borrowsOfUser)) { ?>
@@ -75,10 +67,10 @@
 							<th style="width: 20%">{{ trans('front/site.borrowed_date_done') }}</th>
 							<th style="width: 15%">{{ trans('front/site.borrowed_date_start') }}</th>
 							<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
-							<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+							<th style="width: 10%">{{ trans('front/site.laisuat') }}</th>
 							<th style="width: 15%">{{ trans('front/site.laidaohan') }}</th>
 							<th style="width: 5%">{{ trans('front/site.status') }}</th>
-							<th style="width: 5%">{{ trans('front/site.action') }}</th>
+							<th style="width: 10%">{{ trans('front/site.action') }}</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -87,10 +79,10 @@
 							<td style="width: 5%"><?php echo $i;?></td>
 							<td style="width: 20%"><?php echo $borrow->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $borrow->created_at ?></td>
-							<td style="width: 15%"><?php echo $borrow->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
-							<td style="width: 20%"><?php echo $borrow->dutinhlai ?></td>
-							<td style="width: 5%">
+							<td style="width: 15%">{{ trans('front/site.USD') }} <?php echo $borrow->sotiencanvay ?></td>
+							<td style="width: 10%"><?php echo $borrow->phantramlai ?> ({{ trans('front/site.thang') }})</td>
+							<td style="width: 20%">{{ trans('front/site.USD') }} <?php echo $borrow->dutinhlai ?></td>
+							<td style="width: 10%">
 								<?php if($borrow->status =='0') {?>
                                    {{ trans('front/site.borrowInit') }}                         	
                             	<?php  } ?>
@@ -138,12 +130,12 @@
 
 	<?php if ($userType == '2' || $userType == '1') { // ndt or ndt db ?>
 	<div class="row">
-		<div class="box result-box">
+		<div class="box result-box  is-borrow">
 			<div class="col-lg-12">
 				<h3>{{ trans('front/site.invested_done') }} <?php if ($userType == '1') { ?>
 					({{ trans('front/site.dddb') }})
 					<?php }?></h3>
-				<div class="row">
+				<div class="row-filter">
 					<form action="{!! url('filterBorrow') !!}" id="filterBorrow" class="form-horizontal" method="get">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="uid" value="<?php echo $uid ?>">
@@ -169,12 +161,12 @@
 					</div>
 
 					<div class="col-md-3">
-						<input type="submit" value="Filter"/>
+						<input type="submit" value="Filter" class="btn-filter"/>
 					</div>
 					</form>
 				</div>
 
-				<div class="row chartData">
+				<div class="row-filter chartData">
 					<script type="text/javascript">
                         window.onload = function () {
                             var chart = new CanvasJS.Chart("chartTransction", {
@@ -210,10 +202,10 @@
 							<th style="width: 10%">{{ trans('front/site.borrowed_date_done') }}</th>
 							<th style="width: 15%">{{ trans('front/site.date_invest') }}</th>
 							<th style="width: 15%">{{ trans('front/site.sotiencanvay') }}</th>
-							<th style="width: 15%">{{ trans('front/site.laisuat') }}</th>
+							<th style="width: 10%">{{ trans('front/site.laisuat') }}</th>
 							<th style="width: 15%">{{ trans('front/site.laidaohan') }}</th>
 							<th style="width: 10%">{{ trans('front/site.status') }}</th>
-							<th style="width: 15%">{{ trans('front/site.action') }}</th>
+							<th style="width: 10%">{{ trans('front/site.action') }}</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -223,9 +215,9 @@
 							<td style="width: 5%"><?php echo $i;?></td>
 							<td style="width: 10%"><?php echo $invest->ngaygiaingan ?></td>
 							<td style="width: 15%"><?php echo $invest->created_at ?></td>
-							<td style="width: 15%"><?php echo $invest->sotiencanvay ?></td>
-							<td style="width: 15%"><?php echo $invest->phantramlai ?> ({{ trans('front/site.thang') }})</td>
-							<td style="width: 15%"><?php echo $invest->dutinhlai ?></td>
+							<td style="width: 15%">{{ trans('front/site.USD') }} <?php echo $invest->sotiencanvay ?></td>
+							<td style="width: 10%"><?php echo $invest->phantramlai ?> ({{ trans('front/site.thang') }})</td>
+							<td style="width: 15%">{{ trans('front/site.USD') }} <?php echo $invest->dutinhlai ?></td>
 							<td style="width: 10%">
                                 <?php if($invest->status =='0') {?>
                                    {{ trans('front/site.investPending') }}                         	

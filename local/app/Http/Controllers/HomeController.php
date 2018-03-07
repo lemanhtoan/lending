@@ -272,8 +272,8 @@ class HomeController extends Controller
 
         $khoanggia = \Config::get('constants.khoanggia');
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
-
-        return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia'));
+        $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
+        return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows'));
     }
 
     public function getNewLoan(Request $request) {
@@ -661,6 +661,13 @@ class HomeController extends Controller
             $uid = 0;
         }
 
+        if (Auth::user()) {
+            $uCCL = Auth::user()->cclAddress;
+        }else {
+            $uCCL = Auth::user()->cclAddress;
+        }
+
+
         $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
 
         if ($request->input('start_time')) {
@@ -683,7 +690,7 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser'));
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL'));
     }
 
 

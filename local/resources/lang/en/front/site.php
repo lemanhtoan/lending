@@ -27,7 +27,7 @@ return [
     'thoigianvay'=>'Time borrow',
     'tienthechap' => 'Mortgage type',
     'laisuat'=> 'Interest rate',
-    'thang' => 'month',
+    'thang' => '%/month',
     'loaitiennhan' => 'Money receipt',
     'search' => 'Search',
     'borrowed_done'=>'Loans are mortgaged',
@@ -104,5 +104,6 @@ return [
     'TO_ADMIN'=>'to admin address',
     'AFTER_PAY'=>'After your pay, please',
     'CONFIRM_TRAN'=>'confirm transaction',
-    'LOGIN_BORROW'=>'Vui lòng đăng nhập trước khi tạo khoản vay'
+    'LOGIN_BORROW'=>'Please login before creating a loan',
+    'USD'=>'$'
 ];

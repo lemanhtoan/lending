@@ -2,7 +2,7 @@
 
 @section('main')
 
-  @include('back.partials.entete', ['title' => trans('back/slideshow.dashboard') . link_to_route('slideshow.create', trans('back/slideshow.add'), [], ['class' => 'btn btn-info pull-right']), 'icone' => 'pencil', 'fil' => 'IP Admin List'])
+  @include('back.partials.entete', ['title' => 'Slideshow Manager' . link_to_route('slideshow.create', 'Add', [], ['class' => 'btn btn-info pull-right']), 'icone' => 'pencil', 'fil' => 'IP Admin List'])
 
 	@if(session()->has('ok'))
     @include('partials/error', ['type' => 'success', 'message' => session('ok')])

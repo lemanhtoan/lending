@@ -72,20 +72,20 @@
                              <a href="{!! route('admin') !!}"><span class="fa fa-fw fa-dashboard"></span> {{ trans('back/admin.dashboard') }}</a>
                         </li>
                         <li {!! classActiveSegment(1, 'user') !!}>
-                            <a href="#" data-toggle="collapse" data-target="#usermenu"><span class="fa fa-fw fa-user"></span> {{ trans('back/admin.users') }} <span class="fa fa-fw fa-caret-down"></span></a>
+                            <a href="#" data-toggle="collapse" data-target="#usermenu"><span class="fa fa-fw fa-user"></span> User manager <span class="fa fa-fw fa-caret-down"></span></a>
                             <ul id="usermenu" class="collapse">
                                 <li><a href="{!! url('user') !!}">{{ trans('back/admin.see-all') }}</a></li>
                                 <li><a href="{!! url('user/create') !!}">{{ trans('back/admin.add') }}</a></li>
                                 <li><a href="{!! url('user/roles') !!}">{{ trans('back/roles.roles') }}</a></li>
-                                <li><a href="{!! url('user/setSpecial') !!}">Thiết lập nhà đầu tư đặc biệt</a></li>
+                                <li><a href="{!! url('user/setSpecial') !!}">Set up a special investor</a></li>
                             </ul>
                         </li>
                         <li {!! classActivePath('contact') !!}>
                             <a href="{!! url('contact') !!}"><span class="fa fa-fw fa-envelope"></span> {{ trans('back/admin.messages') }}</a>
                         </li>  
-                        <li {!! classActivePath('comment') !!}>
+                       <!-- <li {!! classActivePath('comment') !!}>
                             <a href="{!! url('comment') !!}"><span class="fa fa-fw fa-comments"></span> {{ trans('back/admin.comments') }}</a>
-                        </li> 
+                        </li> -->
                     @endif                  
                     <li {!! classActivePath('IPAdmin') !!}>
                         <a href="{!! route('IPAdmin.index') !!}"><span class="fa fa-fw fa-envelope"></span> Admin IP</a>
@@ -99,15 +99,15 @@
                     </li>
 
                     <li {!! classActiveSegment(1, 'invest') !!}>
-                        <a href="{!! url('invest') !!}"><span class="fa fa-fw fa-dashboard"></span> Quản lý Đầu tư</a>
+                        <a href="{!! url('invest') !!}"><span class="fa fa-fw fa-dashboard"></span> Investment manager</a>
                     </li>
 
                     <li {!! classActiveSegment(1, 'borrow') !!}>
-                        <a href="{!! url('borrow') !!}"><span class="fa fa-fw fa-dashboard"></span> Quản lý vay</a>
+                        <a href="{!! url('borrow') !!}"><span class="fa fa-fw fa-dashboard"></span> Loan manager</a>
                     </li>
 
                     <li {!! classActiveSegment(1, 'borrowWaiting') !!}>
-                        <a href="{!! url('borrowWaiting') !!}"><span class="fa fa-fw fa-dashboard"></span> Khoản vay cần duyệt</a>
+                        <a href="{!! url('borrowWaiting') !!}"><span class="fa fa-fw fa-dashboard"></span> Loan to be approved</a>
                     </li>
 
                     <li {!! classActiveSegment(1, 'slideshow') !!}>
@@ -115,7 +115,7 @@
                     </li>
 
                     <li {!! classActiveSegment(1, 'getsettings') !!}>
-                        <a href="{!! url('getsettings') !!}"><span class="fa fa-fw fa-dashboard"></span> Cài đặt</a>
+                        <a href="{!! url('getsettings') !!}"><span class="fa fa-fw fa-dashboard"></span> Setting</a>
                     </li>
                 </ul>
             </div>
@@ -154,5 +154,7 @@
         .popover{max-width: 600px !important;}
         .popover-content img{max-width: 560px !important;}
     </style>
+
+    
   </body>
 </html>

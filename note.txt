@@ -232,7 +232,7 @@ user: root
 pass: ]8Cdu9_ZrG?EcVWa
 port: 22
 
-fbmediaz.com
+domain: fbmediaz.com
 
 Upload code vao /home/fbmediaz.com/public_html
 Ten Database: fbmediaz_co_c64e
@@ -240,5 +240,3 @@ User name: fbmediazcoc64e
 Mat khau: 58d3cc5c6027ae18
 Link phpMyAdmin: http://45.76.243.124:26213
 Username: loanprojectssss  | Password: 769dca
-Lê Quốc Dũng đã xem lúc Thứ Sáu 16:54chiềuHoàng Hoàng đã xem lúc Thứ Sáu 17:07chiềuHuy Pham Dinh đã xem lúc Thứ Sáu 19:01chiều
-

@@ -33,7 +33,7 @@
                     {!! Form::control('text', 12, 'keyHash', $errors, trans('front/site.hashKey')) !!}
                     <input type="hidden" name="borrowId" value="<?php echo $id;?>">
 
-                    {!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}
+                    {!! Form::submit(trans('front/form.send'), ['col-lg-12 l-btn']) !!}
 
                 </div>
 

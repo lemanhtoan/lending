@@ -5929,8 +5929,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
     color: #ccc
 }
 .navbar-inverse {
-    background-color: #009387;
-    border-color: #009387;
+    background-color: #005f57;
+    border-color: #005f57;
 }
 .navbar-inverse .navbar-brand {
     color:#fff
@@ -5955,7 +5955,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-nav>.active>a:hover,
 .navbar-inverse .navbar-nav>.active>a:focus {
     color: #fff;
-    background-color: #005f57
+    background-color: #00887c
 }
 .navbar-inverse .navbar-nav>.disabled>a,
 .navbar-inverse .navbar-nav>.disabled>a:hover,
@@ -5975,7 +5975,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
-    border-color: #009387;
+    border-color: #005f57;
 }
 .navbar-inverse .navbar-nav>.open>a,
 .navbar-inverse .navbar-nav>.open>a:hover,
@@ -7933,7 +7933,7 @@ button.close {
 
 body {
     margin-top: 100px;
-    background-color: #009387;
+    background-color: #005f57;
 }
 @media (min-width: 768px) {
     body {
@@ -7946,7 +7946,8 @@ body {
 #page-wrapper {
     width: 98%;
     padding: 0;
-    background-color: #fff
+    background-color: #fff;
+    min-height: 550px;
 }
 .huge {
     font-size: 50px;
@@ -8025,7 +8026,7 @@ ul.alert-dropdown {
         border: 0;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #009387;
+        background-color: #005f57;
     }
     .side-nav>li>a {
         width: 250px

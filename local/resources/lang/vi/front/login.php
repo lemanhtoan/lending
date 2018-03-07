@@ -1,16 +1,17 @@
 <?php
 
 return [
-	'connection' => 'Connection',
-	'text' => 'To log on this site you must fill this form :',
-	'email' => 'Your email',
-	'password' => 'Your password',
-	'remind' => 'Remember me',
-	'forget' => 'I have forgotten my password !',
-	'register' => 'Not registered ?',
-	'register-info' => 'To register quickly just click on the button !',
-	'registering' => 'I subscribe',
-	'credentials' => 'These credentials do not match our records.',
-	'log' => 'Your email or your user name',
-	'maxattempt' => 'You have reached the maximum number of login attempts. Try again in one minute.'
+	'connection' => 'Đăng nhập',
+	'text' => 'Điền thông tin đăng nhập hệ thống',
+	'email' => 'Email hòm thư',
+	'password' => 'Mật khẩu',
+	'remind' => 'Lưu đăng nhập',
+	'forget' => 'Quên mật khẩu',
+	'register' => 'Đăng ký',
+	'register-info' => 'Bấm vào để đăng ký',
+	'registering' => 'Đăng ký',
+	'credentials' => 'Thông tin đăng nhập sai',
+	'log' => 'Email hòm thư hoặc tên đăng nhập',
+	'maxattempt' => 'Bạn đã quá số lần đăng nhập, vui lòng thử lại sau ít phút',
+    'or'=>'Hoặc'
 ];

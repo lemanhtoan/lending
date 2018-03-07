@@ -2,7 +2,7 @@
 
 @section('main')
 
-  @include('back.partials.entete', ['title' => trans('back/IPAdmin.dashboard') . link_to_route('IPAdmin.create', trans('back/IPAdmin.add'), [], ['class' => 'btn btn-info pull-right']), 'icone' => 'pencil', 'fil' => 'IP Admin List'])
+  @include('back.partials.entete', ['title' => 'Admin IP manager' . link_to_route('IPAdmin.create', 'Add', [], ['class' => 'btn btn-info pull-right']), 'icone' => 'pencil', 'fil' => 'IP Admin List'])
 
 	@if(session()->has('ok'))
     @include('partials/error', ['type' => 'success', 'message' => session('ok')])
@@ -18,13 +18,13 @@
         <thead>
           <tr>
             <th>
-              {{ trans('back/IPAdmin.title') }} 
+              Ip
             </th>
             <th>
-              {{ trans('back/IPAdmin.date') }}
+              Date
             </th>
             <th>
-              {{ trans('back/IPAdmin.published') }}
+              Status
             </th>
           </tr>
         </thead>

@@ -20,8 +20,8 @@
 
 					<div class="row">
 
-						{!! Form::control('email', 6, 'email', $errors, trans('front/password.email')) !!}
-						{!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}
+						{!! Form::control('email', 12, 'email', $errors, trans('front/password.email')) !!}
+						{!! Form::submit(trans('front/form.send'), ['col-lg-12 box-center l-btn']) !!}
 						{!! Form::text('address', '', ['class' => 'hpet']) !!}	
 						
 					</div>

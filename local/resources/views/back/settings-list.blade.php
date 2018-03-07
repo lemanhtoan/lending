@@ -42,7 +42,7 @@
                         Hotline : <input type="text" name="value" class="form-control" value="<?php if ( isset($dataHotline)) { echo $dataHotline;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="dataHotline">
-                <input type="submit"  class="btn btn-primary" value="Lưu hotline" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Hotline" class="button" />
             </form>
         </div>
 
@@ -51,10 +51,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $emailadmin = $emailadmin[0]['content']; ?>
-                    email admin : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailadmin)) { echo $emailadmin;} ?>">
+                    Email admin : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailadmin)) { echo $emailadmin;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="emailadmin">
-                <input type="submit"  class="btn btn-primary" value="Lưu emailadmin" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Email admin" class="button" />
             </form>
         </div>
 
@@ -64,10 +64,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $emailsupport = $emailsupport[0]['content']; ?>
-                        emailsupport : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailsupport)) { echo $emailsupport;} ?>">
+                        Email support : <input type="email" name="value" class="form-control" value="<?php if ( isset($emailsupport)) { echo $emailsupport;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="emailsupport">
-                <input type="submit"  class="btn btn-primary" value="Lưu emailsupport" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Email support" class="button" />
             </form>
         </div>
 
@@ -76,10 +76,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $mainbg = $mainbg[0]['content']; ?>
-                        mainbg : <input type="color" name="value" class="form-control" value="<?php if ( isset($mainbg)) { echo $mainbg;} ?>">
+                        Main background : <input type="color" name="value" class="form-control" value="<?php if ( isset($mainbg)) { echo $mainbg;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="mainbg">
-                <input type="submit" class="btn btn-primary" value="Lưu mainbg" class="button" />
+                <input type="submit" class="btn btn-primary" value="Lưu Main background" class="button" />
             </form>
         </div>
 
@@ -88,10 +88,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $maincolor = $maincolor[0]['content']; ?>
-                        maincolor : <input type="color" name="value" class="form-control" value="<?php if ( isset($maincolor)) { echo $maincolor;} ?>">
+                        Main color : <input type="color" name="value" class="form-control" value="<?php if ( isset($maincolor)) { echo $maincolor;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="maincolor">
-                <input type="submit" class="btn btn-primary" value="Lưu maincolor" class="button" />
+                <input type="submit" class="btn btn-primary" value="Lưu Main color" class="button" />
             </form>
         </div>
 
@@ -111,10 +111,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $laisuat = $laisuat[0]['content']; ?>
-                        laisuat : <input type="text" name="value" class="form-control" value="<?php if ( isset($laisuat)) { echo $laisuat;} ?>">
+                        Lãi suất : <input type="text" name="value" class="form-control" value="<?php if ( isset($laisuat)) { echo $laisuat;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="laisuat">
-                <input type="submit"  class="btn btn-primary" value="Lưu laisuat" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Lãi suất" class="button" />
             </form>
         </div>
 
@@ -123,10 +123,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $tygiaUV = $tygiaUV[0]['content']; ?>
-                        tygiaUV : <input type="text" name="value" class="form-control" value="<?php if ( isset($tygiaUV)) { echo $tygiaUV;} ?>">
+                        Tỷ giá USD/VNĐ : <input type="text" name="value" class="form-control" value="<?php if ( isset($tygiaUV)) { echo $tygiaUV;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="tygiaUV">
-                <input type="submit"  class="btn btn-primary" value="Lưu tygiaUV" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Tỷ giá USD/VNĐ" class="button" />
             </form>
         </div>
 
@@ -135,10 +135,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $daylost = $daylost[0]['content']; ?>
-                        daylost : <input type="text" name="value" class="form-control" value="<?php if ( isset($daylost)) { echo $daylost;} ?>">
+                        Số ngày mất thế chấp : <input type="text" name="value" class="form-control" value="<?php if ( isset($daylost)) { echo $daylost;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="daylost">
-                <input type="submit"  class="btn btn-primary" value="Lưu daylost" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Số ngày mất thế chấp" class="button" />
             </form>
         </div>
 
@@ -147,10 +147,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $dayredm = $dayredm[0]['content']; ?>
-                        dayredm : <input type="text" name="value" class="form-control" value="<?php if ( isset($dayredm)) { echo $dayredm;} ?>">
+                        Số ngày nhắc nhở : <input type="text" name="value" class="form-control" value="<?php if ( isset($dayredm)) { echo $dayredm;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="dayredm">
-                <input type="submit"  class="btn btn-primary" value="Lưu dayredm" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Số ngày nhắc nhở" class="button" />
             </form>
         </div>
 
@@ -159,10 +159,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $maxqty = $maxqty[0]['content']; ?>
-                        maxqty : <input type="text" name="value" class="form-control" value="<?php if ( isset($maxqty)) { echo $maxqty;} ?>">
+                        Số lần vay tối đa : <input type="text" name="value" class="form-control" value="<?php if ( isset($maxqty)) { echo $maxqty;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="maxqty">
-                <input type="submit"  class="btn btn-primary" value="Lưu maxqty" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Số lần vay tối đa" class="button" />
             </form>
         </div>
 
@@ -171,10 +171,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $maxverified = $maxverified[0]['content']; ?>
-                        maxverified : <input type="text" name="value" class="form-control" value="<?php if ( isset($maxverified)) { echo $maxverified;} ?>">
+                        Số tiền vần admin duyệt : <input type="text" name="value" class="form-control" value="<?php if ( isset($maxverified)) { echo $maxverified;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="maxverified">
-                <input type="submit"  class="btn btn-primary" value="Lưu maxverified" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Số tiền vần admin duyệ" class="button" />
             </form>
         </div>
 
@@ -183,10 +183,10 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                     <?php $ccl = $ccl[0]['content']; ?>
-                        ccl : <input type="text" name="value" class="form-control" value="<?php if ( isset($ccl)) { echo $ccl;} ?>">
+                        Tỷ giá CCL : <input type="text" name="value" class="form-control" value="<?php if ( isset($ccl)) { echo $ccl;} ?>">
                 </div>
                 <input type="hidden" name="stype" value="ccl">
-                <input type="submit"  class="btn btn-primary" value="Lưu ccl" class="button" />
+                <input type="submit"  class="btn btn-primary" value="Lưu Tỷ giá CCL" class="button" />
             </form>
         </div>
 
@@ -194,7 +194,7 @@
             <form action="settings" method="POST" role="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
-                    footer:
+                    Footer:
                     <textarea name="value" id="footer" class="form-control" rows="4"  >
 										<?php $footer = $footer[0]['content']; ?>
                         <?php if ( isset($footer)) {echo $footer;} ?>
