@@ -153,4 +153,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('treminderlost', 'HomeController@getBorrowReminderLost');
 
     Route::resource('filterBorrow', 'HomeController@filterBorrow');
+    Route::get('confirmUser', 'HomeController@confirmUser');
+    Route::post('confirmUser', 'HomeController@confirmUser');
 });

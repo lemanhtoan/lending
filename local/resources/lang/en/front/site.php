@@ -105,5 +105,8 @@ return [
     'AFTER_PAY'=>'After your pay, please',
     'CONFIRM_TRAN'=>'confirm transaction',
     'LOGIN_BORROW'=>'Please login before creating a loan',
-    'USD'=>'$'
+    'USD'=>'$',
+    'confirmAccount'=>'Verify email account',
+    'emailUser'=>'your email',
+    'INVALID_DATA'=>'Invalid data'
 ];

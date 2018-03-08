@@ -17,10 +17,18 @@ use App\Models\Slideshow;
 use App\Models\Hash;
 use Carbon;
 
+use App\ActivationService;
+
+
 class HomeController extends Controller
 {
 
-	/**
+    public function __construct(ActivationService $activationService)
+    {
+        $this->activationService = $activationService;
+    }
+
+    /**
 	 * Display the home page.
 	 *
 	 * @return Response
@@ -869,6 +877,23 @@ class HomeController extends Controller
         }
 
         return view('front.confirmborrow', compact('id', 'mess'));
+    }
+
+    public function confirmUser(Request $request) {
+	    $email = $request->input('email');
+        $uId = $request->input('uId');
+        $usertype = $request->input('usertype');
+        $uData = User::where('id', $uId)->where('confirmed', '0')->where('activated', '0')->first();
+        if(count($uData) > 0) {
+            User::where('id', $uId)->update(array('confirmed'=>1, 'email'=> $email, 'usertype' => $usertype));
+            $this->activationService->sendActivationMail($uData);
+            return redirect('/')->with('status', 'We sent you an activation code. Check your email.');
+        } else {
+            $userData = new \stdClass();
+            $userData->id = '0';
+            $mess='INVALID_DATA';
+            return view('front.uconfirm', compact('userData', 'mess'));
+        }
     }
 }
 

@@ -105,5 +105,8 @@ return [
     'AFTER_PAY'=>'Sau khi thanh toán, vui lòng',
     'CONFIRM_TRAN'=>'xác nhận thanh toán',
     'LOGIN_BORROW'=>'Vui lòng đăng nhập trước khi tạo khoản vay',
-    'USD'=>'USD'
+    'USD'=>'USD',
+    'confirmAccount'=>'Xác thực email người dùng',
+    'emailUser'=>'Email sử dụng',
+    'INVALID_DATA'=>'Sai thông tin'
 ];
