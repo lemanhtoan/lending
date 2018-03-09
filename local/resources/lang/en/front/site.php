@@ -108,5 +108,12 @@ return [
     'USD'=>'$',
     'confirmAccount'=>'Verify email account',
     'emailUser'=>'your email',
-    'INVALID_DATA'=>'Invalid data'
+    'INVALID_DATA'=>'Invalid data',
+    'All' => 'All',
+    'U100' => 'Under $100',
+    'F100_T200' => 'From $100 to $200',
+    'F200_T300' => 'From $200 to $300',
+    'F300_T500' => 'From $300 to $500',
+    'T500' => 'Over $500',
+    'checkout'=>'Checkout'
 ];

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Hash extends Model
 {
 	protected $table = 'hash_confirm';
-    protected $fillable = ['uid', 'type','hask','dataId', 'status'];
+    protected $fillable = ['uid', 'type','hask','dataId', 'status', 'tygia'];
 
 }

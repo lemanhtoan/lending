@@ -216,19 +216,19 @@ class HomeController extends Controller
             if ($sotienvay != '0') { // all
                 switch ($sotienvay) {
                     case '1':
-                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '2000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '100'";
                         break;
                     case '2':
-                        $sqlData .= " AND sotiencanvay BETWEEN '2000000' AND '4000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '100' AND '200'";
                         break;
                     case '4':
-                        $sqlData .= " AND sotiencanvay BETWEEN '4000000' AND '6000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '200' AND '300'";
                         break;
                     case '6':
-                        $sqlData .= " AND sotiencanvay BETWEEN '6000000' AND '9000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '300' AND '500'";
                         break;
                     case '15x':
-                        $sqlData .= " AND sotiencanvay >= '15000000'";
+                        $sqlData .= " AND sotiencanvay >= '500'";
                         break;
                 }
 
@@ -295,19 +295,19 @@ class HomeController extends Controller
             if ($sotienvay != '0') { // all
                 switch ($sotienvay) {
                     case '1':
-                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '2000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '0' AND '100'"; //2000000
                         break;
                     case '2':
-                        $sqlData .= " AND sotiencanvay BETWEEN '2000000' AND '4000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '100' AND '200'";
                         break;
                     case '4':
-                        $sqlData .= " AND sotiencanvay BETWEEN '4000000' AND '6000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '200' AND '300'";
                         break;
                     case '6':
-                        $sqlData .= " AND sotiencanvay BETWEEN '6000000' AND '9000000'";
+                        $sqlData .= " AND sotiencanvay BETWEEN '300' AND '500'";
                         break;
                     case '15x':
-                        $sqlData .= " AND sotiencanvay >= '15000000'";
+                        $sqlData .= " AND sotiencanvay >= '500'";
                         break;
                 }
 
@@ -789,10 +789,14 @@ class HomeController extends Controller
                             $hash->hask = $keyHash;
                             $hash->dataId = $id;
                             $hash->status = 1;
+                            $hash->tygia = $dataTygia->content;
                             $hash->save();
 
                             // update status ...
                             Invest::where('borrowId', $id)->update(array('status'=>1));
+
+                            // cap nhat khoan vay => dang hoat dong
+                            Borrow::where('id', $id)->update(array('status' => 2));
                         } else {
                             $mess = "TRAN_INVALID_BEFORE";
                         }
@@ -836,6 +840,7 @@ class HomeController extends Controller
             }
             $jsonInfo = file_get_contents($getInfo);
             $objInfo = json_decode($jsonInfo);
+            $dataTygia = DB::table('settings')->where('name', 'ccl')->select('content')->get()[0];
             if(isset($objInfo->block_height)) {
                 // process save db and check unique value => 1: success; 0: confirm
                 $isCheck = Hash::where('hask', $keyHash)->get();
@@ -852,6 +857,7 @@ class HomeController extends Controller
                         $hash->hask = $keyHash;
                         $hash->dataId = $id;
                         $hash->status = 1;
+                        $hash->tygia = $dataTygia->content;
                         $hash->save();
 
                         // update status ...
@@ -864,6 +870,7 @@ class HomeController extends Controller
                         $hash->hask = $keyHash;
                         $hash->dataId = $id;
                         $hash->status = 0;
+                        $hash->tygia = $dataTygia->content;
                         $hash->save();
                     }
                 } else {
@@ -893,6 +900,45 @@ class HomeController extends Controller
             $userData->id = '0';
             $mess='INVALID_DATA';
             return view('front.uconfirm', compact('userData', 'mess'));
+        }
+    }
+
+    public function checkout(Request $request) {
+        $id = $request->input('id');
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $userType =  Auth::user()->usertype;
+            $uCCL = Auth::user()->cclAddress;
+        }else {
+            $uid = 0;
+            $userType = 'NON';
+            $uCCL = Auth::user()->cclAddress;
+        }
+        $borrow = Borrow::where('id', $id)->where('uid', $uid)->first();
+        if(count($borrow) > 0) {
+            
+        } else {
+
+        }
+        var_dump($id, $uid, count($borrow));die;
+
+        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
+            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
+        );
+
+        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
+        $borrowCheck = Borrow::where('uid', $uid)->where('id', $id)->get();
+        if(count($borrowCheck)) {
+            Borrow::where('uid', $uid)->where('id', $id)->delete();
+            $ok = 'Deleted item';
+            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL'));
+        } else {
+            $error = 'Item not exist';
+            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL'));
         }
     }
 }

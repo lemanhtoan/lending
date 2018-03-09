@@ -2,11 +2,11 @@
 return [
     'khoanggia' => [
         '0' => 'All',
-        '1' => 'Dưới 2 triệu',
-        '2' => 'Từ 2 triệu - 4 triệu',
-        '4' => 'Từ 4 triệu - 6 triệu',
-        '6' => 'Từ 6 triệu - 9 triệu',
-        '15x' => 'Trên 15 triệu',
+        '1' => 'U100',
+        '2' => 'F100_T200',
+        '4' => 'F200_T300',
+        '6' => 'F300_T500',
+        '15x' => 'T500',
     ],
     'moneyReceived' => [
         'VND' => 'VNĐ',

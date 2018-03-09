@@ -101,6 +101,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('manager', 'HomeController@manager');
     Route::resource('deleteitem', 'HomeController@deleteitem');
+    Route::resource('checkout', 'HomeController@checkout');
     Route::resource('verified', 'HomeController@verified');
     Route::resource('uploadVerified', 'HomeController@uploadVerified');
 

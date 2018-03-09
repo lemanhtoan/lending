@@ -112,9 +112,15 @@
                             	<?php  } ?>    
 								
 							</td>
-							<td style="width: 5%"><?php if ($borrow->status == '0' || $borrow->status == '10'  ) :?>
+							<td style="width: 5%">
+								<?php if ($borrow->status == '0' || $borrow->status == '10'  ) :?>
 								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('{{ trans('front/site.areSure') }}')">{{ trans('front/site.delete') }}</a>
-							<?php endif; ?></td>
+								<?php endif; ?>
+
+								<?php if ($borrow->status == '2'  ) :?>
+								<a href="{{ url('checkout/?id=' . $borrow->id) }}" class="btn btn-info">{{ trans('front/site.checkout') }}</a>
+								<?php endif;  // dang hoat dong => thanh toan khoan vay ?>
+							</td>
 						</tr>
                         <?php endforeach; ?>
 						</tbody>

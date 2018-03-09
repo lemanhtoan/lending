@@ -240,3 +240,8 @@ User name: fbmediazcoc64e
 Mat khau: 58d3cc5c6027ae18
 Link phpMyAdmin: http://45.76.243.124:26213
 Username: loanprojectssss  | Password: 769dca
+
+
+======================================================
+
+ALTER TABLE `hash_confirm` ADD `tygia` DECIMAL NULL;

@@ -24,7 +24,26 @@
 									<option value="">{{ trans('front/site.sotienvay') }}</option>
 									<?php
 									foreach ($khoanggia as $kgia => $gia) {?>
-									<option <?php if(isset($_GET['search_sotienvay']) && $_GET['search_sotienvay'] == $kgia){echo 'selected';}else{echo '';} ?> value="<?php echo $kgia ?>"><?php echo $gia ?></option>
+									<option <?php if(isset($_GET['search_sotienvay']) && $_GET['search_sotienvay'] == $kgia){echo 'selected';}else{echo '';} ?> value="<?php echo $kgia ?>">
+                                        <?php if($gia =='All') : ?>
+										{{ trans('front/site.All') }}
+                                        <?php endif;?>
+                                        <?php if($gia =='U100') : ?>
+										{{ trans('front/site.U100') }}
+                                        <?php endif;?>
+                                        <?php if($gia =='F100_T200') : ?>
+										{{ trans('front/site.F100_T200') }}
+                                        <?php endif;?>
+                                        <?php if($gia =='F200_T300') : ?>
+										{{ trans('front/site.F200_T300') }}
+                                        <?php endif;?>
+                                        <?php if($gia =='F300_T500') : ?>
+										{{ trans('front/site.F300_T500') }}
+                                        <?php endif;?>
+                                        <?php if($gia =='T500') : ?>
+										{{ trans('front/site.T500') }}
+                                        <?php endif;?>
+									</option>
 									<?php }
 									?>
 								</select>

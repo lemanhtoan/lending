@@ -108,5 +108,12 @@ return [
     'USD'=>'USD',
     'confirmAccount'=>'Xác thực email người dùng',
     'emailUser'=>'Email sử dụng',
-    'INVALID_DATA'=>'Sai thông tin'
+    'INVALID_DATA'=>'Sai thông tin',
+    'All' => 'Tất cả',
+    'U100' => 'Dưới $100',
+    'F100_T200' => 'Từ $100 đến $200',
+    'F200_T300' => 'Từ $200 đến $300',
+    'F300_T500' => 'Từ $300 đến $500',
+    'T500' => 'Lớn hơn $500',
+    'checkout'=>'Thanh toán'
 ];
