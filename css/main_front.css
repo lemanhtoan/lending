@@ -3987,6 +3987,7 @@ table th[class*=col-] {
     .table-responsive>.table-bordered>tfoot>tr:last-child>th {
         border-bottom: 0
     }
+
 }
 fieldset {
     padding: 0;
@@ -8802,9 +8803,9 @@ div#home {
 .owl-theme .owl-controls .owl-buttons div {
     background: #2a7485 !important;
 }
-.first-col {
-    padding-left: 0;
-}
+/*.first-col {*/
+    /*padding-left: 0;*/
+/*}*/
 .filter-box #search_submit {
     background: #ce0f00;
     border: none;
@@ -8917,4 +8918,90 @@ input.btn-filter {
     color: #fff;
     padding: 7px 30px;
     border-radius: 0;
+}
+
+@media screen and (max-width: 767px) {
+    /*MOBILE PROCESS*/
+    .top-header {
+        background: none;
+        position: inherit;
+    }
+
+    .logo-pc {
+        display: none
+    }
+
+    img.logo {
+        width: 70%;
+    }
+
+    .bottom-header- {
+        float: inherit
+    }
+
+    .bottom-header- {
+        padding-top: 0
+    }
+
+    .bottom-header- .navbar {
+        margin-bottom: 0
+    }
+
+    .bottom-header- .navbar-default {
+        background-color: #fff;
+        border-color: #fff;
+    }
+
+    .bottom-header- .navbar-nav {
+        background: #e7e7e7;
+    }
+
+    div#home {
+        padding-top: 0;
+    }
+
+    .box-left {
+        width: 83%;
+    }
+    .language-box {display: block}
+    .language-box .navbar-nav {margin: 0}
+    .how-it-works .step:not(.last):after {border-top: 0}
+    .video {width: 100%}
+    .info-section {
+        padding-bottom: 25px;
+        padding-top: 10px;
+    }
+    .info-section h2.highlight {
+        margin-bottom: 40px;
+        margin-top: 20px;
+    }
+    .info-section h2, h2.highlight, .box-customer h2,  h2.box-center {font-size: 20px;}
+    .how-it-works .step:before {
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+    }
+    .info-section h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    .how-it-works .step {
+        padding-top: 55px;
+        padding-bottom: 20px;
+    }
+    #review_customer .owl-prev { left: 0}
+    #review_customer {margin-top: 20px;}
+    .tp-widget-review {
+        text-align: center;
+    }
+    .tp-widget-review .tp-widget-stars.clearfix {
+        margin-left: 33%;
+    }
+    #resume {display: none}
+    .navbar-nav .open .dropdown-menu .dropdown-header, .navbar-nav .open .dropdown-menu>li>a {
+        padding: 0;
+    }
+    .navbar-nav .open .dropdown-menu {position: absolute}
+    .l-btn {text-align: center}
+    .first-col {padding-left: 15px;}
 }

@@ -15,7 +15,7 @@
 		@endif
 		<div class="row">
 			<div class="box filter-box">
-				<div class="col-lg-12">
+				<div class="col-lg-12-">
 					<form action="{!! url('getAloan') !!}" method="get" id="home_search" name="home_search">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<div class="col-md-2 first-col">

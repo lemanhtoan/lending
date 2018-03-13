@@ -18,6 +18,7 @@ use App\Models\Hash;
 use Carbon;
 
 use App\ActivationService;
+use App\Models\Checkout;
 
 
 class HomeController extends Controller
@@ -67,6 +68,38 @@ class HomeController extends Controller
         $slideshows = Slideshow::where('status', 1)->orderBy('position', 'desc')->get();
 		return view('front.index', compact('blogs', 'userType', 'uid', 'borrows', 'borrowsOfUser', 'investsOfUser', 'khoanggia', 'slideshows', 'uCCL'));
 	}
+
+    public function limitCheckout(Request $request) {
+        $sotien = $request->input('sotien');
+        $borrowId = $request->input('borrowId');
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        // tra lai so tien thanhtoan, lay so tien tong tu borrowId (include lai), tinh tong moi = tong cu - sothanh toan, tinh lai tren so tong moi ( ngay dao han - ngay hien tai ) de tinh lai
+        $borrow = Borrow::where('id', $borrowId)->where('uid', $uid)->first();
+        if(count($borrow) > 0) {
+            $daohan = Carbon::parse($borrow->ngaydaohan);
+            $now = Carbon::now();
+            $lengthDay = $daohan->diffInDays($now);
+            $lai = ($lengthDay * $borrow->phantramlai * $borrow->sotiencanvay) / (100 * 30);
+            $tong = $lai + $borrow->sotiencanvay;
+            if($sotien>$tong) {
+                return \Response::json(array('mess'=> 'OVER'));
+            }
+            $investData = Invest::where('borrowId', $borrowId)->first();
+            $investId = $investData->uid;
+            $dataUserInvest = User::where('id', $investId)->first();
+            $ccl = $dataUserInvest->cclAddress;
+            $tongmoi = $tong - $sotien;
+            $laimoi = ($lengthDay * $borrow->phantramlai * $tongmoi) / (100 * 30);
+            $return = array('mess'=> 'OK', 'sotien'=>$sotien, 'tongmoi'=>$tongmoi, 'laimoi'=>$laimoi ,'ngaydaohan'=>$borrow->ngaydaohan);
+            return \Response::json($return);
+        } else {
+            return \Response::json(array('mess'=> 'NOK'));
+        }
+    }
 
 	public function coinmarketcap(Request $request) {
 	    $sothechap = $request->input('sothechap');
@@ -202,6 +235,7 @@ class HomeController extends Controller
             'footer'=> Settings::where('name', 'footer')->get(['content'])->toArray(),
             'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray(),
             'ccl'=> Settings::where('name', 'ccl')->get(['content'])->toArray(),
+            'minday'=> Settings::where('name', 'minday')->get(['content'])->toArray(),
         ];
     }
 
@@ -796,7 +830,9 @@ class HomeController extends Controller
                             Invest::where('borrowId', $id)->update(array('status'=>1));
 
                             // cap nhat khoan vay => dang hoat dong
-                            Borrow::where('id', $id)->update(array('status' => 2));
+                            $giaingan = new Carbon('now');
+
+                            Borrow::where('id', $id)->update(array('status' => 2, 'ngaygiaingan'=>$giaingan->toDateTimeString()));
                         } else {
                             $mess = "TRAN_INVALID_BEFORE";
                         }
@@ -916,30 +952,165 @@ class HomeController extends Controller
         }
         $borrow = Borrow::where('id', $id)->where('uid', $uid)->first();
         if(count($borrow) > 0) {
-            
+            $daohan = Carbon::parse($borrow->ngaydaohan);
+            $now = Carbon::now();
+            $lengthDay = $daohan->diffInDays($now);
+            $dataMinday = DB::table('settings')->where('name', 'minday')->select('content')->get()[0];
+            $dataMindayValue = $dataMinday->content;
+            if((int)$lengthDay >= (int)$dataMindayValue) {
+                $lai = ($lengthDay * $borrow->phantramlai * $borrow->sotiencanvay)/ (100*30);
+                $tong = $lai + $borrow->sotiencanvay;
+                //var_dump($dataMindayValue ,$borrow->phantramlai , $borrow->sotiencanvay);
+            } else {
+                $lai = ($dataMindayValue * $borrow->phantramlai * $borrow->sotiencanvay)/ (100*30);
+                //var_dump($dataMindayValue ,$borrow->phantramlai , $borrow->sotiencanvay);
+                $tong = $lai + $borrow->sotiencanvay;
+            }
+            $investData = Invest::where('borrowId', $id)->first();
+            $investId = $investData->uid;
+            $dataUserInvest = User::where('id', $investId)->first();
+            $ccl = $dataUserInvest->cclAddress;
+            //var_dump($lengthDay, $lai, $tong);
+            return view('front.checkout', compact('lai', 'tong', 'borrow', 'ccl'));
         } else {
 
         }
-        var_dump($id, $uid, count($borrow));die;
+    }
 
-        $investsOfUser = Invest::leftJoin('borrow', 'invest.borrowId','=', 'borrow.id')->where('invest.uid', $uid)->orderBy('invest.created_at', 'desc')->get(
-            ['invest.*', 'borrow.soluongthechap', 'borrow.kieuthechap', 'borrow.thoigianthechap', 'borrow.phantramlai', 'borrow.dutinhlai', 'borrow.sotiencanvay', 'borrow.ngaygiaingan', 'borrow.ngaydaohan']
-        );
-
-        $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
-        $borrowCheck = Borrow::where('uid', $uid)->where('id', $id)->get();
-        if(count($borrowCheck)) {
-            Borrow::where('uid', $uid)->where('id', $id)->delete();
-            $ok = 'Deleted item';
-            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
-
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL'));
-        } else {
-            $error = 'Item not exist';
-            $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
-
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL'));
+    public function confirmCheckout(Request $request) {
+	    $type = $request->input('checkoutradio');
+	    $borrowId = $request->input('borrowId');
+	    $moneyValue = $request->input('moneyValue');
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+            $uCCL = Auth::user()->cclAddress;
+        }else {
+            $uid = 0;
+            $uCCL = '';
         }
+        Borrow::where('id', $borrowId)->where('uid', $uid)->update(array('status'=>3));
+        $checkout = new Checkout();
+	    if($type =='0') {
+            // full => update status 3(tamkhoa de thanh toan) => confirm ok => update to 4 (hoan thanh)
+            $checkout->uid = $uid;
+            $checkout->dataId = $borrowId;
+            $checkout->status = 0;
+            $checkout->type = 0;
+            $checkout->value = '';
+        } else {
+            // limit => update status 3(tamkhoa de thanh toan) => confirm ok => update to 4 (hoan thanh) => tao khoan vay moi voi gia tri moi
+            $checkout->uid = $uid;
+            $checkout->dataId = $borrowId;
+            $checkout->status = 0;
+            $checkout->type = 1;
+            $checkout->value = $moneyValue;
+        }
+        $checkout->save();
+        // return confirm hask form => update ok => updated 4
+        return view('front.confirmcheckout', compact('borrowId', 'uCCL'));
+    }
+
+
+    public function postConfirmCheckout(Request $request) {
+        $id = $request->input('borrowId');
+        $keyHash = $request->input('keyHash');
+        $baseUrl = 'https://blockchain.info/rawtx/';
+        $getInfo = $baseUrl.$keyHash;
+        $file = $getInfo;
+        $file_headers = @get_headers($file);
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 500 Internal Server Error') {
+            $exists = false;
+        }
+        else {
+            $exists = true;
+        }
+        if ($exists) {
+            if (Auth::user()) {
+                $uid = Auth::user()->id;
+                $uCCL = Auth::user()->cclAddress;
+            } else {
+                $uid = 0;
+                $uCCL = '';
+            }
+            $jsonInfo = file_get_contents($getInfo);
+            $objInfo = json_decode($jsonInfo);
+            $dataTygia = DB::table('settings')->where('name', 'ccl')->select('content')->get()[0];
+            if(isset($objInfo->block_height)) {
+                // process save db and check unique value => 1: success; 0: confirm
+                $isCheck = Hash::where('hask', $keyHash)->get();
+                if(count($isCheck) == '0') {
+                    $urlHeight = 'https://blockchain.info/latestblock';
+                    $jsonInfoHeight = file_get_contents($urlHeight);
+                    $objInfoHeight = json_decode($jsonInfoHeight);
+                    $hash = new Hash();
+                    if ( ( ($objInfoHeight->height - $objInfo->block_height) + 1) > 2 ) {
+                        // transaction success
+                        $mess = "TRAN_COMPLETED";
+                        $hash->uid = $uid;
+                        $hash->type = 'borrow';
+                        $hash->hask = $keyHash;
+                        $hash->dataId = $id;
+                        $hash->status = 1;
+                        $hash->tygia = $dataTygia->content;
+                        $hash->save();
+
+                        // update status ...
+                        $isCheckout = Checkout::where('dataId', $id)->where('uid', $uid)->first();
+                        if($isCheckout) {
+                            if ($isCheckout->type=='1') {
+                                // limit => create new borrow
+                                $newValue = $isCheckout->value;
+                                $borrowGet = Borrow::where('id', $id)->where('uid', $uid)->first();
+                                if(count($borrowGet) > 0) {
+                                    $daohan = Carbon::parse($borrowGet->ngaydaohan);
+                                    $now = Carbon::now();
+                                    $lengthDay = $daohan->diffInDays($now);
+                                    $lai = ($lengthDay * $borrowGet->phantramlai * $borrowGet->sotiencanvay) / (100 * 30);
+                                    $tong = $lai + $borrowGet->sotiencanvay;
+                                    $tongmoi = $tong - $newValue;
+                                    $laimoi = ($lengthDay * $borrowGet->phantramlai * $tongmoi) / (100 * 30);
+                                    $newBorrow = new Borrow();
+                                    $newBorrow->uid= $uid;
+                                    $newBorrow->soluongthechap= $borrowGet->soluongthechap;
+                                    $newBorrow->kieuthechap= $borrowGet->kieuthechap;
+                                    $newBorrow->thoigianthechap= $borrowGet->thoigianthechap;
+                                    $newBorrow->phantramlai= $borrowGet->phantramlai;
+                                    $newBorrow->sotientoida= $borrowGet->sotientoida;
+                                    $newBorrow->dutinhlai= $laimoi;
+                                    $newBorrow->sotiencanvay= $tongmoi;
+                                    $newBorrow->ngaygiaingan= $borrowGet->ngaygiaingan;
+                                    $newBorrow->ngaydaohan= $borrowGet->ngaydaohan;
+                                    $newBorrow->status= 1;
+                                    $newBorrow->save();
+                                }
+                            }
+                            Borrow::where('id', $id)->where('uid', $uid)->update(array('status'=>4));
+
+                            // update checkout status = 1
+                            Checkout::where('dataId', $id)->where('uid', $uid)->update(array('status'=>1));
+                        }
+                    } else {
+                        // transaction confirm => need crontab check and update
+                        $mess = "Transaction confirm, process checking completed";
+                        $hash->uid = $uid;
+                        $hash->type = 'borrow';
+                        $hash->hask = $keyHash;
+                        $hash->dataId = $id;
+                        $hash->status = 0;
+                        $hash->tygia = $dataTygia->content;
+                        $hash->save();
+                    }
+                } else {
+                    $mess = "TRAN_INVALID_BEFORE";
+                }
+            } else {
+                $mess = "TRAN_INVALID";
+            }
+        } else {
+            $mess = "TRAN_INVALID";
+        }
+        $borrowId = $id;
+        return view('front.confirmcheckout', compact('borrowId', 'mess', 'uCCL'));
     }
 }
 

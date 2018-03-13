@@ -245,3 +245,9 @@ Username: loanprojectssss  | Password: 769dca
 ======================================================
 
 ALTER TABLE `hash_confirm` ADD `tygia` DECIMAL NULL;
+INSERT INTO `settings` (`id`, `name`, `content`, `created_at`, `updated_at`) VALUES (NULL, 'minday', '30', '2018-03-10 00:00:00', '2018-03-10 00:00:00');
+
+CREATE TABLE `checkout` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(255) NOT NULL , `value` VARCHAR(255) NULL , `uid` INT NOT NULL , `status` INT NOT NULL , `dataId` INT NOT NULL , `created_at` TIMESTAMP NOT NULL , `updated_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+==== nguoi vay thanh toan full/limit ok ====
+===> nguoi vay rut tai khoan the chap khi khong con no => gui yeu cau rut tai san cho admin
+===> updated mobile style

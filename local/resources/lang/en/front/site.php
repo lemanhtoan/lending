@@ -115,5 +115,20 @@ return [
     'F200_T300' => 'From $200 to $300',
     'F300_T500' => 'From $300 to $500',
     'T500' => 'Over $500',
-    'checkout'=>'Checkout'
+    'checkout'=>'Checkout',
+    'introCheckout'=>'Pay loan payment',
+    'introInvest'=>'You are making a payment for the loan',
+    'introInvestPay'=>'Need to pay with interest',
+    'introInvestRoot'=>' and the original amount ',
+    'introInvestTotal'=> 'The total payment amount is: ',
+    'introInvestSuccess'=>'You make a payment for: ',
+    'introInvestPaySuccess'=>'The total amount of your new debt is: ',
+    'introInvestTotalSuccess'=>'Interest calculated according to your new sum: ',
+    'introInvestTotalSuccessDate' => ' to date ',
+    'introInvestOver'=>'Amount exceeds the amount to be paid',
+    'addressRec' => 'You send to CCL address',
+    'valueRec' => 'amount to transfer ',
+    'value'=>'Value',
+    'fullCheckout' => 'Full checkout',
+    'limitCheckout' => 'Limit checkout'
 ];

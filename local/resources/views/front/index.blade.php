@@ -352,7 +352,6 @@
 		        var methodPay = jQuery('#methodPay').val();
 		        var cost = jQuery('#cost').val();
 		        var month = jQuery('#month').val();
-		        console.log('sothechap: '+ sothechap + ' methodPay: '+ methodPay + ' cost: '+ cost + ' month: '+ month);
 		        if (sothechap!="" && methodPay!="") {
                     var dataString = 'sothechap='+ sothechap+'&methodPay='+ methodPay;
                     jQuery.ajax({
@@ -400,7 +399,7 @@
     <?php if($userType == 'NON' || $userType == '2') { // not login OR invest ?>
 	<div class="row">
 		<div class="box filter-box">
-			<div class="col-lg-12">
+			<div class="col-lg-12-">
 				<form action="{!! url('homeFilter') !!}" method="get" id="home_search" name="home_search">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="col-md-2 first-col">

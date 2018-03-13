@@ -122,6 +122,18 @@
             <form action="settings" method="POST" role="form">
                 {{ csrf_field() }}
                 <div class="form-group">
+                    <?php $minday = $minday[0]['content']; ?>
+                    Số ngày vay tiền tối thiểu : <input type="text" name="value" class="form-control" value="<?php if ( isset($minday)) { echo $minday;} ?>">
+                </div>
+                <input type="hidden" name="stype" value="minday">
+                <input type="submit"  class="btn btn-primary" value="Lưu số ngày vay tiền tối thiểu" class="button" />
+            </form>
+        </div>
+
+        <div class="row">
+            <form action="settings" method="POST" role="form">
+                {{ csrf_field() }}
+                <div class="form-group">
                     <?php $tygiaUV = $tygiaUV[0]['content']; ?>
                         Tỷ giá USD/VNĐ : <input type="text" name="value" class="form-control" value="<?php if ( isset($tygiaUV)) { echo $tygiaUV;} ?>">
                 </div>

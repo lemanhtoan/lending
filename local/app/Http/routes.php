@@ -94,6 +94,7 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::resource('/compare-coinmarketcap', 'HomeController@coinmarketcap');
+    Route::resource('/compare-checkout', 'HomeController@limitCheckout');
     Route::resource('/borrow-calc', 'HomeController@borrowcalc');
     Route::resource('/createALoan', 'BorrowController@createNew');
     Route::resource('/getAloan', 'HomeController@getNewLoan');
@@ -156,4 +157,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::resource('filterBorrow', 'HomeController@filterBorrow');
     Route::get('confirmUser', 'HomeController@confirmUser');
     Route::post('confirmUser', 'HomeController@confirmUser');
+
+    Route::get('confirmCheckout', 'HomeController@confirmCheckout');
+    Route::post('confirmCheckoutPost', 'HomeController@postConfirmCheckout');
+    Route::post('confirmCheckout', 'HomeController@confirmCheckout');
 });

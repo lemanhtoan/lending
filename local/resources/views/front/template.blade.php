@@ -72,7 +72,7 @@
 				<div class="col-md-3">
 					<div class="brand-logo">
 						<?php $dataLogo = DB::table('settings')->where('name', 'dataLogo')->select('content')->get()[0]; ?>
-						<h1><a href="{!! url('/') !!}"><img class="logo" src="{!!url('/uploads/commons/'.$dataLogo->content )!!}" alt="{!! trans('front/site.title') !!}"/></a></h1>
+						<h1><a href="{!! url('/') !!}"><img class="logo logo-pc" src="{!!url('/uploads/commons/'.$dataLogo->content )!!}" alt="{!! trans('front/site.title') !!}"/></a></h1>
                     </div>
 				</div>
 				<div class="col-md-9">
@@ -85,7 +85,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                {!! link_to('/', trans('front/site.title')) !!}
+                                <a href="{!! url('/') !!}"><img class="logo" src="{!!url('/uploads/commons/'.$dataLogo->content )!!}" alt="{!! trans('front/site.title') !!}"/></a>
                             </div>
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav">
