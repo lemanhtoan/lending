@@ -203,6 +203,18 @@
         </div>
 
         <div class="row">
+            <form action="settings" method="POST" role="form">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <?php $adminrate = $adminrate[0]['content']; ?>
+                    Admin rate : <input type="text" name="value" class="form-control" value="<?php if ( isset($adminrate)) { echo $adminrate;} ?>">
+                </div>
+                <input type="hidden" name="stype" value="adminrate">
+                <input type="submit" class="btn btn-primary" value="Lưu Admin rate" class="button" />
+            </form>
+        </div>
+
+        <div class="row">
             <form action="settings" method="POST" role="form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">

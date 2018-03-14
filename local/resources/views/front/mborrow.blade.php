@@ -115,6 +115,7 @@
 							<td style="width: 5%">
 								<?php if ($borrow->status == '0' || $borrow->status == '10'  ) :?>
 								<a href="{{ url('deleteitem/?id=' . $borrow->id) }}" class="btn btn-danger" onclick="return confirm('{{ trans('front/site.areSure') }}')">{{ trans('front/site.delete') }}</a>
+								<a style="margin-top: 5px;" href="{{ url('confirmBorrow/?id=' . $borrow->id) }}" class="btn btn-info" >{{ trans('front/site.CONFIRM_TRAN') }}</a>
 								<?php endif; ?>
 
 								<?php if ($borrow->status == '2'  ) :?>
@@ -131,6 +132,19 @@
                 <?php } ?>
 			</div>
 		</div>
+
+
+		@if (Auth::check())
+			<div class="box result-box is-borrow">
+				<div class="col-lg-12">
+					<h3>{{ trans('front/site.borrowed_save') }}</h3>
+					<div class="box-data">
+						<p><?php echo $saveBTC . ' BTC';?></p>
+						<p><?php echo $saveETH . ' ETH';?></p>
+					</div>
+				</div>
+			</div>
+		@endif
 	</div>
     <?php } ?>
 

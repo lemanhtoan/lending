@@ -130,5 +130,6 @@ return [
     'valueRec' => 'amount to transfer ',
     'value'=>'Value',
     'fullCheckout' => 'Full checkout',
-    'limitCheckout' => 'Limit checkout'
+    'limitCheckout' => 'Limit checkout',
+    'borrowed_save'=> 'Tài sản còn dư'
 ];

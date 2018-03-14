@@ -273,6 +273,10 @@ class BorrowController extends Controller {
         } else {
         	$uCCL = '';
         }
+        $moneyType = $request->input('methodPay');
+        $moneyTypeConf = \Config::get('constants.moneyAddress');
+        $addReceived = $moneyTypeConf[$moneyType];
+
         $data = $this->borrow_gestion->store($request->all());
         if($data == '0') {
             return redirect('auth/login')->with('error', 'LOGIN_BORROW');
@@ -285,15 +289,10 @@ class BorrowController extends Controller {
             return view('front.verified', compact('warning', 'uCCL'));
         }else {
             $ok = 'IS_LOAN_CREATED';
-            $moneyType="";
-            $moneyType = $request->input('methodPay');
-            $addReceived = "";
-            if($moneyType=="BTC"){
-                $addReceived = "1FhVnQeViHFd54rbRWuEskqqfY4CDJ4WPd";
-            }
-            if($moneyType=="ETH"){
-                $addReceived = "0xc003724eb51c809b38340f91d16716ab67a0772b";
-            }
+
+            // neu khoan vay duoc tao va con gia tri tien du
+            
+
             return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType', 'uCCL'));
 		}
 	}

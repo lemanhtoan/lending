@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Invest;
+use App\Models\Borrow;
 use Auth;
 
 class InvestRepository extends BaseRepository {
@@ -26,6 +27,38 @@ class InvestRepository extends BaseRepository {
             $post->uid = (int) $uid;
             $post->borrowId = (int) $inputs;
             $post->status = $status;
+            $post->save();
+            return $post;
+        }
+    }
+
+    private function savePostNew($post, $inputs, $uid, $rate)
+    {
+        $status = '0'; // Chờ nhà đầu tư chuyển tiền
+        $rateUser=0;
+        $rateAdmin=0;
+        $borrow = Borrow::where('id', $inputs)->first();
+        if(count($borrow)) {
+            if($rate == '0') {
+                $rateUser=$borrow->dutinhlai;
+                $rateAdmin=0;
+            } else {
+                $rateAdmin=($rate*$borrow->dutinhlai)/100;
+                $rateUser=$borrow->dutinhlai - $rateAdmin;
+            }
+        }
+        if ($uid == 0) {
+            // save to session and after login - register => save
+            $currentData = array('uid' => (int) $uid, 'borrowId' => (int) $inputs, 'status' => $status, 'rate'=>$rate, 'rateUser'=>$rateUser, 'rateAdmin'=>$rateAdmin);
+            \Session::put('invest.data', $currentData);
+            return 0;
+        } else {
+            $post->uid = (int) $uid;
+            $post->borrowId = (int) $inputs;
+            $post->status = $status;
+            $post->rate = $rate;
+            $post->rateUser = $rateUser;
+            $post->rateAdmin = $rateAdmin;
             $post->save();
             return $post;
         }
@@ -235,6 +268,17 @@ class InvestRepository extends BaseRepository {
             $uid = 0;
         }
         $data = $this->savePost(new $this->model, $inputs, $uid);
+        return $data;
+    }
+
+    public function storeNew($inputs, $rate)
+    {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        $data = $this->savePostNew(new $this->model, $inputs, $uid, $rate);
         return $data;
     }
 

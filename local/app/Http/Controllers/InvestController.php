@@ -134,6 +134,13 @@ class InvestController extends Controller {
 		return redirect('invest')->with('ok', trans('back/borrow.stored'));
 	}
 
+    public function storeNew(Request $request, $rate)
+    {
+        $this->borrow_gestion->storeNew($request->all(), $request->user()->id, $rate);
+
+        return redirect('invest')->with('ok', trans('back/borrow.stored'));
+    }
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -256,9 +263,10 @@ class InvestController extends Controller {
 			if ($borrowCheck) {
 				return redirect('/')->with('ok', 'Khoản đầu tư được thực hiện trước đó');
 			} else {
-				$data = $this->borrow_gestion->store($idBorrow);
+                $dataRate = DB::table('settings')->where('name', 'adminrate')->select('content')->get()[0];
+				$data = $this->borrow_gestion->storeNew($idBorrow, $dataRate->content);
 
-				if (Auth::user()) {
+                if (Auth::user()) {
 		            $userType =  Auth::user()->usertype;
 		            $uid = Auth::user()->id;
 		            $borrowsExist = Invest::where('uid', $uid)->get();

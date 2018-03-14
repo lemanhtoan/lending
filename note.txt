@@ -251,3 +251,9 @@ CREATE TABLE `checkout` ( `id` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR(255)
 ==== nguoi vay thanh toan full/limit ok ====
 ===> nguoi vay rut tai khoan the chap khi khong con no => gui yeu cau rut tai san cho admin
 ===> updated mobile style
+
+INSERT INTO `settings` (`name`, `content`, `created_at`, `updated_at`) VALUES ('adminrate', '0', '2018-03-10 00:00:00', '2018-03-10 00:00:00');
+ALTER TABLE `invest` ADD `rate` DECIMAL NULL AFTER `updated_at`, ADD `rateUser` DECIMAL NULL AFTER `rate`, ADD `rateAdmin` DECIMAL NULL AFTER `rateUser`;
+ALTER TABLE `invest` CHANGE `rate` `rate` DECIMAL(10,2) NULL DEFAULT NULL;
+ALTER TABLE `invest` CHANGE `rateAdmin` `rateAdmin` DECIMAL(10,2) NULL DEFAULT NULL;
+ALTER TABLE `invest` CHANGE `rateUser` `rateUser` DECIMAL(10,2) NULL DEFAULT NULL;

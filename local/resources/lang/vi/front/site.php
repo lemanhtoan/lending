@@ -130,5 +130,6 @@ return [
     'valueRec' => 'số tiền cần chuyển ',
     'value'=>'Số tiền',
     'fullCheckout' => 'Thanh toán toàn bộ',
-    'limitCheckout' => 'Thanh toán 1 phần'
+    'limitCheckout' => 'Thanh toán 1 phần',
+    'borrowed_save'=> 'Tài sản còn dư'
 ];

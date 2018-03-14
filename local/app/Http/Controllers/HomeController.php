@@ -236,6 +236,7 @@ class HomeController extends Controller
             'emailadmin'=> Settings::where('name', 'emailadmin')->get(['content'])->toArray(),
             'ccl'=> Settings::where('name', 'ccl')->get(['content'])->toArray(),
             'minday'=> Settings::where('name', 'minday')->get(['content'])->toArray(),
+            'adminrate'=> Settings::where('name', 'adminrate')->get(['content'])->toArray(),
         ];
     }
 
@@ -415,7 +416,28 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL'));
+        $saveBTC = $this->getSaveData('BTC', $uid);
+        $saveETH = $this->getSaveData('ETH', $uid);
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH'));
+    }
+
+    public function getSaveData($type, $uid) {
+        $checkoutData = Checkout::all();
+        $checkOutArr = array();
+        if(count($checkoutData)) {
+            foreach ($checkoutData as $checkout) {
+                array_push($checkOutArr, $checkout->dataId);
+            }
+        }
+        $saveData = Borrow::where('uid', $uid)->where('status', 4)->where('kieuthechap', $type)->whereNotIn('id', $checkOutArr)->get();
+        $sum = 0;
+        if(count($saveData)) {
+            foreach ($saveData as $save) {
+                $sum += $save->soluongthechap;
+            }
+        }
+        return $sum;
     }
 
     public function deleteitem(Request $request) {
@@ -436,17 +458,18 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
         $borrowCheck = Borrow::where('uid', $uid)->where('id', $id)->get();
+        $saveBTC = $this->getSaveData('BTC', $uid);
+        $saveETH = $this->getSaveData('ETH', $uid);
         if(count($borrowCheck)) {
             Borrow::where('uid', $uid)->where('id', $id)->delete();
             $ok = 'Deleted item';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
-
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL'));
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL', 'saveBTC', 'saveETH'));
         } else {
             $error = 'Item not exist';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
 
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL'));
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL', 'saveBTC', 'saveETH'));
         }
     }
 
@@ -732,7 +755,10 @@ class HomeController extends Controller
 
         $blogs = Post::where('active', 1)->orderBy('updated_at', 'desc')->get();
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL'));
+        $saveBTC = $this->getSaveData('BTC', $uid);
+        $saveETH = $this->getSaveData('ETH', $uid);
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH'));
     }
 
 
@@ -1058,7 +1084,7 @@ class HomeController extends Controller
                         $isCheckout = Checkout::where('dataId', $id)->where('uid', $uid)->first();
                         if($isCheckout) {
                             if ($isCheckout->type=='1') {
-                                // limit => create new borrow
+                                // limit => create new borrow  but status => active in use
                                 $newValue = $isCheckout->value;
                                 $borrowGet = Borrow::where('id', $id)->where('uid', $uid)->first();
                                 if(count($borrowGet) > 0) {
@@ -1080,7 +1106,7 @@ class HomeController extends Controller
                                     $newBorrow->sotiencanvay= $tongmoi;
                                     $newBorrow->ngaygiaingan= $borrowGet->ngaygiaingan;
                                     $newBorrow->ngaydaohan= $borrowGet->ngaydaohan;
-                                    $newBorrow->status= 1;
+                                    $newBorrow->status= 2;
                                     $newBorrow->save();
                                 }
                             }
