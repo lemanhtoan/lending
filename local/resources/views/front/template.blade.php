@@ -135,6 +135,9 @@
                                 <li>
                                     {!! link_to('manager', trans('front/site.manager')) !!}
                                 </li>
+                                    <li>
+                                        <a href="{!! url('/message') !!}"><b style="color:green"><?php echo count(tgetMessage(Auth::user()->id)); ?></b> {!! trans('front/site.message') !!}</a>
+                                    </li>
                                 <li>
                                     {!! link_to('auth/logout', trans('front/site.logout')) !!}
                                 </li>

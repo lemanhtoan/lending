@@ -19,5 +19,6 @@ return [
 	'search' => 'Search in blog',
 	'info-tag' => 'Posts found with tag ',
 	'info-search' => 'Posts found with search ',
-	'confirm' => 'Really delete this comment ?'
+	'confirm' => 'Really delete this comment ?',
+    'read'=>'Read'
 ];

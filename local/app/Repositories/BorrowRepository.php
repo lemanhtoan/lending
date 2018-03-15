@@ -23,7 +23,7 @@ class BorrowRepository extends BaseRepository {
         $thoigianthechap = $inputs['month'];
         $phantramlai = $inputs['percentCost'];
         $sotientoida = (float)$inputs['maxMoney'];
-        $dutinhlai = (float)($inputs['pertotal'] - $inputs['cost']);
+        $dutinhlai = (float)($inputs['cost']*$inputs['month']*$phantramlai)/100;//(float)($inputs['pertotal'] - $inputs['cost']);
         $sotiencanvay = (float)$inputs['cost'];
         $ngaygiaingan = Carbon::now()->addMonths($thoigianthechap);
         $ngaydaohan = $ngaygiaingan;

@@ -141,6 +141,7 @@
 					<div class="box-data">
 						<p><?php echo $saveBTC . ' BTC';?></p>
 						<p><?php echo $saveETH . ' ETH';?></p>
+						<p><a style="margin-top: 5px;" href="{{ url('requestPayment') }}" class="btn btn-info" >{{ trans('front/site.requestPayment') }}</a></p>
 					</div>
 				</div>
 			</div>

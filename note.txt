@@ -257,3 +257,20 @@ ALTER TABLE `invest` ADD `rate` DECIMAL NULL AFTER `updated_at`, ADD `rateUser` 
 ALTER TABLE `invest` CHANGE `rate` `rate` DECIMAL(10,2) NULL DEFAULT NULL;
 ALTER TABLE `invest` CHANGE `rateAdmin` `rateAdmin` DECIMAL(10,2) NULL DEFAULT NULL;
 ALTER TABLE `invest` CHANGE `rateUser` `rateUser` DECIMAL(10,2) NULL DEFAULT NULL;
+
+CREATE TABLE `lending`.`request_checkout` ( `id` INT NOT NULL AUTO_INCREMENT , `uid` INT NOT NULL , `value` DECIMAL(15,8) NOT NULL , `status` INT NOT NULL , `type` VARCHAR(30) NOT NULL , `created_at` TIMESTAMP NOT NULL , `updated_at` TIMESTAMP NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

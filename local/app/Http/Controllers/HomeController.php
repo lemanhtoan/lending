@@ -19,7 +19,8 @@ use Carbon;
 
 use App\ActivationService;
 use App\Models\Checkout;
-
+use App\Models\RequestCheckout;
+use App\Models\Message;
 
 class HomeController extends Controller
 {
@@ -520,6 +521,97 @@ class HomeController extends Controller
     public function borrowWaiting() {
 	    $data = DB::table('borrow')->leftJoin('user_id', 'borrow.uid', '=', 'user_id.uid')->where('borrow.status', 10)->where('user_id.status', 0)->get(['borrow.*', 'user_id.type', 'user_id.front', 'user_id.back']);
         return view('back.waiting', compact('data'));
+    }
+
+    public function brequestpayment() {
+        $data = RequestCheckout::leftJoin('users', 'users.id','=', 'request_checkout.uid')->where('request_checkout.status', 0)->get(['users.username', 'users.cclAddress', 'request_checkout.*']);
+        return view('back.brequestpayment', compact('data'));
+    }
+    public function getSaveIDs($type, $uid) {
+        $checkoutData = Checkout::all();
+        $checkOutArr = array();
+        if(count($checkoutData)) {
+            foreach ($checkoutData as $checkout) {
+                array_push($checkOutArr, $checkout->dataId);
+            }
+        }
+        $saveData = Borrow::where('uid', $uid)->where('status', 4)->where('kieuthechap', $type)->whereNotIn('id', $checkOutArr)->get();
+        $arr = array();
+        if(count($saveData)) {
+            foreach ($saveData as $save) {
+                array_push($arr, $save->id);
+            }
+        }
+        return $arr;
+    }
+    public function verifiedPay(Request $request) {
+        $id = $request->input('id');
+        $uid = $request->input('uid');
+        RequestCheckout::where('id', $id)->where('status', 0)->where('uid', $uid)->update(array('status'=>1));
+
+        // insert new message => INSERT MESS WHEN NOTI REMINDER
+        $newMes = new Message();
+        $newMes->uid= $uid;
+        $newMes->message= 'Your request payment was done';
+        $newMes->status= 0;
+        $newMes->save();
+
+        $data = DB::table('borrow')->leftJoin('user_id', 'borrow.uid', '=', 'user_id.uid')->where('borrow.status', 10)->where('user_id.status', 0)->get(['borrow.*', 'user_id.type', 'user_id.front', 'user_id.back']);
+        // update khoan du
+        $checkoutData = RequestCheckout::where('id', $id)->where('uid', $uid)->first();
+        $vayCoint = $checkoutData->value;
+        $saveBTC = $this->getSaveData($checkoutData->type, $uid);
+
+        $idSaveUsed = $this->getSaveIDs($checkoutData->type, $uid);
+        // convert coin to usd
+        switch ($checkoutData->type) {
+            case 'BTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/?ref=widget&convert=USD';
+                break;
+            case 'ETH' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD';
+                break;
+            case 'LTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/litecoin/?ref=widget&convert=USD';
+                break;
+        }
+        $jsonData = json_decode(file_get_contents($url));
+        $dataPriceGet = $jsonData[0]->price_usd; // get from website later
+        $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
+        $tygia = isset($dataTygia) ? $dataTygia->content : 1;
+
+        $saveValue = ($saveBTC * $dataPriceGet * 70 * $tygia)/ 100;
+        $sotienvay = ($vayCoint * $dataPriceGet * 70 * $tygia)/ 100;
+
+        $dataOld = Borrow::where('uid',$uid)->where('status', 4)->where('kieuthechap', $checkoutData->type)->orderBy('id', 'desc')->first();
+        $newBorrow = new Borrow();
+        $newBorrow->uid= $uid;
+        $newBorrow->soluongthechap= $saveBTC - $vayCoint;
+        $newBorrow->kieuthechap= $checkoutData->type;
+        $newBorrow->thoigianthechap= $dataOld->thoigianthechap;
+        $newBorrow->phantramlai= $dataOld->phantramlai;
+        $newBorrow->sotientoida= $dataOld->sotientoida;
+        $newBorrow->dutinhlai= $dataOld->dutinhlai;
+        $newBorrow->sotiencanvay=  $saveValue - $sotienvay;
+        $newBorrow->ngaygiaingan= $dataOld->ngaygiaingan;
+        $newBorrow->ngaydaohan= $dataOld->ngaydaohan;
+        $newBorrow->status= 4; // da hoan thanh => con du
+        $newBorrow->save();
+
+        // cap nhat cac khoan vay cu ve da su dung => table checkout
+        if(count($idSaveUsed)) {
+            foreach ($idSaveUsed as $borrowId) {
+                $checkout = new Checkout();
+                $checkout->uid = $uid;
+                $checkout->dataId = $borrowId;
+                $checkout->status = 0;
+                $checkout->type = 0;
+                $checkout->value = '';
+                $checkout->save();
+            }
+        }
+        $ok = 'Cập nhật khoản rút tiền thành công';
+        return view('back.brequestpayment', compact('data', 'ok'));
     }
 
     public function verifiedItem(Request $request) {
@@ -1137,6 +1229,78 @@ class HomeController extends Controller
         }
         $borrowId = $id;
         return view('front.confirmcheckout', compact('borrowId', 'mess', 'uCCL'));
+    }
+
+    public function requestPayment() {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+
+        $saveBTC = $this->getSaveData('BTC', $uid);
+        $saveETH = $this->getSaveData('ETH', $uid);
+        return view('front.requestPayment', compact('saveBTC', 'saveETH'));
+    }
+
+    public function requestPaymentPost(Request $request) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        $value=$request->input('cost');
+        $moneyType = $request->input('tiennhan');
+        $saveBTC = $this->getSaveData('BTC', $uid);
+        $saveETH = $this->getSaveData('ETH', $uid);
+        if($value!="" && $moneyType!= "" && $value!="0") {
+            $saveBTC = $this->getSaveData($moneyType, $uid);
+            if ($value <= $saveBTC) {
+                $requestCheckout = new RequestCheckout();
+                $requestCheckout->uid = $uid;
+                $requestCheckout->type = $moneyType;
+                $requestCheckout->value = $value;
+                $requestCheckout->status = 0;
+                $requestCheckout->save();
+                $ok='REQUEST_OK';
+                return view('front.requestPayment', compact('saveBTC', 'saveETH', 'ok'));
+            } else {
+                // over
+                $ok='REQUEST_OVER';
+                return view('front.requestPayment', compact('saveBTC', 'saveETH', 'ok'));
+            }
+        } else {
+            // required
+            $ok='REQUEST_REQ';
+            return view('front.requestPayment', compact('saveBTC', 'saveETH', 'ok'));
+        }
+    }
+
+    public function messageList() {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        $posts = Message::where('uid', $uid)->get();
+        return view('front.message', compact('posts'));
+    }
+
+    public function viewMessage($id) {
+        if (Auth::user()) {
+            $uid = Auth::user()->id;
+        }else {
+            $uid = 0;
+        }
+        $post = Message::where('uid', $uid)->where('id', $id)->first();
+        if (count($post)) {
+            Message::where('uid', $uid)->where('id', $id)->update(array('status'=> 1));
+            return view('front.messageView', compact('post'));
+        } else {
+            $post = new \stdClass();
+            $post->message = 'Message not exist';
+            return view('front.messageView', compact('post'));
+        }
     }
 }
 

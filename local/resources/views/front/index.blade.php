@@ -201,6 +201,12 @@
 					<input type="hidden" name="percentCost" value="<?php echo $datalaisuat->content ?>">
 					<div class="tab-content">
 						<div class="tab-pane active" id="borrow-tab">
+							<?php if($uCCL == "") { ?>
+								<div class="alert alert-info alert-dismissible">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									{!! trans('front/site.cclRequired') !!} <a style="color:red" href="{{ url('manager') }}">{!! trans('front/site.isHere') !!}</a>
+								</div>
+							<?php } else {  ?>
 							<div class="form-group">
 								<label class="control-label col-sm-6" for="email">{{ trans('front/site.thechap') }}:</label>
 								<div class="col-sm-6">
@@ -270,6 +276,7 @@
 							<input type="hidden" name="post_type" value="borrow">
 
 							<div class="borrow-button pull-right"><input type="submit" value="Borrow now"/></div>
+							<?php } ?>
 						</div>
 					</div>
 				</form>

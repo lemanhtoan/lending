@@ -55,3 +55,9 @@ if (!function_exists('emailSend')) {
 		});
 	}
 }
+
+if (!function_exists('tgetMessage')) {
+    function tgetMessage($uid) {
+        return \DB::table('message')->where('uid', $uid)->where('status', 0)->get();// status = 0
+    }
+}

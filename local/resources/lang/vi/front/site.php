@@ -131,5 +131,10 @@ return [
     'value'=>'Số tiền',
     'fullCheckout' => 'Thanh toán toàn bộ',
     'limitCheckout' => 'Thanh toán 1 phần',
-    'borrowed_save'=> 'Tài sản còn dư'
+    'borrowed_save'=> 'Tài sản còn dư',
+    'requestPayment'=>'Yêu cầu rút tiền',
+    'REQUEST_OK'=>'Gửi yêu cầu thành công',
+    'REQUEST_REQ'=>'Vui lòng điền đủ thông tin',
+    'REQUEST_OVER'=>'Số tiền rút không hợp lệ',
+    'message'=>'Thông báo'
 ];

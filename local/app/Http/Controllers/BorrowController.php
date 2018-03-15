@@ -11,6 +11,8 @@ use Carbon;
 use App\Models\User;
 use App\Models\Invest;
 use Auth;
+use App\Models\Checkout;
+use DB;
 
 class BorrowController extends Controller {
 
@@ -266,35 +268,184 @@ class BorrowController extends Controller {
 		return view('front.borrow.index', compact('posts', 'links', 'info'));
 	}
 
+    public function getSaveData($type, $uid) {
+        $checkoutData = Checkout::all();
+        $checkOutArr = array();
+        if(count($checkoutData)) {
+            foreach ($checkoutData as $checkout) {
+                array_push($checkOutArr, $checkout->dataId);
+            }
+        }
+        $saveData = Borrow::where('uid', $uid)->where('status', 4)->where('kieuthechap', $type)->whereNotIn('id', $checkOutArr)->get();
+        $sum = 0;
+        if(count($saveData)) {
+            foreach ($saveData as $save) {
+                $sum += $save->soluongthechap;
+            }
+        }
+        return $sum;
+    }
+
+    public function getSaveIDs($type, $uid) {
+        $checkoutData = Checkout::all();
+        $checkOutArr = array();
+        if(count($checkoutData)) {
+            foreach ($checkoutData as $checkout) {
+                array_push($checkOutArr, $checkout->dataId);
+            }
+        }
+        $saveData = Borrow::where('uid', $uid)->where('status', 4)->where('kieuthechap', $type)->whereNotIn('id', $checkOutArr)->get();
+        $arr = array();
+        if(count($saveData)) {
+            foreach ($saveData as $save) {
+                array_push($arr, $save->id);
+            }
+        }
+        return $arr;
+    }
+
 	public function createNew(Request $request)
 	{
 		if (Auth::user()) {
             $uCCL = Auth::user()->cclAddress;
+            $uid = Auth::user()->id;
         } else {
         	$uCCL = '';
+            $uid = 0;
         }
         $moneyType = $request->input('methodPay');
         $moneyTypeConf = \Config::get('constants.moneyAddress');
         $addReceived = $moneyTypeConf[$moneyType];
 
-        $data = $this->borrow_gestion->store($request->all());
-        if($data == '0') {
-            return redirect('auth/login')->with('error', 'LOGIN_BORROW');
-        }elseif($data == '01') {
-			return redirect('/')->with('error', 'MAX_VALUE_BORROW');
-		}elseif($data == '02') {
-            return redirect('/')->with('error', 'MAX_MONEY_BORROW');
-        }elseif($data == '10') {
-            $warning = 'MAX_AUTHEN';
-            return view('front.verified', compact('warning', 'uCCL'));
-        }else {
-            $ok = 'IS_LOAN_CREATED';
+        $sotienvay = $request->input('cost');
+        $saveBTC = $this->getSaveData($moneyType, $uid);
+        $idSaveUsed = $this->getSaveIDs($moneyType, $uid);
+        // convert coin to usd
+        switch ($moneyType) {
+            case 'BTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/?ref=widget&convert=USD';
+                break;
+            case 'ETH' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD';
+                break;
+            case 'LTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/litecoin/?ref=widget&convert=USD';
+                break;
+        }
+        $jsonData = json_decode(file_get_contents($url));
+        $dataPriceGet = $jsonData[0]->price_usd; // get from website later
+        $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
+        $tygia = isset($dataTygia) ? $dataTygia->content : 1;
+        $saveValue = ($saveBTC * $dataPriceGet * 70 * $tygia)/ 100;
+        $vayCoint = ($sotienvay* 100)/($dataPriceGet * 70 * $tygia);
 
-            // neu khoan vay duoc tao va con gia tri tien du
-            
 
-            return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType', 'uCCL'));
-		}
+        if ($sotienvay <= $saveValue) {
+            $data = $this->borrow_gestion->store($request->all());
+            if($data == '0') {
+                return redirect('auth/login')->with('error', 'LOGIN_BORROW');
+            }elseif($data == '01') {
+                return redirect('/')->with('error', 'MAX_VALUE_BORROW');
+            }elseif($data == '02') {
+                return redirect('/')->with('error', 'MAX_MONEY_BORROW');
+            }elseif($data == '10') {
+                $warning = 'MAX_AUTHEN';
+                return view('front.verified', compact('warning', 'uCCL'));
+            }else {
+                // update status to 2 - active
+                Borrow::where('id', $data->id)->where('uid', $uid)->update(array('status'=>2)); // khong can the chap
+                $newBorrow = new Borrow();
+                $newBorrow->uid= $uid;
+                $newBorrow->soluongthechap= $saveBTC - $vayCoint;
+                $newBorrow->kieuthechap= $moneyType;
+                $newBorrow->thoigianthechap= $data->thoigianthechap;
+                $newBorrow->phantramlai= $data->phantramlai;
+                $newBorrow->sotientoida= $data->sotientoida;
+                $newBorrow->dutinhlai= $data->dutinhlai;
+                $newBorrow->sotiencanvay=  $saveValue - $sotienvay;
+                $newBorrow->ngaygiaingan= $data->ngaygiaingan;
+                $newBorrow->ngaydaohan= $data->ngaydaohan;
+                $newBorrow->status= 4; // da hoan thanh => con du
+                $newBorrow->save();
+
+                // cap nhat cac khoan vay cu ve da su dung => table checkout
+                if(count($idSaveUsed)) {
+                    foreach ($idSaveUsed as $borrowId) {
+                        $checkout = new Checkout();
+                        $checkout->uid = $uid;
+                        $checkout->dataId = $borrowId;
+                        $checkout->status = 0;
+                        $checkout->type = 0;
+                        $checkout->value = '';
+                        $checkout->save();
+                    }
+                }
+                $ok = 'IS_LOAN_CREATED';
+                return view('front.borrowNotConfirm', compact('ok', 'data'));
+            }
+        } else {
+            // coint thuc chu khong phai coin the chap nhu truoc day
+
+            $coinMiss = $vayCoint - $saveBTC;
+            // create  new borrow with value = $coinMiss
+            $dataInsert = array(
+                'uid'=>$uid,
+                'sothechap'=>$coinMiss,
+                'methodPay'=>$moneyType,
+                'month'=>$request->input('month'),
+                'percentCost'=>$request->input('percentCost'),
+                'maxMoney'=>$request->input('maxMoney'),
+                'pertotal'=>$request->input('pertotal'),
+                'cost'=>$sotienvay,
+                'status'=>0
+            );
+
+            $data = $this->borrow_gestion->store($dataInsert);
+
+            if($data == '0') {
+                return redirect('auth/login')->with('error', 'LOGIN_BORROW');
+            }elseif($data == '01') {
+                return redirect('/')->with('error', 'MAX_VALUE_BORROW');
+            }elseif($data == '02') {
+                return redirect('/')->with('error', 'MAX_MONEY_BORROW');
+            }elseif($data == '10') {
+                $warning = 'MAX_AUTHEN';
+                return view('front.verified', compact('warning', 'uCCL'));
+            }else {
+                // cap nhat khoan vay cu - them checkout
+                if (count($idSaveUsed)) {
+                    foreach ($idSaveUsed as $borrowId) {
+                        $checkout = new Checkout();
+                        $checkout->uid = $uid;
+                        $checkout->dataId = $borrowId;
+                        $checkout->status = 0;
+                        $checkout->type = 0;
+                        $checkout->value = '';
+                        $checkout->save();
+                    }
+                }
+
+                $ok = 'IS_LOAN_CREATED';
+                return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType', 'uCCL'));
+            }
+        }
+//        var_dump($sotienvay, $saveValue);
+//        dd($request->all());
+//
+//        $data = $this->borrow_gestion->store($request->all());
+//        if($data == '0') {
+//            return redirect('auth/login')->with('error', 'LOGIN_BORROW');
+//        }elseif($data == '01') {
+//			return redirect('/')->with('error', 'MAX_VALUE_BORROW');
+//		}elseif($data == '02') {
+//            return redirect('/')->with('error', 'MAX_MONEY_BORROW');
+//        }elseif($data == '10') {
+//            $warning = 'MAX_AUTHEN';
+//            return view('front.verified', compact('warning', 'uCCL'));
+//        }else {
+//            $ok = 'IS_LOAN_CREATED';
+//            return view('front.borrow', compact('ok', 'data', 'addReceived', 'moneyType', 'uCCL'));
+//		}
 	}
 
 	public function borrowUpdateDate($borrowId) {

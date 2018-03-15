@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use App\Presenters\DatePresenter;
 
-class Checkout extends Model  {
+class Message extends Model  {
 
 	use DatePresenter;
 
@@ -12,9 +12,9 @@ class Checkout extends Model  {
 	 *
 	 * @var string
 	 */
-	protected $table = 'checkout';
+	protected $table = 'message';
 
-    protected $fillable = ['uid', 'status', 'dataId', 'type', 'value'];
+    protected $fillable = ['uid', 'status', 'message'];
 
 
 }

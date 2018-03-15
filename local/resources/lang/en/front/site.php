@@ -131,5 +131,10 @@ return [
     'value'=>'Value',
     'fullCheckout' => 'Full checkout',
     'limitCheckout' => 'Limit checkout',
-    'borrowed_save'=> 'Tài sản còn dư'
+    'borrowed_save'=> 'Outstanding assets',
+    'requestPayment'=>'Request payment',
+    'REQUEST_OK'=>'Your request was sent',
+    'REQUEST_REQ'=>'Please fill required field',
+    'REQUEST_OVER'=>'Your amount incorrect',
+    'message'=>'Message'
 ];

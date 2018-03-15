@@ -110,6 +110,10 @@
                         <a href="{!! url('borrowWaiting') !!}"><span class="fa fa-fw fa-dashboard"></span> Loan to be approved</a>
                     </li>
 
+                    <li>
+                        <a href="{!! url('brequestpayment') !!}"><span class="fa fa-fw fa-dashboard"></span> Request payment</a>
+                    </li>
+
                     <li {!! classActiveSegment(1, 'slideshow') !!}>
                         <a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>
                     </li>

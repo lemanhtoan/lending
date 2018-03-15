@@ -108,6 +108,9 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::resource('borrowWaiting', 'HomeController@borrowWaiting');
     Route::get('verifiedItem', 'HomeController@verifiedItem');
+    Route::resource('brequestpayment', 'HomeController@brequestpayment');
+    Route::get('verifiedPay', 'HomeController@verifiedPay');
+
 
     Route::post('moneyReceived', 'HomeController@methodPayment');
     Route::post('saveAccount', 'HomeController@saveAccount');
@@ -161,4 +164,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('confirmCheckout', 'HomeController@confirmCheckout');
     Route::post('confirmCheckoutPost', 'HomeController@postConfirmCheckout');
     Route::post('confirmCheckout', 'HomeController@confirmCheckout');
+
+    Route::resource('requestPayment', 'HomeController@requestPayment');
+    Route::post('requestPaymentPost', 'HomeController@requestPaymentPost');
+    Route::get('message', 'HomeController@messageList');
+    Route::get('message/{id}', 'HomeController@viewMessage');
 });
