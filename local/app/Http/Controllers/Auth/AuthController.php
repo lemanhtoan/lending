@@ -275,11 +275,14 @@ class AuthController extends Controller
                 $iparr[] = $ip['ip'];
             }
         }
+
+
         // if (!in_array($ipPost, $iparr)) {
         //     return redirect('/administrator')
         //         ->with('error', 'Your IP address not right');
         // }
 
+        
         $logAccess = filter_var($logValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $throttles = in_array(

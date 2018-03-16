@@ -169,4 +169,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('requestPaymentPost', 'HomeController@requestPaymentPost');
     Route::get('message', 'HomeController@messageList');
     Route::get('message/{id}', 'HomeController@viewMessage');
+    Route::resource('loanexpire', 'HomeController@loanexpire');
+    Route::get('verifiedLost', 'HomeController@loanexpireLost');
 });

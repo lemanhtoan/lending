@@ -120,7 +120,8 @@ class HomeController extends Controller
         $dataPriceGet = $jsonData[0]->price_usd; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
-            $maxValue = ($sothechap * $dataPriceGet * 70 * $tygia)/ 100;
+        $dataP = DB::table('settings')->where('name', 'crate')->select('content')->get()[0];
+            $maxValue = ($sothechap * $dataPriceGet * $dataP->content * $tygia)/ 100;
         return \Response::json(round($maxValue, 2));
     }
 
@@ -238,6 +239,7 @@ class HomeController extends Controller
             'ccl'=> Settings::where('name', 'ccl')->get(['content'])->toArray(),
             'minday'=> Settings::where('name', 'minday')->get(['content'])->toArray(),
             'adminrate'=> Settings::where('name', 'adminrate')->get(['content'])->toArray(),
+            'crate'=> Settings::where('name', 'crate')->get(['content'])->toArray(),
         ];
     }
 
@@ -579,9 +581,9 @@ class HomeController extends Controller
         $dataPriceGet = $jsonData[0]->price_usd; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
-
-        $saveValue = ($saveBTC * $dataPriceGet * 70 * $tygia)/ 100;
-        $sotienvay = ($vayCoint * $dataPriceGet * 70 * $tygia)/ 100;
+        $dataP = DB::table('settings')->where('name', 'crate')->select('content')->get()[0];
+        $saveValue = ($saveBTC * $dataPriceGet * $dataP->content * $tygia)/ 100;
+        $sotienvay = ($vayCoint * $dataPriceGet * $dataP->content * $tygia)/ 100;
 
         $dataOld = Borrow::where('uid',$uid)->where('status', 4)->where('kieuthechap', $checkoutData->type)->orderBy('id', 'desc')->first();
         $newBorrow = new Borrow();
@@ -1241,6 +1243,28 @@ class HomeController extends Controller
         $saveBTC = $this->getSaveData('BTC', $uid);
         $saveETH = $this->getSaveData('ETH', $uid);
         return view('front.requestPayment', compact('saveBTC', 'saveETH'));
+    }
+
+    public function loanexpire() {
+        $fromDate = new Carbon('now');
+        $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')->leftJoin('users', 'borrow.uid','=', 'users.id')->where('borrow.status', '=', '30')
+            ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('borrow.ngaydaohan', 'asc')->get(
+                array('borrow.*', 'invest.uid as uInvest', 'ub.username as uInversName', 'users.username as uBorrowName', 'ub.cclAddress as uInvestAddress')
+            );
+        return view('back.loanexpire', compact('data'));
+    }
+
+    public function loanexpireLost(Request $request) {
+	    $id = $request->input('id');
+	    $uid = $request->input('uid');
+	    Borrow::where('id', $id)->where('uid', $uid)->update(array('status'=>40));
+	    $ok = 'Thông tin được cập nhận';
+        $fromDate = new Carbon('now');
+        $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')->leftJoin('users', 'borrow.uid','=', 'users.id')->where('borrow.status', '=', '30')
+            ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('borrow.ngaydaohan', 'asc')->get(
+                array('borrow.*', 'invest.uid as uInvest', 'ub.username as uInversName', 'users.username as uBorrowName', 'ub.cclAddress as uInvestAddress')
+            );
+        return view('back.loanexpire', compact('data' ,'ok'));
     }
 
     public function requestPaymentPost(Request $request) {

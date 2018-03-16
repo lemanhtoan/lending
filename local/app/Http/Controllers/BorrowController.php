@@ -335,9 +335,11 @@ class BorrowController extends Controller {
         $jsonData = json_decode(file_get_contents($url));
         $dataPriceGet = $jsonData[0]->price_usd; // get from website later
         $dataTygia = DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
+
+        $dataP = DB::table('settings')->where('name', 'crate')->select('content')->get()[0];
         $tygia = isset($dataTygia) ? $dataTygia->content : 1;
-        $saveValue = ($saveBTC * $dataPriceGet * 70 * $tygia)/ 100;
-        $vayCoint = ($sotienvay* 100)/($dataPriceGet * 70 * $tygia);
+        $saveValue = ($saveBTC * $dataPriceGet * $dataP->content * $tygia)/ 100;
+        $vayCoint = ($sotienvay* 100)/($dataPriceGet * $dataP->content * $tygia);
 
 
         if ($sotienvay <= $saveValue) {

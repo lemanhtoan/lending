@@ -22,6 +22,14 @@
           $label = 'Giao dịch tạm khóa';break;
         case 4:
           $label = 'Giao dịch hoàn thành';break;
+          case 10:
+              $label = 'Chờ admin duyệt khoản vay';break;
+          case 20:
+              $label = 'Nhắc nhở lần 1';break;
+          case 30:
+              $label = 'Nhắc nhở lần 2';break;
+          case 40:
+              $label = 'Đã mất thế chấp';break;
       }
       echo $label;
       ?>
