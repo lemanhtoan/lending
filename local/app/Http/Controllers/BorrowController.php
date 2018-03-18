@@ -358,7 +358,7 @@ class BorrowController extends Controller {
                 Borrow::where('id', $data->id)->where('uid', $uid)->update(array('status'=>2)); // khong can the chap
                 $newBorrow = new Borrow();
                 $newBorrow->uid= $uid;
-                $newBorrow->soluongthechap= $saveBTC - $vayCoint;
+                $newBorrow->soluongthechap= round(($saveBTC - $vayCoint), 8);
                 $newBorrow->kieuthechap= $moneyType;
                 $newBorrow->thoigianthechap= $data->thoigianthechap;
                 $newBorrow->phantramlai= $data->phantramlai;
@@ -392,7 +392,7 @@ class BorrowController extends Controller {
             // create  new borrow with value = $coinMiss
             $dataInsert = array(
                 'uid'=>$uid,
-                'sothechap'=>$coinMiss,
+                'sothechap'=>round($coinMiss, 8),
                 'methodPay'=>$moneyType,
                 'month'=>$request->input('month'),
                 'percentCost'=>$request->input('percentCost'),

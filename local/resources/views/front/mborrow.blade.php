@@ -182,7 +182,7 @@
 					</div>
 
 					<div class="col-md-3">
-						<input type="submit" value="Filter" class="btn-filter"/>
+						<input type="submit" value="{{ trans('front/site.search') }}" class="btn-filter"/>
 					</div>
 					</form>
 				</div>

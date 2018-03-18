@@ -276,3 +276,5 @@ ALTER TABLE `message`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
   INSERT INTO `settings` (`name`, `content`, `created_at`, `updated_at`) VALUES ('crate', '70', '2018-03-10 00:00:00', '2018-03-10 00:00:00');
+
+  ALTER TABLE `borrow` CHANGE `soluongthechap` `soluongthechap` DECIMAL(20,8) NOT NULL;
