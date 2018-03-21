@@ -61,3 +61,28 @@ if (!function_exists('tgetMessage')) {
         return \DB::table('message')->where('uid', $uid)->where('status', 0)->get();// status = 0
     }
 }
+
+if (!function_exists('convertCoint')) {
+    function convertCoint($moneyType, $value) {
+        switch ($moneyType) {
+            case 'BTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/?ref=widget&convert=USD';
+                break;
+            case 'ETH' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/ethereum/?ref=widget&convert=USD';
+                break;
+            case 'LTC' :
+                $url = 'https://api.coinmarketcap.com/v1/ticker/litecoin/?ref=widget&convert=USD';
+                break;
+        }
+        $jsonData = json_decode(file_get_contents($url));
+        $dataPriceGet = $jsonData[0]->price_usd; // get from website later
+        $dataTygia = \DB::table('settings')->where('name', 'tygiaUV')->select('content')->get()[0];
+
+        $dataP = \DB::table('settings')->where('name', 'crate')->select('content')->get()[0];
+        $tygia = isset($dataTygia) ? $dataTygia->content : 1;
+        $vayCoint = ($value* 100)/($dataPriceGet * $dataP->content * $tygia);
+        return round($vayCoint, 8);
+    }
+}
+

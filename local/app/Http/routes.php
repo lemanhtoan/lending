@@ -171,4 +171,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('message/{id}', 'HomeController@viewMessage');
     Route::resource('loanexpire', 'HomeController@loanexpire');
     Route::get('verifiedLost', 'HomeController@loanexpireLost');
+
+    Route::resource('loanexpirebreak', 'HomeController@loanexpirebreak');
 });

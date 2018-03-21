@@ -1246,19 +1246,20 @@ class HomeController extends Controller
     }
 
     public function loanexpire() {
-        $fromDate = new Carbon('now');
-        $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')->leftJoin('users', 'borrow.uid','=', 'users.id')->where('borrow.status', '=', '30')
-            ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('borrow.ngaydaohan', 'asc')->get(
-                array('borrow.*', 'invest.uid as uInvest', 'ub.username as uInversName', 'users.username as uBorrowName', 'ub.cclAddress as uInvestAddress')
-            );
-        return view('back.loanexpire', compact('data'));
-    }
+    $fromDate = new Carbon('now');
+    $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')->leftJoin('users', 'borrow.uid','=', 'users.id')->where('borrow.status', '=', '30')
+        ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('borrow.ngaydaohan', 'asc')->get(
+            array('borrow.*', 'invest.uid as uInvest', 'ub.username as uInversName', 'users.username as uBorrowName', 'ub.cclAddress as uInvestAddress')
+        );
+    return view('back.loanexpire', compact('data'));
+}
 
     public function loanexpireLost(Request $request) {
-	    $id = $request->input('id');
-	    $uid = $request->input('uid');
-	    Borrow::where('id', $id)->where('uid', $uid)->update(array('status'=>40));
-	    $ok = 'Thông tin được cập nhận';
+        $id = $request->input('id');
+        $uid = $request->input('uid');
+        var_dump($id, $uid);die;
+        Borrow::where('id', $id)->where('uid', $uid)->update(array('status'=>40));
+        $ok = 'Thông tin được cập nhận';
         $fromDate = new Carbon('now');
         $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')->leftJoin('users', 'borrow.uid','=', 'users.id')->where('borrow.status', '=', '30')
             ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())->orderBy('borrow.ngaydaohan', 'asc')->get(
@@ -1266,6 +1267,26 @@ class HomeController extends Controller
             );
         return view('back.loanexpire', compact('data' ,'ok'));
     }
+
+    public function loanexpirebreak() {
+        $fromDate = new Carbon('now');
+        $checkout = Checkout::where('status', 1)->where('type', 1)->get();
+        $idCheckout = array();
+        if (count($checkout)) {
+            foreach ($checkout as $c) {
+                array_push($idCheckout, $c->dataId);
+            }
+        }
+        $data = Borrow::leftJoin('invest', 'borrow.id','=', 'invest.borrowId')->leftJoin('users as ub', 'ub.id','=', 'invest.uid')
+            ->leftJoin('users as uc', 'borrow.uid','=', 'uc.id')->where('borrow.status', '=', '30')
+            ->where( 'borrow.ngaydaohan', '<=', $fromDate->toDateTimeString())
+            ->whereIn( 'borrow.id', $idCheckout)->orderBy('borrow.ngaydaohan', 'asc')->get(
+                array('borrow.*', 'invest.uid as uInvest', 'ub.username as uInversName', 'uc.username as uBorrowName', 'ub.cclAddress as uInvestAddress', 'uc.cclAddress as uBorrowAddress')
+            );
+
+        return view('back.loanexpirebreak', compact('data', 'checkout' ));
+    }
+
 
     public function requestPaymentPost(Request $request) {
         if (Auth::user()) {

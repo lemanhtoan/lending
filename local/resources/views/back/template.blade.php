@@ -118,6 +118,10 @@
                         <a href="{!! url('loanexpire') !!}"><span class="fa fa-fw fa-dashboard"></span> The loan expires</a>
                     </li>
 
+                    <li>
+                        <a href="{!! url('loanexpirebreak') !!}"><span class="fa fa-fw fa-dashboard"></span> The loan expires split</a>
+                    </li>
+
                     <li {!! classActiveSegment(1, 'slideshow') !!}>
                         <a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>
                     </li>
