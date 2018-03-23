@@ -153,16 +153,10 @@ class BorrowController extends Controller {
 	 * @return Response
 	 */
 	public function edit(
-		UserRepository $user_gestion, 
 		$id)
 	{
-		$post = $this->borrow_gestion->getByIdWithTags($id);
-
-		$this->authorize('change', $post);
-
-		$url = config('medias.url');
-
-		return view('back.borrow.edit',  array_merge($this->borrow_gestion->edit($post), compact('url')));
+		$post = $this->borrow_gestion->getById($id);
+		return view('back.borrow.edit',  $this->borrow_gestion->edit($post));
 	}
 
 	/**
@@ -173,52 +167,14 @@ class BorrowController extends Controller {
 	 * @return Response
 	 */
 	public function update(
-		PostRequest $request,
+		Request $request,
 		$id)
 	{
 		$post = $this->borrow_gestion->getById($id);
-
-		$this->authorize('change', $post);
 
 		$this->borrow_gestion->update($request->all(), $post);
 
 		return redirect('borrow')->with('ok', trans('back/borrow.updated'));		
-	}
-
-	/**
-	 * Update "vu" for the specified resource in storage.
-	 *
-	 * @param  Illuminate\Http\Request $request
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function updateSeen(
-		Request $request, 
-		$id)
-	{
-		$this->borrow_gestion->updateSeen($request->all(), $id);
-
-		return response()->json();
-	}
-
-	/**
-	 * Update "active" for the specified resource in storage.
-	 *
-	 * @param  Illuminate\Http\Request $request
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function updateActive(
-		Request $request, 
-		$id)
-	{
-		$post = $this->borrow_gestion->getById($id);
-
-		$this->authorize('change', $post);
-		
-		$this->borrow_gestion->updateActive($request->all(), $id);
-
-		return response()->json();
 	}
 
 	/**
@@ -234,22 +190,6 @@ class BorrowController extends Controller {
 		$this->borrow_gestion->destroy($post);
 
 		return redirect('borrow')->with('ok', trans('back/borrow.destroyed'));		
-	}
-
-	/**
-	 * Get tagged posts
-	 * 
-	 * @param  Illuminate\Http\Request $request
-	 * @return Response
-	 */
-	public function tag(Request $request)
-	{
-		$tag = $request->input('tag');
-		$posts = $this->borrow_gestion->indexTag($this->nbrPages, $tag);
-		$links = $posts->appends(compact('tag'))->render();
-		$info = trans('front/borrow.info-tag') . '<strong>' . $this->borrow_gestion->getTagById($tag) . '</strong>';
-		
-		return view('front.borrow.index', compact('posts', 'links', 'info'));
 	}
 
 	/**

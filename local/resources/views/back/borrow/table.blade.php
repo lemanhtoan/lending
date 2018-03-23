@@ -35,6 +35,7 @@
       ?>
     </td>
     <td>{!! link_to('borrow/' . $post->id, trans('back/blog.see'), ['class' => 'btn btn-success btn-block btn']) !!}</td>
+    <td>{!! link_to_route('borrow.edit', 'Edit', [$post->id], ['class' => 'btn btn-warning btn-block']) !!}</td>
     <td>
     {!! Form::open(['method' => 'DELETE', 'route' => ['borrow.destroy', $post->id]]) !!}
       {!! Form::destroy(trans('back/blog.destroy'), trans('back/blog.destroy-warning')) !!}

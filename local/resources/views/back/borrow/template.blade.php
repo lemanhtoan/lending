@@ -1,87 +1,73 @@
 @extends('back.template')
 
-@section('head')
-
-	{!! HTML::style('ckeditor/plugins/codesnippet/lib/highlight/styles/default.css') !!}
-
-@stop
 
 @section('main')
 
-	<!-- Entête de page -->
-	@include('back.partials.entete', ['title' => trans('back/blog.dashboard'), 'icone' => 'pencil', 'fil' => link_to('blog', trans('back/blog.posts')) . ' / ' . trans('back/blog.creation')])
 
 	<div class="col-sm-12">
 		@yield('form')
 
-		<div class="form-group checkbox pull-right">
-			<label>
-				{!! Form::checkbox('active') !!}
-				{{ trans('back/blog.published') }}
-			</label>
+		<div class="box-info">
+			<div class="alert alert-success">
+			  	<p>Khoản vay ID: <?php echo $post['id']; ?></p>
+			  	<p>Ngày khởi tạo: <?php echo $post['created_at']; ?></p>
+			  	<p>Ngày đáo hạn: <?php echo $post['ngaydaohan']; ?></p>
+			  	<p>Số tiền cần vay: <?php echo $post['sotiencanvay']; ?></p>
+			  	<p>Lãi suất: <?php echo $post['phantramlai']; ?></p>
+			  	<p>Loại thế chấp: <?php echo $post['kieuthechap']; ?></p>
+			  	<p>Dự tính lãi: {{$post->dutinhlai}}</p>
+			  	<p>Trạng thái: <?php
+		switch ($post->status) {
+			case 0:
+				$label = 'Khởi tạo';break;
+			case 1:
+				$label = 'Đã thế chấp';break;
+			case 2:
+				$label = 'Đang hoạt động';break;
+			case 3:
+				$label = 'Giao dịch tạm khóa';break;
+			case 4:
+				$label = 'Giao dịch hoàn thành';break;
+				case 10:
+              $label = 'Chờ admin duyệt khoản vay';break;
+          case 20:
+              $label = 'Nhắc nhở lần 1';break;
+          case 30:
+              $label = 'Nhắc nhở lần 2';break;
+          case 40:
+              $label = 'Đã mất thế chấp';break;
+		}
+		echo $label;
+		?></p>
+			</div>
 		</div>
 
-		{!! Form::control('text', 0, 'title', $errors, trans('back/blog.title')) !!}
-
-		<div class="form-group {!! $errors->has('slug') ? 'has-error' : '' !!}">
-			{!! Form::label('slug', trans('back/blog.permalink'), ['class' => 'control-label']) !!}
-			{!! url('/') . '/blog/' . Form::text('slug', null, ['id' => 'permalien']) !!}
-			<small class="text-danger">{!! $errors->first('slug') !!}</small>
+		<div class="col-md-12">
+			<div class="form-group">
+				<label>Cập nhật thời gian đáo hạn</label>
+				<div id="ngaydaohan" class="input-group input-append date">
+		            <span class="add-on" style="width: 100%">
+					<input value="<?php if(isset($post['ngaydaohan'])) {echo $post['ngaydaohan'];}else{echo '';} ?>" class="form-control" data-format="yyyy-MM-dd hh:mm:ss" type="text" name="ngaydaohan"/>
+		            </span>
+				</div>
+			</div>
 		</div>
-
-		{!! Form::control('textarea', 0, 'summary', $errors, trans('back/blog.summary')) !!}
-		{!! Form::control('textarea', 0, 'content', $errors, trans('back/blog.content')) !!}
-		{!! Form::control('text', 0, 'tags', $errors, trans('back/blog.tags'), isset($tags)? implode(',', $tags) : '') !!}
-
-		{!! Form::submit(trans('front/form.send')) !!}
-
+		<div class="col-md-12">
+			{!! Form::submit('Cập nhật') !!}
+		</div>
 		{!! Form::close() !!}
 	</div>
 
-@stop
-
-@section('scripts')
-
-	{!! HTML::script('ckeditor/ckeditor.js') !!}
 	
-	<script>
+	{!! HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js') !!}
+	{!! HTML::style('css/bootstrap-datetimepicker.min.css') !!}
+	{!! HTML::script('js/bootstrap-datetimepicker.min.js') !!}
 
-	var config = {
-		codeSnippet_theme: 'Monokai',
-		language: '{{ config('app.locale') }}',
-		height: 100,
-		filebrowserBrowseUrl: '{!! url($url) !!}',
-		toolbarGroups: [
-			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-			{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-			{ name: 'links' },
-			{ name: 'insert' },
-			{ name: 'forms' },
-			{ name: 'tools' },
-			{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-			{ name: 'others' },
-			//'/',
-			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-			{ name: 'styles' },
-			{ name: 'colors' }
-		]
-	};
+	<script type="text/javascript">
+		$('#ngaydaohan').datetimepicker({});
+	</script>
 
-	CKEDITOR.replace( 'summary', config);
-
-	config['height'] = 400;		
-
-	CKEDITOR.replace( 'content', config);
-
-	$("#title").keyup(function(){
-			var str = sansAccent($(this).val());
-			str = str.replace(/[^a-zA-Z0-9\s]/g,"");
-			str = str.toLowerCase();
-			str = str.replace(/\s/g,'-');
-			$("#permalien").val(str);        
-		});
-
-  </script>
 
 @stop
+
+

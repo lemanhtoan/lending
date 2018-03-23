@@ -46,11 +46,11 @@
 
 	<div class="row">
 
-		@include('back/partials/pannel', ['color' => 'primary', 'icone' => 'envelope', 'nbr' => $nbrMessages, 'name' => 'Giao dịch', 'url' => 'transactions', 'total' => 'Giao dịch'])
+		@include('back/partials/pannel', ['color' => 'primary', 'icone' => 'envelope', 'nbr' => $nbrUsers, 'name' => 'Khách hàng', 'url' => 'user', 'total' => 'Khách hàng'])
 
-		@include('back/partials/pannel', ['color' => 'green', 'icone' => 'user', 'nbr' => $nbrUsers, 'name' => 'Khách hàng', 'url' => 'customer', 'total' => 'Khách hàng'])
+		@include('back/partials/pannel', ['color' => 'green', 'icone' => 'user', 'nbr' => $nbrBorrow, 'name' => 'Lượt vay', 'url' => 'borrow', 'total' => 'Lượt vay'])
 
-		@include('back/partials/pannel', ['color' => 'red', 'icone' => 'envelope', 'nbr' => $nbrMind, 'name' => 'Số tương tác', 'url' => 'mind', 'total' => 'Số tương tác'])
+		@include('back/partials/pannel', ['color' => 'red', 'icone' => 'envelope', 'nbr' => $nbrInvest, 'name' => 'Lượt đầu tư', 'url' => 'invest', 'total' => 'Lượt đầu tư'])
 
 	</div>
 

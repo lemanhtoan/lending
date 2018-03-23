@@ -1,5 +1,5 @@
-@extends('back.blog.template')
+@extends('back.borrow.template')
 
 @section('form')
-	{!! Form::model($post, ['route' => ['blog.update', $post->id], 'method' => 'put', 'class' => 'form-horizontal panel']) !!}
+	{!! Form::model($post, ['route' => ['borrow.update', $post->id], 'method' => 'put', 'class' => 'form-horizontal panel']) !!}
 @stop

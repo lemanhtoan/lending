@@ -115,15 +115,25 @@
                     </li>
 
                     <li>
-                        <a href="{!! url('loanexpire') !!}"><span class="fa fa-fw fa-dashboard"></span> The loan expires</a>
+                        <a href="{!! url('loanexpirebreak') !!}"><span class="fa fa-fw fa-dashboard"></span> The loan expires split</a>
                     </li>
 
                     <li>
-                        <a href="{!! url('loanexpirebreak') !!}"><span class="fa fa-fw fa-dashboard"></span> The loan expires split</a>
+                        <a href="{!! url('guarantee') !!}"><span class="fa fa-fw fa-dashboard"></span>  Manage Product Guarantee</a>
                     </li>
 
                     <li {!! classActiveSegment(1, 'slideshow') !!}>
                         <a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-toggle="collapse" data-target="#statistics"><span class="fa fa-fw fa-pencil"></span> Statistics <span class="fa fa-fw fa-caret-down"></a>
+                        <ul id="statistics" class="collapse">
+                            <li><a href="{!! url('sotienchovay') !!}">Số tiền cho vay</a></li>
+                            <li><a href="{!! url('') !!}">Số tiền lãi</a></li>
+                            <li><a href="{!! url('loanexpire') !!}">Các khoản vay quá hạn</a></li>
+                            <li><a href="{!! url('loanexpireNow') !!}">Các khoản vay đến hạn</a></li>
+                        </ul>
                     </li>
 
                     <li {!! classActiveSegment(1, 'getsettings') !!}>

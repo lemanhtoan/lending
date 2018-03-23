@@ -80,6 +80,14 @@ class BorrowRepository extends BaseRepository {
         }
     }
 
+    private function savePostUpdate($post, $inputs)
+    {
+        // tinh lai gia tri ntnao???
+        $post->ngaydaohan = $inputs['ngaydaohan'];
+        $post->save();
+        return $post;
+    }
+
     /**
      * Create a query for Post.
      *
@@ -107,23 +115,7 @@ class BorrowRepository extends BaseRepository {
         return $query->paginate($n);
     }
 
-    /**
-     * Get post collection.
-     *
-     * @param  int  $n
-     * @param  int  $id
-     * @return Illuminate\Support\Collection
-     */
-    public function indexTag($n, $id)
-    {
-        $query = $this->queryActiveWithUserOrderByDate();
-
-        return $query->whereHas('tags', function($q) use($id) {
-                            $q->where('tags.id', $id);
-                        })
-                        ->paginate($n);
-    }
-
+  
     /**
      * Get search collection.
      *
@@ -182,26 +174,10 @@ class BorrowRepository extends BaseRepository {
      */
     public function edit($post)
     {
-        $tags = [];
-
-        foreach ($post->tags as $tag) {
-            array_push($tags, $tag->tag);
-        }
-
-        return compact('post', 'tags');
+        return compact('post');
     }
 
-    /**
-     * Get post collection.
-     *
-     * @param  int  $id
-     * @return array
-     */
-    public function GetByIdWithTags($id)
-    {
-        return $this->model->with('tags')->findOrFail($id);
-    }
-
+  
     /**
      * Update a post.
      *
@@ -211,7 +187,7 @@ class BorrowRepository extends BaseRepository {
      */
     public function update($inputs, $post)
     {
-        $post = $this->savePost($post, $inputs);
+        $post = $this->savePostUpdate($post, $inputs);
 
     }
 
@@ -242,8 +218,6 @@ class BorrowRepository extends BaseRepository {
     {
         $post = $this->getById($id);
 
-        $post->active = $inputs['active'] == 'true';
-
         $post->save();
     }
 
@@ -266,31 +240,10 @@ class BorrowRepository extends BaseRepository {
      * @return void
      */
     public function destroy($post) {
-        $post->tags()->detach();
 
         $post->delete();
     }
 
-    /**
-     * Get post slug.
-     *
-     * @param  int  $comment_id
-     * @return string
-     */
-    public function getSlug($comment_id)
-    {
-        return $this->comment->findOrFail($comment_id)->post->slug;
-    }
-
-    /**
-     * Get tag name by id.
-     *
-     * @param  int  $tag_id
-     * @return string
-     */
-    public function getTagById($tag_id)
-    {
-        return $this->tag->findOrFail($tag_id)->tag;
-    }
+ 
 
 }

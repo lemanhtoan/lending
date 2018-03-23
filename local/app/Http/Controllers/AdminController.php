@@ -20,9 +20,9 @@ class AdminController extends Controller {
 
 	public function admin()
 	{
-        $nbrMessages = 5;
         $nbrUsers = 8;
-        $nbrMind = 3;
+        $nbrBorrow = count(\DB::table('borrow')->get());
+        $nbrInvest = count(\DB::table('invest')->get());
 
         $fromDate1 = new \Carbon('last week');
         $toDate1 = new \Carbon('now');
@@ -66,7 +66,7 @@ class AdminController extends Controller {
             "w3" => count($t3),
             "w4" => count($t4)
         );
-        return view('back.index', compact('nbrMessages', 'nbrUsers', 'nbrMind', 'nbrDrug', 'dataTrans', 'dataUser'));
+        return view('back.index', compact('nbrBorrow', 'nbrUsers', 'nbrInvest', 'nbrDrug', 'dataTrans', 'dataUser'));
 	}
 
     public function getLogoutAdmin()

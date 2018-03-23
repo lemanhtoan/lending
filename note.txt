@@ -278,3 +278,11 @@ ALTER TABLE `message`
   INSERT INTO `settings` (`name`, `content`, `created_at`, `updated_at`) VALUES ('crate', '70', '2018-03-10 00:00:00', '2018-03-10 00:00:00');
 
   ALTER TABLE `borrow` CHANGE `soluongthechap` `soluongthechap` DECIMAL(20,8) NOT NULL;
+
+  d. Admin:   
+     - Quản lý tài sản đảm bảo : borrow status !=0 and != 40 and not in checkout AND in hask_confirm
+     - Có các chức năng thống kê số tiền cho vay: invest and borrow (check with status)
+          + số tiền lãi: borrow ( status - du tinh lai ) 
+          + các khoản vay quá hạn: date and list borrow
+          + đến hạn: date and list borrow
+     - Có thể điều chỉnh ngày đáo hạn khoản vay, số tiền lãi hay lãi suất, tài sản đảm bảo của khoản vay => chi dieu chinh thoi gian dao han thoi, con dieu chinh nhung cai khac phai tinh toan lai het

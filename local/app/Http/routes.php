@@ -173,4 +173,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('verifiedLost', 'HomeController@loanexpireLost');
 
     Route::resource('loanexpirebreak', 'HomeController@loanexpirebreak');
+    Route::get('guarantee', 'HomeController@guarantee');
+    Route::get('sotienchovay', 'HomeController@sotienchovay');
+
+    Route::resource('loanexpireNow', 'HomeController@loanexpireNow');
 });
