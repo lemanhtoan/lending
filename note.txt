@@ -108,6 +108,7 @@ Nhà đầu tư đặc biệt: Admin cầu hình chọn 1 người duy nhất l�
 FB:
 606771139713362
 b0b4b266b1bb1aa8a42db046002da34b
+https://lamthenaoday.com/facebook-tao-app-bi-loi-khong-the-tai-url
 
 GG:
 oH0dL8ZvoPOXZsqJV0_TvUzK
@@ -286,3 +287,7 @@ ALTER TABLE `message`
           + các khoản vay quá hạn: date and list borrow
           + đến hạn: date and list borrow
      - Có thể điều chỉnh ngày đáo hạn khoản vay, số tiền lãi hay lãi suất, tài sản đảm bảo của khoản vay => chi dieu chinh thoi gian dao han thoi, con dieu chinh nhung cai khac phai tinh toan lai het
+
+
+ALTER TABLE `users` CHANGE `password` `password` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `users` CHANGE `usertype` `usertype` INT(1) NULL DEFAULT NULL COMMENT 'User type';

@@ -422,7 +422,44 @@ class HomeController extends Controller
         $saveBTC = $this->getSaveData('BTC', $uid);
         $saveETH = $this->getSaveData('ETH', $uid);
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH'));
+        $dataUser = array(
+            "w1" => 0,
+            "w2" => 0,
+            "w3" => 0,
+            "w4" => 0
+        );
+
+        if ($userType == '2' || $userType == '3') {
+            if ($userType == '2') {
+                $tableGet = 'borrow';
+            } else {
+                $tableGet = 'invest';
+            }
+            $fromDate1 = new \Carbon('last week');
+            $toDate1 = new \Carbon('now');
+            $u4 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate1->toDateTimeString(), $toDate1->toDateTimeString()) )->get();
+
+            $fromDate2 = \Carbon::now()->subDays(14);
+            $toDate2 = \Carbon::now()->subDays(7);
+            $u3 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate2->toDateTimeString(), $toDate2->toDateTimeString()) )->get();
+
+            $fromDate3 = \Carbon::now()->subDays(21);
+            $toDate3 = \Carbon::now()->subDays(14);
+            $u2 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate3->toDateTimeString(), $toDate3->toDateTimeString()) )->get();
+
+            $fromDate4 = \Carbon::now()->subDays(28);
+            $toDate4 = \Carbon::now()->subDays(21);
+            $u1 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate4->toDateTimeString(), $toDate4->toDateTimeString()) )->get();
+            $dataUser = array(
+                "w1" => count($u1),
+                "w2" => count($u2),
+                "w3" => count($u3),
+                "w4" => count($u4)
+            );
+
+        }
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH', 'dataUser'));
     }
 
     public function getSaveData($type, $uid) {
@@ -467,12 +504,87 @@ class HomeController extends Controller
             Borrow::where('uid', $uid)->where('id', $id)->delete();
             $ok = 'Deleted item';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL', 'saveBTC', 'saveETH'));
+
+            $dataUser = array(
+                "w1" => 0,
+                "w2" => 0,
+                "w3" => 0,
+                "w4" => 0
+            );
+
+            if ($userType == '2' || $userType == '3') {
+                if ($userType == '2') {
+                    $tableGet = 'borrow';
+                } else {
+                    $tableGet = 'invest';
+                }
+                $fromDate1 = new \Carbon('last week');
+                $toDate1 = new \Carbon('now');
+                $u4 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate1->toDateTimeString(), $toDate1->toDateTimeString()) )->get();
+
+                $fromDate2 = \Carbon::now()->subDays(14);
+                $toDate2 = \Carbon::now()->subDays(7);
+                $u3 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate2->toDateTimeString(), $toDate2->toDateTimeString()) )->get();
+
+                $fromDate3 = \Carbon::now()->subDays(21);
+                $toDate3 = \Carbon::now()->subDays(14);
+                $u2 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate3->toDateTimeString(), $toDate3->toDateTimeString()) )->get();
+
+                $fromDate4 = \Carbon::now()->subDays(28);
+                $toDate4 = \Carbon::now()->subDays(21);
+                $u1 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate4->toDateTimeString(), $toDate4->toDateTimeString()) )->get();
+                $dataUser = array(
+                    "w1" => count($u1),
+                    "w2" => count($u2),
+                    "w3" => count($u3),
+                    "w4" => count($u4)
+                );
+
+            }
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'ok', 'uCCL', 'saveBTC', 'saveETH', 'dataUser'));
         } else {
             $error = 'Item not exist';
             $borrowsOfUser = Borrow::where('uid', $uid)->orderBy('created_at', 'desc')->get();
 
-            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL', 'saveBTC', 'saveETH'));
+            $dataUser = array(
+                "w1" => 0,
+                "w2" => 0,
+                "w3" => 0,
+                "w4" => 0
+            );
+
+            if ($userType == '2' || $userType == '3') {
+                if ($userType == '2') {
+                    $tableGet = 'borrow';
+                } else {
+                    $tableGet = 'invest';
+                }
+                $fromDate1 = new \Carbon('last week');
+                $toDate1 = new \Carbon('now');
+                $u4 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate1->toDateTimeString(), $toDate1->toDateTimeString()) )->get();
+
+                $fromDate2 = \Carbon::now()->subDays(14);
+                $toDate2 = \Carbon::now()->subDays(7);
+                $u3 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate2->toDateTimeString(), $toDate2->toDateTimeString()) )->get();
+
+                $fromDate3 = \Carbon::now()->subDays(21);
+                $toDate3 = \Carbon::now()->subDays(14);
+                $u2 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate3->toDateTimeString(), $toDate3->toDateTimeString()) )->get();
+
+                $fromDate4 = \Carbon::now()->subDays(28);
+                $toDate4 = \Carbon::now()->subDays(21);
+                $u1 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate4->toDateTimeString(), $toDate4->toDateTimeString()) )->get();
+                $dataUser = array(
+                    "w1" => count($u1),
+                    "w2" => count($u2),
+                    "w3" => count($u3),
+                    "w4" => count($u4)
+                );
+
+            }
+
+            return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'error', 'uCCL', 'saveBTC', 'saveETH', 'dataUser'));
         }
     }
 
@@ -852,7 +964,44 @@ class HomeController extends Controller
         $saveBTC = $this->getSaveData('BTC', $uid);
         $saveETH = $this->getSaveData('ETH', $uid);
 
-        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH'));
+        $dataUser = array(
+            "w1" => 0,
+            "w2" => 0,
+            "w3" => 0,
+            "w4" => 0
+        );
+
+        if ($userType == '2' || $userType == '3') {
+            if ($userType == '2') {
+                $tableGet = 'borrow';
+            } else {
+                $tableGet = 'invest';
+            }
+            $fromDate1 = new \Carbon('last week');
+            $toDate1 = new \Carbon('now');
+            $u4 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate1->toDateTimeString(), $toDate1->toDateTimeString()) )->get();
+
+            $fromDate2 = \Carbon::now()->subDays(14);
+            $toDate2 = \Carbon::now()->subDays(7);
+            $u3 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate2->toDateTimeString(), $toDate2->toDateTimeString()) )->get();
+
+            $fromDate3 = \Carbon::now()->subDays(21);
+            $toDate3 = \Carbon::now()->subDays(14);
+            $u2 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate3->toDateTimeString(), $toDate3->toDateTimeString()) )->get();
+
+            $fromDate4 = \Carbon::now()->subDays(28);
+            $toDate4 = \Carbon::now()->subDays(21);
+            $u1 = \DB::table($tableGet)->whereBetween('created_at', array($fromDate4->toDateTimeString(), $toDate4->toDateTimeString()) )->get();
+            $dataUser = array(
+                "w1" => count($u1),
+                "w2" => count($u2),
+                "w3" => count($u3),
+                "w4" => count($u4)
+            );
+
+        }
+
+        return view('front.mborrow', compact('blogs', 'userType', 'uid', 'borrowsOfUser', 'investsOfUser', 'uCCL', 'saveBTC', 'saveETH', 'dataUser'));
     }
 
 

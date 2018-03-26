@@ -62,7 +62,7 @@
         </table>
     </div>
     <?php } else {?>
-    <h5>No item.</h5>
+    <h6>No item.</h6>
     <?php } ?>
 
 @stop

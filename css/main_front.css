@@ -9005,3 +9005,6 @@ input.btn-filter {
     .l-btn {text-align: center}
     .first-col {padding-left: 15px;}
 }
+a.canvasjs-chart-credit {
+    display: none;
+}

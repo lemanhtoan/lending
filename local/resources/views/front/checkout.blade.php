@@ -50,8 +50,10 @@
                 {!! Form::open(['url' => 'confirmCheckout', 'method' => 'post', 'role' => 'form']) !!}
 
                 <div class="row">
-                    <label class="radio-inline"><input type="radio" value="0" class="checkoutradio" name="checkoutradio">{{ trans('front/site.fullCheckout') }}</label>
-                    <label class="radio-inline"><input type="radio" value="1" class="checkoutradio" name="checkoutradio">{{ trans('front/site.limitCheckout') }}</label>
+                    <div class="col-md-12" style="margin-bottom: 20px;">
+                        <label class="radio-inline"><input type="radio" value="0" class="checkoutradio" name="checkoutradio">{{ trans('front/site.fullCheckout') }}</label>
+                        <label class="radio-inline"><input type="radio" value="1" class="checkoutradio" name="checkoutradio">{{ trans('front/site.limitCheckout') }}</label>
+                    </div>
                     <div class="form-group checkoutFull" style="display: none">
                         {{ trans('front/site.addressRec') }}: <?php echo $ccl;?>, {{ trans('front/site.valueRec') }}:  <?php echo $tong; ?>
                     </div>

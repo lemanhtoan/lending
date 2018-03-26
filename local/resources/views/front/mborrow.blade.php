@@ -198,10 +198,10 @@
                                     {
                                         type: "column",
                                         dataPoints: [
-                                            { label: "w1",  y: <?php echo 10; ?>  },
-                                            { label: "w2", y: <?php echo 5; ?> },
-                                            { label: "w3", y: <?php echo 20; ?>  },
-                                            { label: "w4",  y: <?php echo 50; ?>  }
+                                            { label: "w1",  y: <?php echo $dataUser['w1']; ?>  },
+                                            { label: "w2", y: <?php echo $dataUser['w2']; ?> },
+                                            { label: "w3", y: <?php echo $dataUser['w3']; ?>  },
+                                            { label: "w4",  y: <?php echo $dataUser['w4']; ?>  }
                                         ]
                                     }
                                 ]
