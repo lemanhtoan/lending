@@ -122,9 +122,9 @@
                         <a href="{!! url('guarantee') !!}"><span class="fa fa-fw fa-dashboard"></span>  Manage Product Guarantee</a>
                     </li>
 
-                    <li {!! classActiveSegment(1, 'slideshow') !!}>
-                        <a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>
-                    </li>
+                    {{--<li {!! classActiveSegment(1, 'slideshow') !!}>--}}
+                        {{--<a href="{!! url('slideshow') !!}"><span class="fa fa-fw fa-dashboard"></span> Manager slideshow</a>--}}
+                    {{--</li>--}}
 
                     <li>
                         <a href="#" data-toggle="collapse" data-target="#statistics"><span class="fa fa-fw fa-pencil"></span> Statistics <span class="fa fa-fw fa-caret-down"></a>

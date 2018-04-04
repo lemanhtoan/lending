@@ -112,7 +112,10 @@
 			</div>
 		</div>		
 
-		<div class="bottom-header wow fadeIn" id="home" >
+    </header>
+
+    <div class="main-top">
+        <div class="bottom-header wow fadeIn" id="home" >
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">&nbsp;</div>
@@ -135,9 +138,9 @@
                                 <li>
                                     {!! link_to('manager', trans('front/site.manager')) !!}
                                 </li>
-                                    <li>
-                                        <a href="{!! url('/message') !!}"><b style="color:green"><?php echo count(tgetMessage(Auth::user()->id)); ?></b> {!! trans('front/site.message') !!}</a>
-                                    </li>
+                                <li>
+                                    <a href="{!! url('/message') !!}"><b style="color:green"><?php echo count(tgetMessage(Auth::user()->id)); ?></b> {!! trans('front/site.message') !!}</a>
+                                </li>
                                 <li>
                                     {!! link_to('auth/logout', trans('front/site.logout')) !!}
                                 </li>
@@ -163,41 +166,48 @@
                 </div>
 
             </div>
-		</div>
-	</header>
+        </div>
 
-	<main role="main" class="container">
-		@if(session()->has('ok'))
-			@include('partials/error', ['type' => 'success', 'message' => session('ok')])
-		@endif
+        @if(session()->has('ok'))
+            @include('partials/error', ['type' => 'success', 'message' => session('ok')])
+        @endif
 
 
         @if(session()->has('error'))
 
-        <div class="alert alert-danger alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert">
-				<span aria-hidden="true">×</span>
-				<span class="sr-only">Close</span>
-			</button>
-			<?php if(Session::get('error') =='MAX_VALUE_BORROW') {?>
-				{!! trans('front/site.MAX_VALUE_BORROW') !!}
-			<?php } elseif(Session::get('error') =='MAX_MONEY_BORROW') {?>
-				{!! trans('front/site.MAX_MONEY_BORROW') !!}
-			<?php }elseif(Session::get('error') =='MAX_AUTHEN') {?>
-				{!! trans('front/site.MAX_AUTHEN') !!}
-			<?php }elseif(Session::get('error') =='LOGIN_BORROW') {?>
-				{!! trans('front/site.LOGIN_BORROW') !!}
-			<?php } else { ?> 
-				<?php echo Session::get('error');?>
-			<?php } ?>
-		</div>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <?php if(Session::get('error') =='MAX_VALUE_BORROW') {?>
+                {!! trans('front/site.MAX_VALUE_BORROW') !!}
+                <?php } elseif(Session::get('error') =='MAX_MONEY_BORROW') {?>
+                {!! trans('front/site.MAX_MONEY_BORROW') !!}
+                <?php }elseif(Session::get('error') =='MAX_AUTHEN') {?>
+                {!! trans('front/site.MAX_AUTHEN') !!}
+                <?php }elseif(Session::get('error') =='LOGIN_BORROW') {?>
+                {!! trans('front/site.LOGIN_BORROW') !!}
+                <?php } else { ?>
+                    <?php echo Session::get('error');?>
+                <?php } ?>
+            </div>
 
         @endif
 
         @if(isset($info))
-			@include('partials/error', ['type' => 'info', 'message' => $info])
-		@endif
-		@yield('main')
+            @include('partials/error', ['type' => 'info', 'message' => $info])
+        @endif
+
+        @section('maintop')
+        @show
+    </div>
+
+	<main role="main" class="is-home">
+        <div class="container">
+
+            @yield('main')
+        </div>
 	</main>
 
 	<!-- How it works -->
@@ -560,7 +570,6 @@
     </div>
 	<!-- OUR CUSTOMERS LOVE US -->
 
-
     <!-- CONTACT -->
     <section id="contact">
         <div class="container">
@@ -591,7 +600,6 @@
         </div>
     </section>
     <!-- CONTACT -->
-
 
 	<footer id="footer">
         <div class="container">
@@ -679,7 +687,6 @@
             </div>
         </div>
 	</footer>
-
 
 	<a id="back-to-top" href="#" class="back-to-top" role="button" title="{{ trans('front/site.totop') }}" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
 
