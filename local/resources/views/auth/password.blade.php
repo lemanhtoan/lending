@@ -3,7 +3,8 @@
 @section('main')
 	<div class="row">
 		<div class="box">
-			<div class="col-lg-12">
+			<div class="col-md-2 col-lg-2"></div>
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 			<!--
 				@if(session()->has('status'))
       				@include('partials/error', ['type' => 'success', 'message' => session('status')])
@@ -29,6 +30,7 @@
 				{!! Form::close() !!}
 
 			</div>
+			<div class="col-md-2 col-lg-2"></div>
 		</div>
 	</div>
 @stop

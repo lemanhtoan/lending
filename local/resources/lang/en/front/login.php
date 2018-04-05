@@ -13,5 +13,5 @@ return [
 	'credentials' => 'These credentials do not match our records.',
 	'log' => 'Your email or your user name',
 	'maxattempt' => 'You have reached the maximum number of login attempts. Try again in one minute.',
-    'or'=>'Or'
+    'or'=>'Or connect with'
 ];

@@ -8449,7 +8449,15 @@ li.imgflag a {
 .timeline:before {
     left: 50%;
 }
-
+.l-btn.box-center input {
+    width: 100%;
+}
+.box-right {
+    text-align: right;
+}
+.pl15 label {
+    padding-left: 5px;
+}
 .timeline>li {
     margin-bottom: 15px;
     min-height: 100px;

@@ -13,5 +13,5 @@ return [
 	'credentials' => 'Thông tin đăng nhập sai',
 	'log' => 'Email hòm thư hoặc tên đăng nhập',
 	'maxattempt' => 'Bạn đã quá số lần đăng nhập, vui lòng thử lại sau ít phút',
-    'or'=>'Hoặc'
+    'or'=>'Hoặc kết nối với'
 ];
