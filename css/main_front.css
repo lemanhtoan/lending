@@ -5797,7 +5797,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 }
 .navbar-default .navbar-nav>li>a:focus,
 .navbar-default .navbar-nav>li>a:hover {
-    color: #211E16;
+    color: #009387;
     background-color: transparent
 }
 .navbar-default .navbar-nav>.active>a,
@@ -7921,6 +7921,7 @@ hr {
 footer {
     background: rgb(42, 116, 133);
     color: #fff;
+    padding: 35px 0;    
 }
 footer p {
     margin: 0;
@@ -8048,6 +8049,7 @@ li.imgflag a {
     text-transform: uppercase;
     margin-bottom: 80px;
     margin-top: 50px;
+    font-weight: normal;
 }
 .info-section h2 {
     position: relative;
@@ -8089,6 +8091,7 @@ li.imgflag a {
 .info-section h3 {
     text-transform: uppercase;
     font-size: 30px;
+    font-weight: normal;
 }
 .how-it-works h3 {
     margin-bottom: 28px;
@@ -8172,6 +8175,7 @@ li.imgflag a {
     line-height: 40px;
     color: #2c3e50;
     position: relative;
+    font-weight: normal
 }
 .section-title::after {
     content: "";
@@ -8397,13 +8401,39 @@ li.imgflag a {
 .top-header img {
     max-width: 100%;
 }
+.top-header {
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-bottom: 1px;
+    background: #fff;
+}
 .brand-logo h1 {
     margin: 0;
 }
 .top-header .nav>li>a {
-    padding: 7px;
+    color: #282828;
+    font-size: 14px;
+    font-weight: 700;
+    padding-top: 20px;
+    padding-bottom: 20px;
     text-transform: uppercase;
-    font-size: 16px;
+        position: relative;
+    display: block;
+    padding: 10px 15px;
+    line-height: 20px;
+    font-family: 'Roboto Slab', sans-serif;
+}
+.top-header::after {
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    position: absolute;
+    content: "";
+    height: 2px;
+    bottom: 1px;
+    left: 0;
+}
+.bottom-header- .navbar-default .navbar-nav>.active>a {
+    background: none;
 }
 .box-left {
     float: left;
@@ -8679,6 +8709,7 @@ li.imgflag a {
 }
 h2.highlight {
     text-align: center;
+    font-weight: normal
 }
 .item-padding .blog-title {
     text-align: center;
@@ -8739,7 +8770,11 @@ div#home {
     margin: 30px 0;
 }
 .box-customer h2 {
-    padding-bottom: 20px
+    padding-bottom: 20px;
+    font-weight: normal;
+}
+h2.box-center {
+    font-weight: normal
 }
 .link-login .fa {
     padding: 10px;
@@ -8879,9 +8914,16 @@ h3 {
 ul.social-icons li {
     list-style: none;
     float: left;
-    width: 100%;
     text-align: right;
     margin-bottom: 4px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+ul.social-icons img {
+    width: 45px;
+    float: left;
+    border-radius: 10%;
+    background: #fff;
 }
 ul.social-icons li a {
     color: #fff;
@@ -8974,6 +9016,7 @@ input.btn-filter {
     .info-section h2.highlight {
         margin-bottom: 40px;
         margin-top: 20px;
+
     }
     .info-section h2, h2.highlight, .box-customer h2,  h2.box-center {font-size: 20px;}
     .how-it-works .step:before {
@@ -9011,11 +9054,13 @@ a.canvasjs-chart-credit {
 .main-top {
     background: #36517E;
     color: #fff;
-    padding: 20px 0;
+    padding: 20px 0 0 0;
+    margin-top: 20px;
 }
 .main-top a {
     color: #fff;
 }
+
 .m-y-1 {
     margin-top: 8px !important;
     margin-bottom: 8px !important;
@@ -9065,9 +9110,12 @@ a.canvasjs-chart-credit {
     background-repeat: no-repeat;
     background-position: left -230px bottom -400px;
     background-size: 1410px;
-    padding: 30px 0;
+    padding: 30px 0 130px 0;
 }
 .hero-with-background {
     background-color: #37517e;
     color: #fff;
+}
+.language-box .nav .open>a, .language-box .nav>li>a:hover {
+    background: none;
 }

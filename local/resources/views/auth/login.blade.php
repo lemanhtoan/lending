@@ -19,8 +19,8 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						{!! Form::control('text', 12, 'log', $errors, trans('front/login.log')) !!}
 						{!! Form::control('password', 12, 'password', $errors, trans('front/login.password')) !!}
-						<div class="col-md-6 pl15">{!! Form::check('memory', trans('front/login.remind')) !!}</div>
-						<div class="col-md-6 box-right">
+						<div class="col-md-4 pl15">{!! Form::check('memory', trans('front/login.remind')) !!}</div>
+						<div class="col-md-8 box-right" style="margin-top: 10px;">
 							{!! link_to('password/email', trans('front/login.forget')) !!}
 							{!! link_to('auth/register', trans('front/login.registering'), ['class' => 'register-link']) !!}
 						</div>

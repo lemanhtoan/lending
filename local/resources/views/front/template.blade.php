@@ -669,9 +669,9 @@
                     <div class="col-md-3">
                         <div class="social-box">
                             <ul class="social-icons pull-right">
-                                <li class="facebook"><a href="" target="_blank" class="white-text" title="Facebook">facebook</a></li>
-                                <li class="youtube"><a href="" target="_blank" class="white-text" title="Youtube">Youtube</a></li>
-                                <li class="google"><a href="" target="_blank" class="white-text" title="Google">Google</a></li>
+                                <li class="facebook"><a href="" target="_blank" class="white-text" title="Facebook"><img src="{!!url('/uploads/commons/fb.png')!!}"/></a></li>
+                                <li class="youtube"><a href="" target="_blank" class="white-text" title="Youtube"><img src="{!!url('/uploads/commons/yt.png')!!}"/></a></li>
+                                <li class="google"><a href="" target="_blank" class="white-text" title="Google"><img src="{!!url('/uploads/commons/gg.png')!!}"/></a></li>
                             </ul>
                         </div>
                     </div>
